@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/progress_card_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/progress_card_title"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/progress_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:elevation="1dp"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_progress_low"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/progress_card_calories_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories_title"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_calories_progress_indicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_card_calories_progress_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:indicatorColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_tv_calories_progress_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_calories_title"
+                app:trackColor="@color/white" />
+
+            <TextView
+                android:id="@+id/progress_card_tv_calories_progress_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories_progress_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_calories_progress_indicator" />
+
+            <ImageView
+                android:id="@+id/progress_card_iv_calories_burned_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fire_icon"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_tv_calories_burned_number"
+                app:layout_constraintEnd_toStartOf="@id/progress_card_tv_calories_progress_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_calories_title" />
+
+            <TextView
+                android:id="@+id/progress_card_tv_calories_burned_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories_burned_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_1"
+                app:layout_constraintEnd_toStartOf="@id/progress_card_tv_calories_progress_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_iv_calories_burned_icon" />
+
+            <ImageView
+                android:id="@+id/progress_card_iv_calories_eaten_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/recipes_icon"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_tv_calories_eaten_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/progress_card_tv_calories_progress_number"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_calories_title" />
+
+            <TextView
+                android:id="@+id/progress_card_tv_calories_eaten_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories_eaten_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/progress_card_tv_calories_progress_number"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_iv_calories_eaten_icon" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/progress_card_divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_tv_from_which"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_tv_calories_progress_number" />
+
+            <TextView
+                android:id="@+id/progress_card_tv_from_which"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/calories_from_which_text"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_divider_1" />
+
+            <TextView
+                android:id="@+id/progress_card_proteins_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/proteins_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_2"
+                app:layout_constraintEnd_toStartOf="@id/progress_card_lipids_counter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_tv_from_which" />
+
+            <TextView
+                android:id="@+id/progress_card_lipids_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/lipids_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_2"
+                app:layout_constraintEnd_toStartOf="@id/progress_card_carbs_counter"
+                app:layout_constraintStart_toEndOf="@id/progress_card_proteins_counter"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_tv_from_which" />
+
+            <TextView
+                android:id="@+id/progress_card_carbs_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/carbs_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_2"
+                app:layout_constraintEnd_toStartOf="@id/progress_card_fibers_counter"
+                app:layout_constraintStart_toEndOf="@id/progress_card_lipids_counter"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_tv_from_which" />
+
+            <TextView
+                android:id="@+id/progress_card_fibers_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/fibers_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_divider_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/progress_card_carbs_counter"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_tv_from_which" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/progress_card_divider_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_liquids_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_proteins_counter" />
+
+            <TextView
+                android:id="@+id/progress_card_liquids_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/liquids_title"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_liquids_progress_indicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_divider_2" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_card_liquids_progress_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginBottom="8dp"
+                app:indicatorColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/progress_card_tv_liquids_progress_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_liquids_title"
+                app:trackColor="@color/white" />
+
+            <TextView
+                android:id="@+id/progress_card_tv_liquids_progress_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/liquids_progress_counter"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_card_liquids_progress_indicator" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

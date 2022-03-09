@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">healthy</string>
+    <string name="progress_card_title"><b>Progresul de astăzi</b></string>
+    <string name="calories_progress_counter"><b>%1$d / %2$d\nkcal</b></string>
+    <string name="calories_burned_counter">%1$d\narse</string>
+    <string name="calories_eaten_counter">%1$d\nconsumate</string>
+    <string name="calories_from_which_text"><b>din care:</b></string>
+    <string name="proteins_counter">%1$d\nproteine</string>
+    <string name="lipids_counter">%1$d\nlipide</string>
+    <string name="carbs_counter">%1$d\ncarbohidrați</string>
+    <string name="fibers_counter">%1$d\nfibre</string>
+    <string name="calories_title"><b>Calorii</b></string>
+    <string name="liquids_title"><b>Lichide</b></string>
+    <string name="liquids_progress_counter"><b>%1$f / %2$f\nml</b></string>
 </resources>

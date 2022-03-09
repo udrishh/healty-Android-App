@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.menu_item_recipes:
                         getSupportActionBar().setTitle("Recipes");
+
                         break;
                     case R.id.menu_item_profile:
                         getSupportActionBar().setTitle("Profile");
