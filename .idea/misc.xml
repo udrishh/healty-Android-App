@@ -4,9 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/add_icon.xml" value="0.34102564102564104" />
+        <entry key="app/src/main/res/drawable/female_gender_icon.xml" value="0.337037037037037" />
         <entry key="app/src/main/res/drawable/fire_icon.xml" value="0.34102564102564104" />
         <entry key="app/src/main/res/drawable/gradient_progress_low.xml" value="0.34102564102564104" />
         <entry key="app/src/main/res/drawable/outline_add_circle_24.xml" value="0.34102564102564104" />
+        <entry key="app/src/main/res/drawable/outline_adjust_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_badge_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_edit_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_height_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_lunch_dining_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_male_24.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/drawable/outline_monitor_weight_24.xml" value="0.337037037037037" />
         <entry key="app/src/main/res/drawable/outline_restaurant_24.xml" value="0.34102564102564104" />
         <entry key="app/src/main/res/drawable/profile_icon.xml" value="0.34102564102564104" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31614583333333335" />

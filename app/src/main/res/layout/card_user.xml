@@ -1,21 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/progress_card"
+        android:id="@+id/user_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="#ffdaff">
+        android:elevation="8dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_progress_low"
+            android:padding="8dp">
 
+            <ImageView
+                android:id="@+id/user_imageview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile_picture"
+
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_top"
+                app:layout_constraintEnd_toStartOf="@id/user_greeting_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_greeting_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_greeting_text"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_imageview"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/user_card_divider_top"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.335" />
+
+            <ImageView
+                android:id="@+id/user_name_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/name_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_sex_icon"
+                app:layout_constraintEnd_toStartOf="@id/user_name_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_card_divider_top" />
+
+            <TextView
+                android:id="@+id/user_name_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_name"
+                app:layout_constraintBottom_toTopOf="@id/user_sex_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_name_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_card_divider_top" />
+
+            <ImageView
+                android:id="@+id/user_sex_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/male_gender_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_height_icon"
+                app:layout_constraintEnd_toStartOf="@id/user_sex_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_name_icon" />
+
+            <TextView
+                android:id="@+id/user_sex_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_sex"
+                app:layout_constraintBottom_toTopOf="@id/user_height_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_sex_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
+
+            <ImageView
+                android:id="@+id/user_height_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/height_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_weight_icon"
+                app:layout_constraintEnd_toStartOf="@id/user_height_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_sex_icon" />
+
+            <TextView
+                android:id="@+id/user_height_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_height"
+                app:layout_constraintBottom_toTopOf="@id/user_weight_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_height_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_sex_textview" />
+
+            <ImageView
+                android:id="@+id/user_weight_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/weight_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_calories_icon"
+                app:layout_constraintEnd_toStartOf="@id/user_weight_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_height_icon" />
+
+            <TextView
+                android:id="@+id/user_weight_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_weight"
+                app:layout_constraintBottom_toTopOf="@id/user_calories_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_weight_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_height_textview" />
+
+            <ImageView
+                android:id="@+id/user_calories_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/calories_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_target_icon"
+                app:layout_constraintEnd_toStartOf="@id/user_calories_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_weight_icon" />
+
+            <TextView
+                android:id="@+id/user_calories_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_calories"
+                app:layout_constraintBottom_toTopOf="@id/user_target_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_calories_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_weight_textview" />
+
+            <ImageView
+                android:id="@+id/user_target_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/target_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/user_target_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_calories_icon" />
+
+            <TextView
+                android:id="@+id/user_target_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_target"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_target_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_calories_textview" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,4 +12,11 @@
     <string name="calories_title"><b>Calorii</b></string>
     <string name="liquids_title"><b>Lichide</b></string>
     <string name="liquids_progress_counter"><b>%1$f / %2$f\nml</b></string>
+    <string name="user_greeting_text"><b>%1$s,\n%2$s!</b></string>
+    <string name="user_profile_name"><b>Nume:</b> %1$s</string>
+    <string name="user_profile_sex"><b>Sex:</b> %1$s</string>
+    <string name="user_profile_height"><b>Înălțime:</b> %1$f m</string>
+    <string name="user_profile_weight"><b>Greutate:</b> %1$f kg</string>
+    <string name="user_profile_calories"><b>Necesar caloric:</b> %1$d kcal</string>
+    <string name="user_profile_target"><b>Greutate dorită:</b> %1$f kg</string>
 </resources>
