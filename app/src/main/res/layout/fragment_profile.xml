@@ -8,6 +8,6 @@
 
     <include layout="@layout/card_progress" />
 
-    <include layout="@layout/card_user"/>
+    <include layout="@layout/expanded_card_user"/>
 
 </FrameLayout>

@@ -48,11 +48,11 @@
                 android:id="@+id/user_card_divider_top"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/user_name_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.335" />
+                app:layout_constraintTop_toBottomOf="@id/user_imageview"
+                app:layout_constraintVertical_bias="0.199" />
 
             <ImageView
                 android:id="@+id/user_name_icon"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:src="@drawable/name_icon"
-                app:layout_constraintBottom_toTopOf="@id/user_sex_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_age_icon"
                 app:layout_constraintEnd_toStartOf="@id/user_name_textview"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_card_divider_top" />
@@ -71,10 +71,32 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/user_profile_name"
-                app:layout_constraintBottom_toTopOf="@id/user_sex_textview"
+                app:layout_constraintBottom_toTopOf="@id/user_age_textview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/user_name_icon"
                 app:layout_constraintTop_toBottomOf="@id/user_card_divider_top" />
+
+            <ImageView
+                android:id="@+id/user_age_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/age_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_sex_icon"
+                app:layout_constraintEnd_toStartOf="@+id/user_age_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_name_icon"/>
+
+            <TextView
+                android:id="@+id/user_age_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/user_profile_age"
+                app:layout_constraintBottom_toTopOf="@id/user_sex_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_age_icon"
+                app:layout_constraintTop_toBottomOf="@id/user_name_textview"/>
 
             <ImageView
                 android:id="@+id/user_sex_icon"
@@ -85,7 +107,7 @@
                 app:layout_constraintBottom_toTopOf="@id/user_height_icon"
                 app:layout_constraintEnd_toStartOf="@id/user_sex_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_name_icon" />
+                app:layout_constraintTop_toBottomOf="@id/user_age_icon" />
 
             <TextView
                 android:id="@+id/user_sex_textview"
@@ -96,7 +118,7 @@
                 app:layout_constraintBottom_toTopOf="@id/user_height_textview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/user_sex_icon"
-                app:layout_constraintTop_toBottomOf="@id/user_name_textview" />
+                app:layout_constraintTop_toBottomOf="@id/user_age_textview" />
 
             <ImageView
                 android:id="@+id/user_height_icon"
@@ -170,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:src="@drawable/target_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
                 app:layout_constraintEnd_toStartOf="@id/user_target_textview"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_calories_icon" />
@@ -181,10 +203,41 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/user_profile_target"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/user_target_icon"
                 app:layout_constraintTop_toBottomOf="@id/user_calories_textview" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/user_card_divider_bot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/user_collapse_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_target_textview"
+                app:layout_constraintVertical_bias="0.335" />
+
+            <ImageView
+                android:id="@+id/user_collapse_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/collapse_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_card_divider_bot"/>
+
+            <ImageView
+                android:id="@+id/user_edit_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/edit_icon"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_card_divider_bot"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
