@@ -6,8 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <include layout="@layout/card_progress" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
-    <include layout="@layout/expanded_card_user"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/profile_fragment_card_user"
+                layout="@layout/collapsed_card_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/profile_fragment_card_progress"
+                layout="@layout/card_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
