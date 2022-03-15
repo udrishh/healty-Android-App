@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_item_recipes"
-        android:enabled="true"
-        android:icon="@drawable/recipes_icon"
-        android:title="Rețete"/>
-    <item
         android:id="@+id/menu_item_profile"
         android:enabled="true"
         android:icon="@drawable/profile_icon"
-        android:title="Profil"/>
+        android:title="@string/menu_profile"/>
+    <item
+        android:id="@+id/menu_item_recipes"
+        android:enabled="true"
+        android:icon="@drawable/recipes_icon"
+        android:title="@string/menu_recipes"/>
     <item
         android:id="@+id/menu_item_add"
         android:enabled="true"
         android:icon="@drawable/add_icon"
-        android:title="Adaugă"/>
+        android:title="@string/menu_add"/>
     <item
         android:id="@+id/menu_item_statistics"
         android:enabled="true"
         android:icon="@drawable/statistics_icon"
-        android:title="Statistici"/>
+        android:title="@string/menu_statistics"/>
     <item
         android:id="@+id/menu_item_settings"
         android:enabled="true"
         android:icon="@drawable/settings_icon"
-        android:title="Setări"/>
+        android:title="@string/menu_settings"/>
 </menu>

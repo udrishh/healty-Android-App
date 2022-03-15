@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient_progress_low"
+            android:background="@drawable/gradient_profile_card"
             android:padding="8dp">
 
             <ImageView

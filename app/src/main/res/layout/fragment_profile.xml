@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
             <include
                 android:id="@+id/profile_fragment_card_user"
-                layout="@layout/collapsed_card_user"
+                layout="@layout/expanded_card_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

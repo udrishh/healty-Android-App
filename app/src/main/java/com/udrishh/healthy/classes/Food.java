@@ -1,8 +1,8 @@
-package com.udrishh.healthy;
+package com.udrishh.healthy.classes;
 
 import androidx.annotation.NonNull;
 
-public class Drink {
+public class Food {
     private String name;
     private float calories;
     private float proteins;
@@ -10,7 +10,7 @@ public class Drink {
     private float carbs;
     private float fibers;
 
-    public Drink(String name, float calories, float proteins, float lipids, float carbs, float fibers) {
+    public Food(String name, float calories, float proteins, float lipids, float carbs, float fibers) {
         this.name = name;
         this.calories = calories;
         this.proteins = proteins;
@@ -18,7 +18,6 @@ public class Drink {
         this.carbs = carbs;
         this.fibers = fibers;
     }
-    
 
     public String getName() {
         return name;
@@ -71,7 +70,7 @@ public class Drink {
     @NonNull
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Drink{");
+        final StringBuffer sb = new StringBuffer("Food{");
         sb.append("name='").append(name).append('\'');
         sb.append(", calories=").append(calories);
         sb.append(", proteins=").append(proteins);

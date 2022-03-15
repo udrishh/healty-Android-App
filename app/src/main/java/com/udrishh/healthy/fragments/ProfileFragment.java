@@ -1,4 +1,4 @@
-package com.udrishh.healthy;
+package com.udrishh.healthy.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class ProfileFragment extends Fragment {
+import com.udrishh.healthy.R;
 
+public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }
 

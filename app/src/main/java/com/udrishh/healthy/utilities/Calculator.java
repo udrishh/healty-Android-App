@@ -1,4 +1,8 @@
-package com.udrishh.healthy;
+package com.udrishh.healthy.utilities;
+
+import com.udrishh.healthy.enums.ActivityLevel;
+import com.udrishh.healthy.enums.GainLose;
+import com.udrishh.healthy.enums.Sex;
 
 public interface Calculator {
     public static int BMR(int weight, int height, int age, Sex sex, ActivityLevel activityLevel, GainLose gainLose) {

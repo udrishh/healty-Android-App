@@ -1,4 +1,4 @@
-package com.udrishh.healthy;
+package com.udrishh.healthy.enums;
 
 public enum GainLose {
     LOSE1KG,
