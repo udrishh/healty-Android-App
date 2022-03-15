@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.udrishh.healthy.R;
-import com.udrishh.healthy.SettingsFragment;
+import com.udrishh.healthy.fragments.SettingsFragment;
 import com.udrishh.healthy.fragments.AddFragment;
 import com.udrishh.healthy.fragments.ProfileFragment;
 import com.udrishh.healthy.fragments.RecipesFragment;
