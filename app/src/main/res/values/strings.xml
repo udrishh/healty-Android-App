@@ -28,6 +28,23 @@
     <string name="user_profile_show">Arată info.</string>
     <string name="user_profile_hide">Ascunde info.</string>
     <string name="user_profile_edit">Editează info.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Parolă</string>
+    <string name="login_btn_text">log in</string>
+    <string name="login_no_account_text">Nu ai cont?</string>
+    <string name="create_account_btn_text">Creează cont</string>
+    <string name="signup_continue_btn_text">Continuă</string>
+    <string name="password_again_hint">Confirmă parola</string>
+    <string name="signup_generate_btn_text">Generează planul alimentar</string>
+    <string name="signup_user_data_name_input_hint">Nume</string>
+    <string name="signup_user_data_sex_m_text">Masculin</string>
+    <string name="signup_user_data_sex_f_text">Feminin</string>
+    <string name="signup_user_data_sex_title">Sex:</string>
+    <string name="signup_user_data_birthdate_title">Data nașterii:</string>
+    <string name="signup_user_data_height_input_hint">Înălțime</string>
+    <string name="signup_user_data_weight_input_hint">Greutate</string>
+    <string name="signup_user_data_gain_lose_titlle">Doresc să:</string>
+    <string name="signup_user_data_activity_level_titlle">Nivelul de activitate fizică:</string>
+    <string name="signup_plan_calories_text">Necesarul tău caloric este de\n<b>%1$d kcal.</b> pe zi.</string>
+    <string name="signup_finish_btn_text">Finalizează</string>
 </resources>
