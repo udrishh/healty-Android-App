@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:src="@drawable/calories_icon"
-                app:layout_constraintBottom_toTopOf="@id/user_target_icon"
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
                 app:layout_constraintEnd_toStartOf="@id/user_calories_textview"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_weight_icon" />
@@ -181,32 +181,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/user_profile_calories"
-                app:layout_constraintBottom_toTopOf="@id/user_target_textview"
+                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/user_calories_icon"
                 app:layout_constraintTop_toBottomOf="@id/user_weight_textview" />
 
-            <ImageView
-                android:id="@+id/user_target_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:src="@drawable/target_icon"
-                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
-                app:layout_constraintEnd_toStartOf="@id/user_target_textview"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_calories_icon" />
 
-            <TextView
-                android:id="@+id/user_target_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/user_profile_target"
-                app:layout_constraintBottom_toTopOf="@id/user_card_divider_bot"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_target_icon"
-                app:layout_constraintTop_toBottomOf="@id/user_calories_textview" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/user_card_divider_bot"
@@ -215,7 +195,7 @@
                 app:layout_constraintBottom_toTopOf="@id/user_collapse_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_target_textview"
+                app:layout_constraintTop_toBottomOf="@id/user_calories_textview"
                 app:layout_constraintVertical_bias="0.335" />
 
             <ImageView
