@@ -254,6 +254,7 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                Toast.makeText(SignupActivity.this, "User created!", Toast.LENGTH_LONG).show();
                                 //take user to the app main activity
                                 currentUser = firebaseAuth.getCurrentUser();
                                 assert currentUser != null;
@@ -307,11 +308,12 @@ public class SignupActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            //Toast.makeText(SignupActivity.this, "Error creating user!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
-
+            Toast.makeText(SignupActivity.this, "Bad user data!", Toast.LENGTH_LONG).show();
         }
     }
 
