@@ -79,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
     private CollectionReference collectionReference = db.collection("Users");
 
     private int getAge(String birthdate) {
-        return Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(newUserObject.getBirthdate().split("/")[2]);
+        return Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(birthdateInput.getText().toString().trim().split("/")[2]);
     }
 
     private ActivityLevel getSelectedActivityLevel() {
@@ -122,6 +122,25 @@ public class SignupActivity extends AppCompatActivity {
         return GainLose.NONE;
     }
 
+    @SuppressLint("NonConstantResourceId")
+    private Sex getSelectedSex() {
+        switch (sexInput.getCheckedRadioButtonId()) {
+            case R.id.signup_user_data_sex_m:
+                return Sex.MALE;
+            case R.id.signup_user_data_sex_f:
+                return Sex.FEMALE;
+        }
+        return Sex.MALE;
+    }
+
+    private void setPlanPreview() {
+        planPreview.setText(getString(R.string.signup_plan_calories_text,
+                Calculator.BMR(Integer.parseInt(weightInput.getText().toString().trim()),
+                        Integer.parseInt(heightInput.getText().toString().trim()),
+                        getAge(birthdateInput.getText().toString().trim()),
+                        getSelectedSex(), getSelectedActivityLevel(), getSelectedGainLose())));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,36 +167,27 @@ public class SignupActivity extends AppCompatActivity {
         activityLevelInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(isReady){
-                    planPreview.setText(getString(R.string.signup_plan_calories_text,
-                            Calculator.BMR(newUserObject.getWeight(),
-                                    newUserObject.getHeight(), getAge(newUserObject.getBirthdate()), newUserObject.getSex(), getSelectedActivityLevel(), getSelectedGainLose())));
-                    Toast.makeText(SignupActivity.this, "Changed", Toast.LENGTH_SHORT).show();
+                if (isReady) {
+                    setPlanPreview();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         gainLoseInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(isReady){
-                    Toast.makeText(SignupActivity.this, "Changed", Toast.LENGTH_SHORT).show();
-                    planPreview.setText(getString(R.string.signup_plan_calories_text,
-                            Calculator.BMR(newUserObject.getWeight(),
-                                    newUserObject.getHeight(), getAge(newUserObject.getBirthdate()), newUserObject.getSex(), getSelectedActivityLevel(), getSelectedGainLose())));
+                if (isReady) {
+                    setPlanPreview();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
 
         continueBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +205,8 @@ public class SignupActivity extends AppCompatActivity {
         continueBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setPlanPreview();
+                isReady = true;
                 if (!TextUtils.isEmpty(nameInput.getText().toString().trim())
                         && !TextUtils.isEmpty(heightInput.getText().toString().trim())
                         && !TextUtils.isEmpty(weightInput.getText().toString().trim())
@@ -210,23 +221,14 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         finishBtn.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public void onClick(View v) {
-                isReady = true;
                 //create account from components
                 newUserObject.setName(nameInput.getText().toString().trim());
                 newUserObject.setHeight(Integer.parseInt(heightInput.getText().toString().trim()));
                 newUserObject.setWeight(Integer.parseInt(weightInput.getText().toString().trim()));
                 newUserObject.setBirthdate(birthdateInput.getText().toString().trim());
-                switch (sexInput.getCheckedRadioButtonId()) {
-                    case R.id.signup_user_data_sex_m:
-                        newUserObject.setSex(Sex.MALE);
-                        break;
-                    case R.id.signup_user_data_sex_f:
-                        newUserObject.setSex(Sex.FEMALE);
-                        break;
-                }
+                newUserObject.setSex(getSelectedSex());
                 ActivityLevel activityLevel = getSelectedActivityLevel();
                 GainLose gainLose = getSelectedGainLose();
                 int userAge = getAge(newUserObject.getBirthdate());
@@ -341,6 +343,5 @@ public class SignupActivity extends AppCompatActivity {
         gainLoseInput.setAdapter(ArrayAdapter.createFromResource(this, R.array.gain_lose, R.layout.support_simple_spinner_dropdown_item));
         planPreview = findViewById(R.id.signup_user_calories);
     }
-
 
 }
