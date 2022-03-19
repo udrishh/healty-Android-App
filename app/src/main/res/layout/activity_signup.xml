@@ -42,15 +42,6 @@
                 android:inputType="textPassword"
                 android:minHeight="48dp" />
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_password_again_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/password_again_hint"
-                android:inputType="textPassword"
-                android:minHeight="48dp" />
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signup_continue_btn"
                 android:layout_width="wrap_content"
@@ -114,12 +105,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/signup_user_data_birthdate_title" />
 
-            <DatePicker
-                android:id="@+id/signup_user_data_date_picker"
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/signup_user_data_birthdate_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"
-                android:datePickerMode="spinner" />
+                android:hint="dd/mm/yyyy"/>
 
             <TextView
                 android:id="@+id/signup_user_data_sex_title"
@@ -188,6 +179,7 @@
                 android:layout_height="wrap_content"/>
 
             <Spinner
+                android:id="@+id/signup_user_data_gain_lose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -197,10 +189,12 @@
                 android:layout_height="wrap_content"/>
 
             <Spinner
+                android:id="@+id/signup_user_data_activity_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/signup_user_calories"
                 android:text="@string/signup_plan_calories_text"
                 android:textSize="20sp"
                 android:textAlignment="center"
@@ -216,6 +210,16 @@
                 android:text="@string/signup_finish_btn_text"
                 app:icon="@drawable/next_icon"
                 app:iconGravity="textEnd" />
+
+            <ProgressBar
+                android:id="@+id/login_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

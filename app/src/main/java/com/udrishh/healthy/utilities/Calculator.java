@@ -5,7 +5,7 @@ import com.udrishh.healthy.enums.GainLose;
 import com.udrishh.healthy.enums.Sex;
 
 public interface Calculator {
-    public static int BMR(int weight, int height, int age, Sex sex, ActivityLevel activityLevel, GainLose gainLose) {
+    static int BMR(int weight, int height, int age, Sex sex, ActivityLevel activityLevel, GainLose gainLose) {
         double bmr = 1200;
 
         switch (sex) {

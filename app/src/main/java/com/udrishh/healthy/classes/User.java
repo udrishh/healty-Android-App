@@ -2,55 +2,37 @@ package com.udrishh.healthy.classes;
 
 import com.udrishh.healthy.enums.Sex;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
-    private long id;
-    private String email;
-    private String password;
+public class User implements Serializable {
+    private String userId;
     private String name;
-    private Date birthdate;
+    private String birthdate;
     private Sex sex;
-    private float height;
-    private float weight;
+    private int height;
+    private int weight;
     private int caloriesPlan;
-    private float targetWeight;
 
-    public User(long id, String email, String password, String name, Date birthdate, Sex sex, float height, float weight, int caloriesPlan, float targetWeight) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
+    public User(String userId, String name, String birthdate, Sex sex, int height, int weight, int caloriesPlan) {
+        this.userId = userId;
         this.name = name;
         this.birthdate = birthdate;
         this.sex = sex;
         this.height = height;
         this.weight = weight;
         this.caloriesPlan = caloriesPlan;
-        this.targetWeight = targetWeight;
     }
 
-    public long getId() {
-        return id;
+    public User() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -61,11 +43,11 @@ public class User {
         this.name = name;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -77,19 +59,19 @@ public class User {
         this.sex = sex;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public float getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
@@ -101,11 +83,17 @@ public class User {
         this.caloriesPlan = caloriesPlan;
     }
 
-    public float getTargetWeight() {
-        return targetWeight;
-    }
-
-    public void setTargetWeight(float targetWeight) {
-        this.targetWeight = targetWeight;
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("User{");
+        sb.append("userId='").append(userId).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", birthdate=").append(birthdate);
+        sb.append(", sex=").append(sex);
+        sb.append(", height=").append(height);
+        sb.append(", weight=").append(weight);
+        sb.append(", caloriesPlan=").append(caloriesPlan);
+        sb.append('}');
+        return sb.toString();
     }
 }

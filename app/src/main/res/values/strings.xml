@@ -34,7 +34,6 @@
     <string name="login_no_account_text">Nu ai cont?</string>
     <string name="create_account_btn_text">Creează cont</string>
     <string name="signup_continue_btn_text">Continuă</string>
-    <string name="password_again_hint">Confirmă parola</string>
     <string name="signup_generate_btn_text">Generează planul alimentar</string>
     <string name="signup_user_data_name_input_hint">Nume</string>
     <string name="signup_user_data_sex_m_text">Masculin</string>
@@ -47,4 +46,22 @@
     <string name="signup_user_data_activity_level_titlle">Nivelul de activitate fizică:</string>
     <string name="signup_plan_calories_text">Necesarul tău caloric este de\n<b>%1$d kcal.</b> pe zi.</string>
     <string name="signup_finish_btn_text">Finalizează</string>
+    <string-array name="activity_levels">
+        <item>Absent (sedentarism)</item>
+        <item>Scăzut (de 1–3 ori pe săptămână)</item>
+        <item>Mediu (de 3–5 ori pe săptămână)</item>
+        <item>Ridicat (de 5–7 ori pe săptămână)</item>
+        <item>Foarte ridicat (de 2 ori pe zi)</item>
+    </string-array>
+    <string-array name="gain_lose">
+        <item>mă mențin la greutatea actuala</item>
+        <item>slăbesc 1 kg pe saptamana</item>
+        <item>slăbesc 0.75 kg pe saptamana</item>
+        <item>slăbesc 0.50 kg pe saptamana</item>
+        <item>slăbesc 0.25 kg pe saptamana</item>
+        <item>iau în greutate 0.25 kg pe saptamana</item>
+        <item>iau în greutate 0.50 kg pe saptamana</item>
+        <item>iau în greutate 0.75 kg pe saptamana</item>
+        <item>iau în greutate 1 kg pe saptamana</item>
+    </string-array>
 </resources>
