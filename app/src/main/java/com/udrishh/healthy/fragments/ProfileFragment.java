@@ -53,8 +53,10 @@ public class ProfileFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        initialiseProfileCardComponents();
-        initialiseProgressCardComponents();
+        if(user!=null){
+            initialiseProfileCardComponents();
+            initialiseProgressCardComponents();
+        }
 
         return view;
     }
@@ -63,7 +65,7 @@ public class ProfileFragment extends Fragment {
         caloriesProgressText = view.findViewById(R.id.progress_card_tv_calories_progress_number);
         caloriesProgressText.setText(getString(R.string.calories_progress_counter, 0, user.getCaloriesPlan()));
         liquidsProgressText = view.findViewById(R.id.progress_card_tv_liquids_progress_number);
-        liquidsProgressText.setText(getString(R.string.liquids_progress_counter, 0.0f, 2000.0f));
+        liquidsProgressText.setText(getString(R.string.liquids_progress_counter, 0, 2000));
         burnedText = view.findViewById(R.id.progress_card_tv_calories_burned_number);
         burnedText.setText(getString(R.string.calories_burned_counter, 0));
         eatenText = view.findViewById(R.id.progress_card_tv_calories_eaten_number);

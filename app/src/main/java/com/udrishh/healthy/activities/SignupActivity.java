@@ -324,6 +324,12 @@ public class SignupActivity extends AppCompatActivity {
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
     private void initialiseComponents() {
         continueBtn1 = findViewById(R.id.signup_continue_btn);
         continueBtn2 = findViewById(R.id.signup_continue2_btn);

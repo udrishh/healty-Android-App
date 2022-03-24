@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.StorageReference;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.fragments.SettingsFragment;
@@ -30,15 +33,34 @@ public class MainActivity extends AppCompatActivity {
 
     private User user;
 
-    public User getUserObject(){
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private StorageReference storageReference;
+
+    public User getUserObject() {
         return user;
     }
 
-    private void setProfileFragment(){
+    public FirebaseAuth getFirebaseAuth() {
+        return firebaseAuth;
+    }
+
+    private void setProfileFragment() {
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_profile);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new ProfileFragment())
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -48,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("userObject");
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         fragmentManager = getSupportFragmentManager();
         fragment = fragmentManager.findFragmentById(R.id.main_frame_layout);
