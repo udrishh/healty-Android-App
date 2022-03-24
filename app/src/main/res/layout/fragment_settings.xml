@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SettingsFragment">
+    tools:context=".fragments.SettingsFragment"
+    android:padding="8dp">
 
-    <TextView
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout_btn"
+        android:text="Deconectare"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SETTINGS FRAGMENT" />
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>
