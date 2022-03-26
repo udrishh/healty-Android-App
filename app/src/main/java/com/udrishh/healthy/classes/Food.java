@@ -3,20 +3,25 @@ package com.udrishh.healthy.classes;
 import androidx.annotation.NonNull;
 
 public class Food {
+    private String foodId;
     private String name;
     private float calories;
     private float proteins;
     private float lipids;
     private float carbs;
     private float fibers;
+    private String userId;
 
-    public Food(String name, float calories, float proteins, float lipids, float carbs, float fibers) {
-        this.name = name;
-        this.calories = calories;
-        this.proteins = proteins;
-        this.lipids = lipids;
-        this.carbs = carbs;
-        this.fibers = fibers;
+    public Food() {
+
+    }
+
+    public String getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
     public String getName() {
@@ -67,16 +72,25 @@ public class Food {
         this.fibers = fibers;
     }
 
-    @NonNull
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Food{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("foodId='").append(foodId).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", calories=").append(calories);
         sb.append(", proteins=").append(proteins);
         sb.append(", lipids=").append(lipids);
         sb.append(", carbs=").append(carbs);
         sb.append(", fibers=").append(fibers);
+        sb.append(", userId='").append(userId).append('\'');
         sb.append('}');
         return sb.toString();
     }
