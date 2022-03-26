@@ -5,11 +5,11 @@ import androidx.annotation.NonNull;
 public class Food {
     private String foodId;
     private String name;
-    private float calories;
-    private float proteins;
-    private float lipids;
-    private float carbs;
-    private float fibers;
+    private int calories;
+    private int proteins;
+    private int lipids;
+    private int carbs;
+    private int fibers;
     private String userId;
 
     public Food() {
@@ -32,43 +32,43 @@ public class Food {
         this.name = name;
     }
 
-    public float getCalories() {
+    public int getCalories() {
         return calories;
     }
 
-    public void setCalories(float calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
-    public float getProteins() {
+    public int getProteins() {
         return proteins;
     }
 
-    public void setProteins(float proteins) {
+    public void setProteins(int proteins) {
         this.proteins = proteins;
     }
 
-    public float getLipids() {
+    public int getLipids() {
         return lipids;
     }
 
-    public void setLipids(float lipids) {
+    public void setLipids(int lipids) {
         this.lipids = lipids;
     }
 
-    public float getCarbs() {
+    public int getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(float carbs) {
+    public void setCarbs(int carbs) {
         this.carbs = carbs;
     }
 
-    public float getFibers() {
+    public int getFibers() {
         return fibers;
     }
 
-    public void setFibers(float fibers) {
+    public void setFibers(int fibers) {
         this.fibers = fibers;
     }
 
