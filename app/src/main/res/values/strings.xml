@@ -63,4 +63,11 @@
         <item>iau în greutate 0.75 kg pe saptamana</item>
         <item>iau în greutate 1 kg pe saptamana</item>
     </string-array>
+    <string name="add_categories_title">Alege categoria pentru care vrei să adaugi noua înregistrare:</string>
+    <string name="foods_category_btn_text">Mâncăruri</string>
+    <string name="drinks_category_btn_text">Băuturi</string>
+    <string name="activities_category_btn_text">Activități fizice</string>
+    <string name="measurements_category_btn_text">Măsurători</string>
+    <string name="food_drink_item_name"><b>%1$s</b></string>
+    <string name="food_drink_item_calories">%1$\nkcal/100g</string>
 </resources>
