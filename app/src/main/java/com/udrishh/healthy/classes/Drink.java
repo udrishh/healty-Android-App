@@ -3,22 +3,26 @@ package com.udrishh.healthy.classes;
 import androidx.annotation.NonNull;
 
 public class Drink {
+    private String drinkId;
     private String name;
-    private float calories;
-    private float proteins;
-    private float lipids;
-    private float carbs;
-    private float fibers;
+    private int calories;
+    private int proteins;
+    private int lipids;
+    private int carbs;
+    private int fibers;
+    private String userId;
 
-    public Drink(String name, float calories, float proteins, float lipids, float carbs, float fibers) {
-        this.name = name;
-        this.calories = calories;
-        this.proteins = proteins;
-        this.lipids = lipids;
-        this.carbs = carbs;
-        this.fibers = fibers;
+    public Drink() {
+
     }
-    
+
+    public String getDrinkId() {
+        return drinkId;
+    }
+
+    public void setDrinkId(String drinkId) {
+        this.drinkId = drinkId;
+    }
 
     public String getName() {
         return name;
@@ -28,56 +32,65 @@ public class Drink {
         this.name = name;
     }
 
-    public float getCalories() {
+    public int getCalories() {
         return calories;
     }
 
-    public void setCalories(float calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
-    public float getProteins() {
+    public int getProteins() {
         return proteins;
     }
 
-    public void setProteins(float proteins) {
+    public void setProteins(int proteins) {
         this.proteins = proteins;
     }
 
-    public float getLipids() {
+    public int getLipids() {
         return lipids;
     }
 
-    public void setLipids(float lipids) {
+    public void setLipids(int lipids) {
         this.lipids = lipids;
     }
 
-    public float getCarbs() {
+    public int getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(float carbs) {
+    public void setCarbs(int carbs) {
         this.carbs = carbs;
     }
 
-    public float getFibers() {
+    public int getFibers() {
         return fibers;
     }
 
-    public void setFibers(float fibers) {
+    public void setFibers(int fibers) {
         this.fibers = fibers;
     }
 
-    @NonNull
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Drink{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("drinkId='").append(drinkId).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", calories=").append(calories);
         sb.append(", proteins=").append(proteins);
         sb.append(", lipids=").append(lipids);
         sb.append(", carbs=").append(carbs);
         sb.append(", fibers=").append(fibers);
+        sb.append(", userId='").append(userId).append('\'');
         sb.append('}');
         return sb.toString();
     }
