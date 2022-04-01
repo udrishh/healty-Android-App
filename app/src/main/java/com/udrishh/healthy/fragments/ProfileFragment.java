@@ -1,6 +1,10 @@
 package com.udrishh.healthy.fragments;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +13,32 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
+import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
+import com.udrishh.healthy.utilities.DateConverter;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
     private View view;
+
+    private CircularProgressIndicator caloriesProgressIndicator;
+    private LinearProgressIndicator liquidsProgressIndicator;
     private TextView greetingText;
     private TextView nameText;
     private TextView ageText;
@@ -31,7 +47,6 @@ public class ProfileFragment extends Fragment {
     private TextView weightText;
     private TextView planText;
     private ImageView sexIcon;
-
     private TextView caloriesProgressText;
     private TextView liquidsProgressText;
     private TextView burnedText;
@@ -40,7 +55,19 @@ public class ProfileFragment extends Fragment {
     private TextView lipidsText;
     private TextView carbsText;
     private TextView fibersText;
+
+    private ConstraintLayout cardLayout;
+
     private User user;
+    private ArrayList<FoodDrinkRecord> foodDrinkRecords;
+
+    private int caloriesProgress;
+    private int caloriesEaten;
+    private int proteins;
+    private int fibers;
+    private int carbs;
+    private int lipids;
+    private int liquids;
 
     public ProfileFragment() {
     }
@@ -50,18 +77,69 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         user = ((MainActivity) this.requireActivity()).getUserObject();
+        foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        if(user!=null){
+        if (user != null) {
             initialiseProfileCardComponents();
             initialiseProgressCardComponents();
+
+            loadFoodDrinksRecordsProgress();
         }
 
         return view;
     }
 
+    private void loadFoodDrinksRecordsProgress() {
+        Log.d("mytag","Profile fragment loading progress....");
+        caloriesProgress = 0;
+        caloriesEaten = 0;
+        proteins = 0;
+        fibers = 0;
+        carbs = 0;
+        lipids = 0;
+        liquids = 0;
+
+        for (FoodDrinkRecord foodDrinkRecord : foodDrinkRecords) {
+            Log.d("mytag","Adding record: " + foodDrinkRecord.toString());
+            if (DateConverter.fromLongString(foodDrinkRecord.getDate()).getYear() == new Date().getYear()
+                    && DateConverter.fromLongString(foodDrinkRecord.getDate()).getMonth() == new Date().getMonth()
+                    && DateConverter.fromLongString(foodDrinkRecord.getDate()).getDay() == new Date().getDay()) {
+                caloriesProgress += foodDrinkRecord.getTotalCalories();
+                caloriesEaten += foodDrinkRecord.getTotalCalories();
+                proteins += foodDrinkRecord.getTotalProteins();
+                lipids += foodDrinkRecord.getTotalLipids();
+                carbs += foodDrinkRecord.getTotalCarbs();
+                fibers += foodDrinkRecord.getTotalFibers();
+
+                caloriesProgressText.setText(getString(R.string.calories_progress_counter,
+                        caloriesProgress, user.getCaloriesPlan()));
+                eatenText.setText(getString(R.string.calories_eaten_counter, caloriesEaten));
+                proteinsText.setText(getString(R.string.proteins_counter, proteins));
+                lipidsText.setText(getString(R.string.lipids_counter, lipids));
+                carbsText.setText(getString(R.string.carbs_counter, carbs));
+                fibersText.setText(getString(R.string.fibers_counter, fibers));
+
+                caloriesProgressIndicator.setProgress(caloriesProgress, true);
+
+                if (foodDrinkRecord.getCategory() == RecordType.DRINK) {
+                    Log.d("mytag", "This is a drink!");
+                    liquids += foodDrinkRecord.getQuantity();
+                    liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
+                    liquidsProgressIndicator.setProgress(liquids, true);
+                }
+            }
+        }
+    }
+
     private void initialiseProgressCardComponents() {
+        caloriesProgressIndicator = view.findViewById(R.id.progress_card_calories_progress_indicator);
+        caloriesProgressIndicator.setMax(user.getCaloriesPlan());
+        caloriesProgressIndicator.setMin(0);
+        liquidsProgressIndicator = view.findViewById(R.id.progress_card_liquids_progress_indicator);
+        liquidsProgressIndicator.setMax(2000);
+        liquidsProgressIndicator.setMin(0);
         caloriesProgressText = view.findViewById(R.id.progress_card_tv_calories_progress_number);
         caloriesProgressText.setText(getString(R.string.calories_progress_counter, 0, user.getCaloriesPlan()));
         liquidsProgressText = view.findViewById(R.id.progress_card_tv_liquids_progress_number);
@@ -78,11 +156,23 @@ public class ProfileFragment extends Fragment {
         carbsText.setText(getString(R.string.carbs_counter, 0));
         fibersText = view.findViewById(R.id.progress_card_fibers_counter);
         fibersText.setText(getString(R.string.fibers_counter, 0));
+
+        cardLayout = view.findViewById(R.id.progress_card_layout);
     }
 
+    @SuppressLint("StringFormatMatches")
     private void initialiseProfileCardComponents() {
         greetingText = view.findViewById(R.id.user_greeting_textview);
-        greetingText.setText(getString(R.string.user_greeting_text, "Buna seara", user.getName()));
+        int currHour = new Date().getHours();
+        if (currHour >= 7 && currHour < 11) {
+            greetingText.setText(getString(R.string.user_greeting_text, getString(R.string.greeting_morning), user.getName()));
+        } else if (currHour >= 10 && currHour < 20) {
+            greetingText.setText(getString(R.string.user_greeting_text, getString(R.string.greeting_afternoon), user.getName()));
+        } else {
+            greetingText.setText(getString(R.string.user_greeting_text, getString(R.string.greeting_night), user.getName()));
+
+        }
+
         nameText = view.findViewById(R.id.user_name_textview);
         nameText.setText(getString(R.string.user_profile_name, user.getName()));
         ageText = view.findViewById(R.id.user_age_textview);
