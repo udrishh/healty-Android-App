@@ -7,11 +7,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -38,16 +36,11 @@ import com.udrishh.healthy.enums.ActivityLevel;
 import com.udrishh.healthy.enums.GainLose;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.utilities.Calculator;
-import com.udrishh.healthy.utilities.DateConverter;
 
-import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -192,31 +185,89 @@ public class SignupActivity extends AppCompatActivity {
         continueBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(emailInput.getText().toString().trim())
-                        && !TextUtils.isEmpty(passwordInput.getText().toString().trim())) {
-                    firstCard.setVisibility(View.INVISIBLE);
-                    secondCard.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(SignupActivity.this, "Toate campurile sunt obligatorii!", Toast.LENGTH_LONG).show();
+                boolean isValid = true;
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (TextUtils.isEmpty(emailInput.getText().toString().trim())
+                        || !emailInput.getText().toString().trim().matches(emailPattern)) {
+                    emailInput.setError(getString(R.string.invalid_email_text));
+                    isValid = false;
                 }
+                if (TextUtils.isEmpty(passwordInput.getText().toString().trim())
+                        || passwordInput.getText().toString().trim().length() < 6) {
+                    passwordInput.setError(getString(R.string.invalid_password_signup_text));
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+                passwordInput.setError(null);
+                emailInput.setError(null);
+                firstCard.setVisibility(View.INVISIBLE);
+                secondCard.setVisibility(View.VISIBLE);
             }
         });
 
         continueBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean isValid = true;
+                if (TextUtils.isEmpty(nameInput.getText().toString().trim())) {
+                    nameInput.setError(getString(R.string.invalid_username_text));
+                    isValid = false;
+                } else if (nameInput.getText().toString().trim().length() < 2) {
+                    nameInput.setError(getString(R.string.invalid_username_text));
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(heightInput.getText().toString().trim())) {
+                    heightInput.setError(getString(R.string.invalid_height_text));
+                    isValid = false;
+                }
+                if (!heightInput.getText().toString().trim().equals("")) {
+                    if (Integer.parseInt(heightInput.getText().toString().trim()) < 50
+                            || Integer.parseInt(heightInput.getText().toString().trim()) > 230) {
+                        heightInput.setError(getString(R.string.invalid_height_text));
+                        isValid = false;
+                    }
+                }
+                if (TextUtils.isEmpty(weightInput.getText().toString().trim())) {
+                    weightInput.setError(getString(R.string.invalid_weight_text));
+                    isValid = false;
+                }
+                if (!weightInput.getText().toString().trim().equals("")) {
+                    if (Integer.parseInt(weightInput.getText().toString().trim()) < 40
+                            || Integer.parseInt(weightInput.getText().toString().trim()) > 300) {
+                        weightInput.setError(getString(R.string.invalid_weight_text));
+                        isValid = false;
+                    }
+                }
+                if (TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+                    birthdateInput.setError(getString(R.string.invalid_birthdate_text));
+                    isValid = false;
+                }
+                if (!TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+                    String[] date = birthdateInput.getText().toString().trim().split("/");
+                    if ((Integer.parseInt(date[0]) < 1 && Integer.parseInt(date[0]) > 31)
+                            || (Integer.parseInt(date[1]) < 1 && Integer.parseInt(date[1]) > 12)
+                            || (Integer.parseInt(date[2]) < 1920 && Integer.parseInt(date[2]) > (new Date().getYear() - 14))) {
+                        birthdateInput.setError(getString(R.string.invalid_birthdate_text));
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    return;
+                }
+                nameInput.setError(null);
+                heightInput.setError(null);
+                weightInput.setError(null);
+                birthdateInput.setError(null);
+
                 setPlanPreview();
                 isReady = true;
-                if (!TextUtils.isEmpty(nameInput.getText().toString().trim())
-                        && !TextUtils.isEmpty(heightInput.getText().toString().trim())
-                        && !TextUtils.isEmpty(weightInput.getText().toString().trim())
-                        && !TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
-                    activityLevelInput.setSelection(0);
-                    secondCard.setVisibility(View.INVISIBLE);
-                    thirdCard.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(SignupActivity.this, "Toate campurile sunt obligatorii!", Toast.LENGTH_LONG).show();
-                }
+                activityLevelInput.setSelection(0);
+                secondCard.setVisibility(View.INVISIBLE);
+                thirdCard.setVisibility(View.VISIBLE);
             }
         });
 
@@ -254,7 +305,7 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(SignupActivity.this, "User created!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignupActivity.this, R.string.user_created_text, Toast.LENGTH_LONG).show();
                                 //take user to the app main activity
                                 currentUser = firebaseAuth.getCurrentUser();
                                 assert currentUser != null;

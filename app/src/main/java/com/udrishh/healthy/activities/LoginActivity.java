@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Toast.makeText(LoginActivity.this, R.string.try_again_login_err_text,Toast.LENGTH_LONG).show();
+                   // Toast.makeText(LoginActivity.this, R.string.try_again_login_err_text,Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -230,6 +230,24 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean isValid = true;
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (TextUtils.isEmpty(emailInput.getText().toString().trim())
+                        || !emailInput.getText().toString().trim().matches(emailPattern)) {
+                    emailInput.setError(getString(R.string.invalid_email_text));
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(passwordInput.getText().toString().trim())
+                        || passwordInput.getText().toString().trim().length() < 6) {
+                    passwordInput.setError(getString(R.string.invalid_password_login_text));
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+                passwordInput.setError(null);
+                emailInput.setError(null);
                 loginEmailPasswordUser(emailInput.getText().toString().trim(),
                         passwordInput.getText().toString().trim());
             }

@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/signup_user_data_height_input_hint"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:minHeight="48dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/signup_user_data_weight_input_hint"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:minHeight="48dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -150,7 +150,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
-                    android:hint="dd/mm/yyyy"/>
+                    android:hint="dd/mm/yyyy"
+                    android:inputType="date"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
