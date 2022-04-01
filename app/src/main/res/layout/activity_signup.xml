@@ -24,23 +24,37 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_email_input"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/email_hint"
-                android:inputType="textEmailAddress"
-                android:minHeight="48dp" />
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_password_input"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_email_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:hint="@string/email_hint"
+                    android:inputType="textEmailAddress"
+                    android:minHeight="48dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                android:minHeight="48dp" />
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signup_continue_btn"
@@ -72,32 +86,53 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_user_data_name_input"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/signup_user_data_name_input_hint"
-                android:inputType="text"
-                android:minHeight="48dp" />
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_user_data_height_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/signup_user_data_height_input_hint"
-                android:inputType="text"
-                android:minHeight="48dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_user_data_name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:hint="@string/signup_user_data_name_input_hint"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_user_data_weight_input"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:hint="@string/signup_user_data_weight_input_hint"
-                android:inputType="text"
-                android:minHeight="48dp" />
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_user_data_height_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:hint="@string/signup_user_data_height_input_hint"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_user_data_weight_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:hint="@string/signup_user_data_weight_input_hint"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/signup_user_data_birthdate_title"
@@ -105,12 +140,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/signup_user_data_birthdate_title" />
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/signup_user_data_birthdate_input"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:hint="dd/mm/yyyy"/>
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_user_data_birthdate_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:calendarViewShown="false"
+                    android:hint="dd/mm/yyyy"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/signup_user_data_sex_title"
