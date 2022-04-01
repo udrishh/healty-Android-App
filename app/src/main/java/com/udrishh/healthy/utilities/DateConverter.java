@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public interface DateConverter {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy,", Locale.US);
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy", Locale.US);
+    SimpleDateFormat longFormatter = new SimpleDateFormat("dd/MM/yyy - HH:mm", Locale.US);
 
     static Date fromString(String value) {
         try{
@@ -16,7 +17,15 @@ public interface DateConverter {
         }
     }
 
-    static String fromDate(Date value) {
-        return value == null ? null : formatter.format(value);
+    static Date fromLongString(String value) {
+        try{
+            return longFormatter.parse(value);
+        } catch (ParseException e){
+            return null;
+        }
+    }
+
+    static String fromLongDate(Date value) {
+        return value == null ? null : longFormatter.format(value);
     }
 }
