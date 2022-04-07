@@ -34,13 +34,13 @@
     <string name="create_account_btn_text">Creează cont</string>
     <string name="signup_continue_btn_text">Continuă</string>
     <string name="signup_generate_btn_text">Generează planul alimentar</string>
-    <string name="signup_user_data_name_input_hint">Nume</string>
+    <string name="signup_user_data_name_input_hint">Nume<font color="#bb0000">*</font></string>
     <string name="signup_user_data_sex_m_text">Masculin</string>
     <string name="signup_user_data_sex_f_text">Feminin</string>
-    <string name="signup_user_data_sex_title">Sex:</string>
-    <string name="signup_user_data_birthdate_title">Data nașterii:</string>
-    <string name="signup_user_data_height_input_hint">Înălțime</string>
-    <string name="signup_user_data_weight_input_hint">Greutate</string>
+    <string name="signup_user_data_sex_title">Sex:<font color="#bb0000">*</font></string>
+    <string name="signup_user_data_birthdate_title">Data nașterii:<font color="#bb0000">*</font></string>
+    <string name="signup_user_data_height_input_hint">Înălțime (m)<font color="#bb0000">*</font></string>
+    <string name="signup_user_data_weight_input_hint">Greutate (kg)<font color="#bb0000">*</font></string>
     <string name="signup_user_data_gain_lose_titlle">Doresc să:</string>
     <string name="signup_user_data_activity_level_titlle">Nivelul de activitate fizică:</string>
     <string name="signup_plan_calories_text">Necesarul tău caloric este de\n<b>%1$d kcal.</b> pe zi.</string>
@@ -69,5 +69,47 @@
     <string name="activities_category_btn_text">Activități fizice</string>
     <string name="measurements_category_btn_text">Măsurători</string>
     <string name="food_drink_item_name"><b>%1$s</b></string>
-    <string name="food_drink_item_calories">%1$\nkcal/100g</string>
+    <string name="food_drink_item_calories">%1$d\nkcal/100g</string>
+    <string name="add_food_db_food_title"><b>MÂNCARE</b></string>
+    <string name="add_food_db_total_fibers">fibre\n%1$d</string>
+    <string name="add_food_db_total_carbs">carb.\n%1$d</string>
+    <string name="add_food_db_total_lipids">lipide\n%1$d</string>
+    <string name="add_food_db_total_proteins">proteine\n%1$d</string>
+    <string name="add_food_db_total_calories">calorii\n%1$d</string>
+    <string name="add_food_db_total_title"><b>valori nutriționale totale:</b></string>
+    <string name="add_food_db_per100_fibers">fibre\n%1$d</string>
+    <string name="add_food_db_per100_carbs">carb.\n%1$d</string>
+    <string name="add_food_db_per100_lipids">lipide\n%1$d</string>
+    <string name="add_food_db_per100_proteins">proteine\n%1$d</string>
+    <string name="add_food_db_per100_calories">calorii\n%1$d</string>
+    <string name="add_food_db_per100_title"><b>valori nutriționale per 100 g:</b></string>
+    <string name="greeting_morning">Bună dimineața</string>
+    <string name="greeting_afternoon">Bună ziua</string>
+    <string name="greeting_night">Bună seara</string>
+    <string name="try_again_login_err_text">A intervenit o problemă!/nVâ rugăm sa încercați din nou!</string>
+    <string name="add_food_db_name_hint">denumire<font color="#bb0000">*</font></string>
+    <string name="add_food_db_quantity_hint">cantitate (g)<font color="#bb0000">*</font></string>
+    <string name="add_drink_db_quantity_hint">cantitate (ml)<font color="#bb0000">*</font></string>
+    <string name="btn_add_text">ADAUGĂ</string>
+    <string name="record_added_text">Înregistrare adaugată!</string>
+    <string name="invalid_quantity_text">Cantitate invalidă!</string>
+    <string name="invalid_name_text">Denumire invalidă!</string>
+    <string name="invalid_username_text">Numele nu poate avea mai puțin de 2 caractere!</string>
+    <string name="invalid_height_text">Înălțime invalidă!</string>
+    <string name="invalid_weight_text">Greutate invalidă!</string>
+    <string name="invalid_birthdate_text">Dată invalidă!</string>
+    <string name="user_created_text">Te-ai înregistrat cu succes!</string>
+    <string name="invalid_password_login_text">Parolă invalidă!</string>
+    <string name="invalid_email_text">Email invalid!</string>
+    <string name="invalid_password_signup_text">Parola trebuie să aibă cel puțin 6 caractere!</string>
+    <string name="add_known100_text">Cunosc valorile nutriționale per 100 g.</string>
+    <string name="add_unknown100_text">Nu cunosc valorile nutriționale per 100 g.</string>
+    <string name="add_food_m_calories_hint">calorii</string>
+    <string name="add_food_m_proteins_hint">proteine</string>
+    <string name="add_food_m_lipids_hint">lipide</string>
+    <string name="add_food_m_carbs_hint">carbohidrati</string>
+    <string name="add_food_m_fibers_hint">fibre</string>
+    <string name="add_drink_db_drink_title"><b>BĂUTURĂ</b></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
