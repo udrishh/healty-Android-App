@@ -9,17 +9,14 @@ import androidx.fragment.app.FragmentManager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.Food;
@@ -28,12 +25,11 @@ import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.DateConverter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-public class AddFoodDetailsFragment extends Fragment {
+public class AddFoodDbDetailsFragment extends Fragment {
     private View view;
     private Food selectedFood;
     private MaterialButton addBtn;
@@ -53,10 +49,10 @@ public class AddFoodDetailsFragment extends Fragment {
 
     private User user;
 
-    public AddFoodDetailsFragment() {
+    public AddFoodDbDetailsFragment() {
     }
 
-    public AddFoodDetailsFragment(Food food) {
+    public AddFoodDbDetailsFragment(Food food) {
         selectedFood = food;
     }
 
@@ -64,7 +60,7 @@ public class AddFoodDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_add_food_details, container, false);
+        view = inflater.inflate(R.layout.fragment_add_food_db_details, container, false);
         user = ((MainActivity) this.requireActivity()).getUserObject();
 
         initialiseComponents();
@@ -137,10 +133,15 @@ public class AddFoodDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 boolean isValid = true;
-                if (quantityInput.getText().toString().trim().length() <= 0 ||
-                        Integer.parseInt(quantityInput.getText().toString().trim()) <= 0) {
+                if (quantityInput.getText().toString().trim().length() <= 0) {
                     quantityInput.setError(getString(R.string.invalid_quantity_text));
                     isValid = false;
+                }
+                if (quantityInput.getText().toString().trim().length() > 0) {
+                    if (Integer.parseInt(quantityInput.getText().toString().trim()) <= 0){
+                        quantityInput.setError(getString(R.string.invalid_quantity_text));
+                        isValid = false;
+                    }
                 }
                 if (nameInput.getText().toString().trim().length() <= 1) {
                     nameInput.setError(getString(R.string.invalid_name_text));
