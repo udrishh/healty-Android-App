@@ -82,16 +82,6 @@ public class Drink {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Drink{");
-        sb.append("drinkId='").append(drinkId).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", calories=").append(calories);
-        sb.append(", proteins=").append(proteins);
-        sb.append(", lipids=").append(lipids);
-        sb.append(", carbs=").append(carbs);
-        sb.append(", fibers=").append(fibers);
-        sb.append(", userId='").append(userId).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return name;
     }
 }
