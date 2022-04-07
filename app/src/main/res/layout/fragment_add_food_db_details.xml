@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".fragments.AddFoodDetailsFragment">
+    tools:context=".fragments.AddFoodDbDetailsFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -61,7 +61,8 @@
                     android:id="@+id/food_quantity_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/add_food_db_quantity_hint" />
+                    android:hint="@string/add_food_db_quantity_hint"
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
