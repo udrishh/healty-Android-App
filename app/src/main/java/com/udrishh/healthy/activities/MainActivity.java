@@ -32,6 +32,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.udrishh.healthy.R;
+import com.udrishh.healthy.classes.Drink;
 import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.User;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private User user;
     private ArrayList<Food> foods = new ArrayList<>();
+    private ArrayList<Drink> drinks = new ArrayList<>();
     private ArrayList<FoodDrinkRecord> foodDrinkRecords = new ArrayList<>();
 
     private FirebaseAuth firebaseAuth;
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Food> getFoods() {
         return foods;
     }
+
+    public ArrayList<Drink> getDrinks() {return drinks;}
 
     public ArrayList<FoodDrinkRecord> getFoodDrinkRecords() {
         return foodDrinkRecords;
@@ -195,6 +199,84 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadDatabase() {
         Log.d("mytag", "Database task started!");
+        loadFoods();
+        loadDrinks();
+    }
+
+    private void loadDrinks() {
+        //LOAD DRINKS
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                StorageReference filepath = storageReference.child("drinks_db.csv");
+
+                File localFile = null;
+                try {
+                    localFile = File.createTempFile("drinks_db", "csv");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                File finalLocalFile = localFile;
+                Log.d("mytag", finalLocalFile.toString());
+                filepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        try {
+                            Log.d("mytag", "Started loading database!");
+                            Log.d("mytag", finalLocalFile.toString());
+                            BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
+                            bufferedReader.readLine();
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                String[] items = line.split(",");
+                                Drink drink = new Drink();
+                                drink.setName(items[0]);
+                                drink.setCalories(Integer.parseInt(items[1]));
+                                drink.setProteins(Integer.parseInt(items[2]));
+                                drink.setLipids(Integer.parseInt(items[3]));
+                                drink.setCarbs(Integer.parseInt(items[4]));
+                                drink.setFibers(Integer.parseInt(items[5]));
+                                drink.setUserId(items[6]);
+                                drink.setDrinkId(items[7]);
+
+                                drinks.add(drink);
+                                //Log.d("mytag", food.toString());
+                            }
+                            bufferedReader.close();
+                            if(drinks.size() > 0){
+                                Log.d("mytag", "Successfully loaded database!");
+                            } else {
+                                Log.d("mytag", "There've been an error loading the database!");
+                            }
+                        } catch (Exception e) {
+                            Log.d("mytag", "Exception occured: " + e.getMessage());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("mytag", "Exception occured: " + exception.getMessage());
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //DATABASE LOADED SUCCESSFULLY
+                        }
+                    }
+                });
+
+                Log.d("mytag", "Database task finished!");
+            }
+        }.start();
+    }
+
+    private void loadFoods() {
+        //LOAD FOODS
         new Thread() {
             @Override
             public void run() {
@@ -231,13 +313,17 @@ public class MainActivity extends AppCompatActivity {
                                 food.setCarbs(Integer.parseInt(items[4]));
                                 food.setFibers(Integer.parseInt(items[5]));
                                 food.setUserId(items[6]);
-                                food.setFoodId(UUID.randomUUID().toString());
+                                food.setFoodId(items[7]);
 
                                 foods.add(food);
                                 //Log.d("mytag", food.toString());
                             }
                             bufferedReader.close();
-                            Log.d("mytag", "Successfully loaded database!");
+                            if(foods.size() > 0){
+                                Log.d("mytag", "Successfully loaded database!");
+                            } else {
+                                Log.d("mytag", "There've been an error loading the database!");
+                            }
                         } catch (Exception e) {
                             Log.d("mytag", "Exception occured: " + e.getMessage());
                         }
