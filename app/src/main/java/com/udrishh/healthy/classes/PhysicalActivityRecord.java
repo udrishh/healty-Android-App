@@ -7,9 +7,9 @@ public class PhysicalActivityRecord {
     private String userId;
     private String itemId;
     private String name;
-    private int calories;
+    private float calories;
     private int duration;
-    private int totalCalories;
+    private float totalCalories;
     private String Date;
 
     public PhysicalActivityRecord() {
@@ -47,11 +47,11 @@ public class PhysicalActivityRecord {
         this.name = name;
     }
 
-    public int getCalories() {
+    public float getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(float calories) {
         this.calories = calories;
     }
 
@@ -63,7 +63,7 @@ public class PhysicalActivityRecord {
         this.duration = duration;
     }
 
-    public int getTotalCalories() {
+    public float getTotalCalories() {
         return totalCalories;
     }
 
