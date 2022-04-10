@@ -501,7 +501,7 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
             valid = false;
         }
         if (TextUtils.isEmpty(proteinsTotalInput.getText().toString().trim())) {
-            proteinsTotalInput.setError("Valoare invalidă!");
+            proteinsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(proteins100Input.getText().toString().trim())
@@ -511,17 +511,17 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(caloriesTotalInput.getText().toString().trim())) {
-            caloriesTotalInput.setError("Valoare invalidă!");
+            caloriesTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
         if (!TextUtils.isEmpty(caloriesTotalInput.getText().toString().trim())
                 && Integer.parseInt(caloriesTotalInput.getText().toString().trim()) < 1) {
-            caloriesTotalInput.setError("Valoare invalidă!");
+            caloriesTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 
         if (TextUtils.isEmpty(carbsTotalInput.getText().toString().trim())) {
-            carbsTotalInput.setError("Valoare invalidă!");
+            carbsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(carbs100Input.getText().toString().trim())
@@ -531,7 +531,7 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(fibersTotalInput.getText().toString().trim())) {
-            fibersTotalInput.setError("Valoare invalidă!");
+            fibersTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(fibers100Input.getText().toString().trim())
@@ -541,7 +541,7 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(lipidsTotalInput.getText().toString().trim())) {
-            lipidsTotalInput.setError("Valoare invalidă!");
+            lipidsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(lipids100Input.getText().toString().trim())

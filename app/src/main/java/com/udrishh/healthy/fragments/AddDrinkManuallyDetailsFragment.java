@@ -393,8 +393,17 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
             nameInput.setError(getString(R.string.invalid_name_text));
             valid = false;
         }
+        if (TextUtils.isEmpty(quantityInput.getText().toString().trim())) {
+            quantityInput.setError(getString(R.string.invalid_quantity_text));
+            valid = false;
+        }
+        if (!TextUtils.isEmpty(quantityInput.getText().toString().trim())
+                && Integer.parseInt(quantityInput.getText().toString().trim()) < 1) {
+            quantityInput.setError(getString(R.string.invalid_quantity_text));
+            valid = false;
+        }
         if (TextUtils.isEmpty(proteinsTotalInput.getText().toString().trim())) {
-            proteinsTotalInput.setError("Valoare invalidă!");
+            proteinsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(proteins100Input.getText().toString().trim())
@@ -404,17 +413,17 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(caloriesTotalInput.getText().toString().trim())) {
-            caloriesTotalInput.setError("Valoare invalidă!");
+            caloriesTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
         if (!TextUtils.isEmpty(caloriesTotalInput.getText().toString().trim())
                 && Integer.parseInt(caloriesTotalInput.getText().toString().trim()) < 1) {
-            caloriesTotalInput.setError("Valoare invalidă!");
+            caloriesTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 
         if (TextUtils.isEmpty(carbsTotalInput.getText().toString().trim())) {
-            carbsTotalInput.setError("Valoare invalidă!");
+            carbsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(carbs100Input.getText().toString().trim())
@@ -424,7 +433,7 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(fibersTotalInput.getText().toString().trim())) {
-            fibersTotalInput.setError("Valoare invalidă!");
+            fibersTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(fibers100Input.getText().toString().trim())
@@ -434,7 +443,7 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
 //        }
 
         if (TextUtils.isEmpty(lipidsTotalInput.getText().toString().trim())) {
-            lipidsTotalInput.setError("Valoare invalidă!");
+            lipidsTotalInput.setError(getString(R.string.invalid_value_text));
             valid = false;
         }
 //        if (!TextUtils.isEmpty(lipids100Input.getText().toString().trim())
@@ -457,8 +466,6 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
     }
 
     private void unknown() {
-        quantityInput.setVisibility(View.GONE);
-        quantityInputLabel.setVisibility(View.GONE);
         per100InputLayout.setVisibility(View.GONE);
         totalInputLayout.setVisibility(View.VISIBLE);
         totalViewLayout.setVisibility(View.GONE);
@@ -473,6 +480,7 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
                     foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
                     foodDrinkRecord.setUserId(user.getUserId());
                     foodDrinkRecord.setCalories(-1);
+                    foodDrinkRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
                     foodDrinkRecord.setProteins(-1);
                     foodDrinkRecord.setCarbs(-1);
                     foodDrinkRecord.setLipids(-1);

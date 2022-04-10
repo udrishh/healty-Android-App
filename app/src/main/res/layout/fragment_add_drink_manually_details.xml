@@ -72,7 +72,7 @@
                             android:id="@+id/drink_m_quantity_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/add_food_db_quantity_hint"
+                            android:hint="@string/add_drink_db_quantity_hint"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -87,13 +87,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:text="@string/add_known100_text" />
+                            android:text="@string/add_known100_drink_text" />
 
                         <RadioButton
                             android:id="@+id/add_unknown100_drink_radio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_unknown100_text" />
+                            android:text="@string/add_unknown100_drink_text" />
 
                     </RadioGroup>
 

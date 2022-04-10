@@ -21,6 +21,8 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
+import com.udrishh.healthy.classes.PhysicalActivity;
+import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
@@ -60,9 +62,11 @@ public class ProfileFragment extends Fragment {
 
     private User user;
     private ArrayList<FoodDrinkRecord> foodDrinkRecords;
+    private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
 
     private int caloriesProgress;
     private int caloriesEaten;
+    private int caloriesBurned;
     private int proteins;
     private int fibers;
     private int carbs;
@@ -78,6 +82,7 @@ public class ProfileFragment extends Fragment {
 
         user = ((MainActivity) this.requireActivity()).getUserObject();
         foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
+        physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -86,9 +91,22 @@ public class ProfileFragment extends Fragment {
             initialiseProgressCardComponents();
 
             loadFoodDrinksRecordsProgress();
+            loadPhysicalActivtiesProgress();
         }
 
         return view;
+    }
+
+    private void loadPhysicalActivtiesProgress() {
+        caloriesBurned = 0;
+        for(PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
+            if (DateConverter.fromLongString(physicalActivityRecord.getDate()).getYear() == new Date().getYear()
+                    && DateConverter.fromLongString(physicalActivityRecord.getDate()).getMonth() == new Date().getMonth()
+                    && DateConverter.fromLongString(physicalActivityRecord.getDate()).getDay() == new Date().getDay()){
+                caloriesBurned+= physicalActivityRecord.getTotalCalories();
+                burnedText.setText(getString(R.string.calories_burned_counter, caloriesBurned));
+            }
+        }
     }
 
     private void loadFoodDrinksRecordsProgress() {

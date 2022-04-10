@@ -69,6 +69,7 @@
     <string name="activities_category_btn_text">Activități fizice</string>
     <string name="measurements_category_btn_text">Măsurători</string>
     <string name="food_drink_item_name"><b>%1$s</b></string>
+    <string name="physical_activity_item_name"><b>%1$s</b></string>
     <string name="food_drink_item_calories">%1$d\nkcal/100g</string>
     <string name="add_food_db_food_title"><b>MÂNCARE</b></string>
     <string name="add_food_db_total_fibers">fibre\n%1$d</string>
@@ -104,12 +105,17 @@
     <string name="invalid_password_signup_text">Parola trebuie să aibă cel puțin 6 caractere!</string>
     <string name="add_known100_text">Cunosc valorile nutriționale per 100 g.</string>
     <string name="add_unknown100_text">Nu cunosc valorile nutriționale per 100 g.</string>
+    <string name="add_known100_drink_text">Cunosc valorile nutriționale per 100 ml.</string>
+    <string name="add_unknown100_drink_text">Nu cunosc valorile nutriționale per 100 ml.</string>
     <string name="add_food_m_calories_hint">calorii</string>
     <string name="add_food_m_proteins_hint">proteine</string>
     <string name="add_food_m_lipids_hint">lipide</string>
     <string name="add_food_m_carbs_hint">carbohidrati</string>
     <string name="add_food_m_fibers_hint">fibre</string>
     <string name="add_drink_db_drink_title"><b>BĂUTURĂ</b></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_physical_activity_title"><b>ACTIVITATE FIZICĂ</b></string>
+    <string name="add_physical_activity_total_view"><b>TOTAL CALORII ARSE:</b>\n%1$d\nkcal</string>
+    <string name="add_activity_db_quantity_hint">durată (min)<font color="#bb0000">*</font></string>
+    <string name="add_activity_m_burned_calories_hint">calorii arse<font color="#bb0000">*</font></string>
+    <string name="invalid_value_text">Valoare invalidă!</string>
 </resources>

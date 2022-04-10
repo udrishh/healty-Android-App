@@ -54,5 +54,12 @@ public class AddFragment extends Fragment {
                     .replace(R.id.main_frame_layout, new AddDrinksSearchFragment())
                     .commit();
         });
+
+        addPhysicalActivityBtn.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new AddPhysicalActivitySearchFragment())
+                    .commit();
+        });
     }
 }
