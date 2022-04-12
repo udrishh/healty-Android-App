@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,12 +31,13 @@ import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.DateConverter;
+import com.udrishh.healthy.utilities.IOnBackPressed;
 
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-public class AddDrinkManuallyDetailsFragment extends Fragment {
+public class AddDrinkManuallyDetailsFragment extends Fragment /*implements IOnBackPressed*/ {
     private View view;
     private MaterialButton addBtn;
     private TextInputEditText nameInput;
@@ -62,6 +66,9 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
 
     private User user;
 
+    private BottomNavigationView bottomNavigation;
+    private boolean keyboardShown = false;
+
     public AddDrinkManuallyDetailsFragment() {
     }
 
@@ -72,9 +79,29 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_add_drink_manually_details, container, false);
         user = ((MainActivity) this.requireActivity()).getUserObject();
 
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_BACK:
+                    {
+                        Toast.makeText(getContext(),"works",Toast.LENGTH_SHORT).show();
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
+        bottomNavigation = ((MainActivity) this.requireActivity()).getBottomNavigation();
+
         initialiseComponents();
         return view;
     }
+
 
     private void initialiseComponents() {
         addBtn = view.findViewById(R.id.add_drink_m_finish);
@@ -103,6 +130,16 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
         totalViewLayout = view.findViewById(R.id.add_drink_m_total_view_layout);
 
         know();
+
+//        nameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    bottomNavigation.setVisibility(View.GONE);
+//                    keyboardShown = true;
+//                }
+//            }
+//        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -621,4 +658,14 @@ public class AddDrinkManuallyDetailsFragment extends Fragment {
             }
         });
     }
+
+//    @Override
+//    public boolean onBackPressed() {
+//        if (keyboardShown) {
+//            Toast.makeText(getContext(),"works",Toast.LENGTH_SHORT).show();
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }
