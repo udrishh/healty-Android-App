@@ -99,18 +99,21 @@ public class ProfileFragment extends Fragment {
 
     private void loadPhysicalActivtiesProgress() {
         caloriesBurned = 0;
-        for(PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
-            if (DateConverter.fromLongString(physicalActivityRecord.getDate()).getYear() == new Date().getYear()
-                    && DateConverter.fromLongString(physicalActivityRecord.getDate()).getMonth() == new Date().getMonth()
-                    && DateConverter.fromLongString(physicalActivityRecord.getDate()).getDay() == new Date().getDay()){
-                caloriesBurned+= physicalActivityRecord.getTotalCalories();
+        Calendar todayDate = Calendar.getInstance();
+        Calendar recordDate = Calendar.getInstance();
+        for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
+            recordDate.setTime(DateConverter.fromLongString(physicalActivityRecord.getDate()));
+            if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
+                    && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
+                    && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
+                caloriesBurned += physicalActivityRecord.getTotalCalories();
                 burnedText.setText(getString(R.string.calories_burned_counter, caloriesBurned));
             }
         }
     }
 
     private void loadFoodDrinksRecordsProgress() {
-        Log.d("mytag","Profile fragment loading progress....");
+        Log.d("mytag", "Profile fragment loading progress....");
         caloriesProgress = 0;
         caloriesEaten = 0;
         proteins = 0;
@@ -118,12 +121,15 @@ public class ProfileFragment extends Fragment {
         carbs = 0;
         lipids = 0;
         liquids = 0;
+        Calendar todayDate = Calendar.getInstance();
+        Calendar recordDate = Calendar.getInstance();
 
         for (FoodDrinkRecord foodDrinkRecord : foodDrinkRecords) {
-            Log.d("mytag","Adding record: " + foodDrinkRecord.toString());
-            if (DateConverter.fromLongString(foodDrinkRecord.getDate()).getYear() == new Date().getYear()
-                    && DateConverter.fromLongString(foodDrinkRecord.getDate()).getMonth() == new Date().getMonth()
-                    && DateConverter.fromLongString(foodDrinkRecord.getDate()).getDay() == new Date().getDay()) {
+            Log.d("mytag", "Adding record: " + foodDrinkRecord.toString());
+            recordDate.setTime(DateConverter.fromLongString(foodDrinkRecord.getDate()));
+            if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
+                    && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
+                    && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
                 caloriesProgress += foodDrinkRecord.getTotalCalories();
                 caloriesEaten += foodDrinkRecord.getTotalCalories();
                 proteins += foodDrinkRecord.getTotalProteins();
