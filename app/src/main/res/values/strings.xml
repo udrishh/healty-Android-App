@@ -88,9 +88,13 @@
     <string name="greeting_afternoon">Bună ziua</string>
     <string name="greeting_night">Bună seara</string>
     <string name="try_again_login_err_text">A intervenit o problemă!/nVâ rugăm sa încercați din nou!</string>
+    <string name="add_measurement_name_hint">denumire<font color="#bb0000">*</font></string>
     <string name="add_food_db_name_hint">denumire<font color="#bb0000">*</font></string>
     <string name="add_food_db_quantity_hint">cantitate (g)<font color="#bb0000">*</font></string>
     <string name="add_drink_db_quantity_hint">cantitate (ml)<font color="#bb0000">*</font></string>
+    <string name="add_measurement_value_hint">valoare (%1$s)<font color="#bb0000">*</font></string>
+    <string name="add_height_value_hint">valoare (cm)<font color="#bb0000">*</font></string>
+    <string name="add_weight_value_hint">valoare (kg)<font color="#bb0000">*</font></string>
     <string name="btn_add_text">ADAUGĂ</string>
     <string name="record_added_text">Înregistrare adaugată!</string>
     <string name="invalid_quantity_text">Cantitate invalidă!</string>
@@ -113,9 +117,37 @@
     <string name="add_food_m_carbs_hint">carbohidrati</string>
     <string name="add_food_m_fibers_hint">fibre</string>
     <string name="add_drink_db_drink_title"><b>BĂUTURĂ</b></string>
+    <string name="add_measurement_title"><b>MĂSURĂTOARE</b></string>
+    <string name="add_height_title"><b>ÎNĂLȚIME</b></string>
+    <string name="add_weight_title"><b>GREUTATE</b></string>
     <string name="add_physical_activity_title"><b>ACTIVITATE FIZICĂ</b></string>
     <string name="add_physical_activity_total_view"><b>TOTAL CALORII ARSE:</b>\n%1$d\nkcal</string>
     <string name="add_activity_db_quantity_hint">durată (min)<font color="#bb0000">*</font></string>
     <string name="add_activity_m_burned_calories_hint">calorii arse<font color="#bb0000">*</font></string>
     <string name="invalid_value_text">Valoare invalidă!</string>
+    <string name="recipe_title"><b>%1$s</b></string>
+    <string name="recipe_calories"><b>%1$d</b>\nkcal/100g</string>
+    <string name="recipe_flags"><b>%1$s</b>\n<b>%2$s</b></string>
+    <string name="recipe_details_title">%1$s</string>
+    <string name="recipe_details_calories">%1$d\nkcal/100g</string>
+    <string name="recipe_details_serving">(%1$d porție)</string>
+    <string name="recipe_details_servings">(%1$d porții)</string>
+    <string name="recipe_details_ingredients_title">Ingrediente:</string>
+    <string name="recipe_details_source">sursă: e-retete.ro</string>
+    <string name="recipe_details_ingredients">%1$s</string>
+    <string name="recipe_details_view_btn_text">Vezi mod preparare</string>
+    <string name="recipe_details_add_btn_text">Adaugă</string>
+    <string name="recipe_item_name">%1$s</string>
+    <string name="recipe_search_hint">Caută rețetă</string>
+    <string name="recipe_category_all">Toate</string>
+    <string name="recipe_category_breakfast">Mic-dejun</string>
+    <string name="recipe_category_lunch">Prânz</string>
+    <string name="recipe_category_dinner">Cină</string>
+    <string name="recipe_category_drinks">Băuturi</string>
+    <string name="recipe_category_dessert">Desert</string>
+    <string name="recipe_category_gluten_free">Fără gluten</string>
+    <string name="recipe_category_low_calories">Calorii reduse</string>
+    <string name="recipe_details_quantity">Ingrediente pentru: %1$dg produs</string>
+    <string name="recipe_details_total_calories">Valoare energetică totală: cca %1$dkcal</string>
+    <string name="recipes_nothing_text">Nu există rețete pe baza filtrelor aplicate!</string>
 </resources>
