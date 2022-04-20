@@ -1,5 +1,5 @@
 package com.udrishh.healthy.enums;
 
 public enum RecordType {
-    FOOD, DRINK, PHYSICAL_ACTIVITY, MEASUREMENTS
+    FOOD, DRINK, PHYSICAL_ACTIVITY, HEIGHT, WEIGHT
 }
