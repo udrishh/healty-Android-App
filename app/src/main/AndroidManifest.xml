@@ -27,7 +27,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustPan">
+<!--            android:windowSoftInputMode="adjustNothing"-->
         </activity>
     </application>
 
