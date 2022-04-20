@@ -3,13 +3,19 @@ package com.udrishh.healthy.threads;
 import android.os.Environment;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.udrishh.healthy.classes.Food;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.UUID;
 
@@ -48,20 +54,20 @@ public class FoodsUploadThread extends Thread {
                 Log.d("food_upload", "Read " + count + " out of " + "10814 : " + food.toString());
 
                 //UPLOAD
-//                int finalCount = count;
-//                collectionReference.add(food)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
-//                            }
-//                        });
+                int finalCount = count;
+                collectionReference.add(food)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
+                            }
+                        });
             }
             Log.d("food_upload", "FINISHED");
             bufferedReader.close();

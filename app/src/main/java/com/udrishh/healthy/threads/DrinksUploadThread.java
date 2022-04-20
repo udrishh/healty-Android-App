@@ -2,7 +2,12 @@ package com.udrishh.healthy.threads;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.udrishh.healthy.classes.Drink;
 
@@ -47,20 +52,20 @@ public class DrinksUploadThread extends Thread{
                 Log.d("drink_upload", "Read " + count + " out of " + "415 : " + drink.toString());
 
                 //UPLOAD
-//                int finalCount = count;
-//                collectionReference.add(drink)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
-//                            }
-//                        });
+                int finalCount = count;
+                collectionReference.add(drink)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
+                            }
+                        });
             }
             Log.d("drink_upload", "FINISHED");
             bufferedReader.close();
