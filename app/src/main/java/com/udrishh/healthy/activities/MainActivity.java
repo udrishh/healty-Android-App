@@ -35,9 +35,12 @@ import com.udrishh.healthy.R;
 import com.udrishh.healthy.classes.Drink;
 import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
+import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
+import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.fragments.SettingsFragment;
@@ -45,6 +48,7 @@ import com.udrishh.healthy.fragments.AddFragment;
 import com.udrishh.healthy.fragments.ProfileFragment;
 import com.udrishh.healthy.fragments.RecipesFragment;
 import com.udrishh.healthy.fragments.StatisticsFragment;
+import com.udrishh.healthy.utilities.IOnBackPressed;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,15 +66,20 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     private ArrayList<Food> foods = new ArrayList<>();
     private ArrayList<Drink> drinks = new ArrayList<>();
+    private ArrayList<Recipe> recipes = new ArrayList<>();
     private ArrayList<PhysicalActivity> physicalActivities = new ArrayList<>();
     private ArrayList<FoodDrinkRecord> foodDrinkRecords = new ArrayList<>();
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords = new ArrayList<>();
+    private ArrayList<MeasurementRecord> measurementRecords = new ArrayList<>();
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private CollectionReference usersReference = db.collection("Users");
+
     private CollectionReference foodDrinkRecordsReference = db.collection("FoodDrinkRecords");
     private CollectionReference physicalActivityRecordsReference = db.collection("PhysicalActivityRecords");
+    private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -79,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("mytag", "Record added succesfully");
 
             //add to firebase
-            foodDrinkRecordsReference.add(foodDrinkRecord)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId()).set(foodDrinkRecord)
+                    .addOnSuccessListener(new OnSuccessListener() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Object o) {
                             Log.d("mytag", "Record was added to firebase successfully!");
                         }
                     })
@@ -102,10 +111,35 @@ public class MainActivity extends AppCompatActivity {
             Log.d("mytag", "Record added succesfully");
 
             //add to firebase
-            physicalActivityRecordsReference.add(physicalActivityRecord)
+            physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).set(physicalActivityRecord)
                     .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
                     .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
         }
+    }
+
+    public void addMeasurementRecord(MeasurementRecord measurementRecord) {
+        if (measurementRecord != null) {
+            measurementRecords.add(measurementRecord);
+            Log.d("mytag", measurementRecord.toString());
+            Log.d("mytag", "Record added succesfully");
+
+            //add to firebase
+            measurementRecordsReference.document(measurementRecord.getRecordId()).set(measurementRecord)
+                    .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
+                    .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+        }
+        //update user height or weight
+        if (measurementRecord.getCategory() == RecordType.HEIGHT) {
+            usersReference.document(user.getUserId())
+                    .update("height", measurementRecord.getValue());
+        } else {
+            usersReference.document(user.getUserId())
+                    .update("weight", measurementRecord.getValue());
+        }
+    }
+
+    public BottomNavigationView getBottomNavigation() {
+        return bottomNavigation;
     }
 
     public User getUserObject() {
@@ -118,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Drink> getDrinks() {
         return drinks;
+    }
+
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
     }
 
     public ArrayList<PhysicalActivity> getPhysicalActivities() {
@@ -137,35 +175,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfileFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_profile);
+        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_profile);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new ProfileFragment())
                 .commit();
     }
 
     private void setRecipesFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_recipes);
+        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_recipes);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new RecipesFragment())
                 .commit();
     }
 
     private void setAddFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_add);
+        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_add);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new AddFragment())
                 .commit();
     }
 
     private void setStatisticsFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_statistics);
+        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_statistics);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new StatisticsFragment())
                 .commit();
     }
 
     private void setSettingsFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_settings);
+        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_settings);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new SettingsFragment())
                 .commit();
@@ -175,6 +213,14 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
+//    @Override public void onBackPressed() {
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_frame_layout);
+//        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+//            super.onBackPressed();
+//        }
+//        moveTaskToBack(true);
+//    }
 
     @Override
     protected void onStart() {
@@ -189,6 +235,46 @@ public class MainActivity extends AppCompatActivity {
         if (physicalActivityRecords.isEmpty()) {
             loadPhysicalActivityRecords();
         }
+        if (measurementRecords.isEmpty()) {
+            loadMeasurementRecords();
+        }
+    }
+
+    private void loadMeasurementRecords() {
+        Log.d("mytag", "MainActivity loading records............");
+
+        measurementRecordsReference
+                .whereEqualTo("userId", user.getUserId())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;
+                        }
+
+                        if (!queryDocumentSnapshots.isEmpty() && measurementRecords.isEmpty()) {
+                            for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                MeasurementRecord measurementRecord = new MeasurementRecord();
+                                measurementRecord.setDate(snapshot.getString("date"));
+                                measurementRecord.setName(snapshot.getString("name"));
+                                measurementRecord.setRecordId(snapshot.getString("recordId"));
+                                measurementRecord.setUserId(snapshot.getString("userId"));
+                                measurementRecord.setValue(snapshot.get("value", Integer.class));
+                                measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
+                                if (snapshot.getString("category").equals("HEIGHT")) {
+                                    measurementRecord.setCategory(RecordType.HEIGHT);
+                                } else {
+                                    measurementRecord.setCategory(RecordType.WEIGHT);
+                                }
+                                measurementRecords.add(measurementRecord);
+
+                                Log.d("mytag", "Record was retrieved from firebase successfully!");
+                            }
+                            setProfileFragment();
+                        }
+                    }
+                });
     }
 
     private void loadPhysicalActivityRecords() {
@@ -207,9 +293,9 @@ public class MainActivity extends AppCompatActivity {
                         if (!queryDocumentSnapshots.isEmpty() && physicalActivityRecords.isEmpty()) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                                 PhysicalActivityRecord physicalActivityRecord = new PhysicalActivityRecord();
-                                physicalActivityRecord.setCalories(snapshot.get("calories",Float.class));
+                                physicalActivityRecord.setCalories(snapshot.get("calories", Float.class));
                                 physicalActivityRecord.setDate(snapshot.getString("date"));
-                                physicalActivityRecord.setDuration(snapshot.get("duration",Integer.class));
+                                physicalActivityRecord.setDuration(snapshot.get("duration", Integer.class));
                                 physicalActivityRecord.setItemId(snapshot.getString("itemId"));
                                 physicalActivityRecord.setName(snapshot.getString("name"));
                                 physicalActivityRecord.setRecordId(snapshot.getString("recordId"));
@@ -265,9 +351,125 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadDatabase() {
-        loadFoods();
-        loadDrinks();
-        loadPhysicalActivities();
+        if (foods.isEmpty()) {
+            loadFoods();
+        }
+        if (drinks.isEmpty()) {
+            loadDrinks();
+        }
+        if (physicalActivities.isEmpty()) {
+            loadPhysicalActivities();
+        }
+        if (recipes.isEmpty()) {
+            loadRecipes();
+        }
+    }
+
+    private void loadRecipes() {
+        //LOAD RECIPES
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                StorageReference filepath = storageReference.child("recipes_db.csv");
+
+                File localFile = null;
+                try {
+                    localFile = File.createTempFile("recipes_db", "csv");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                File finalLocalFile = localFile;
+                Log.d("mytag2", finalLocalFile.toString());
+                filepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        try {
+                            Log.d("mytag2", "Started loading database!");
+                            Log.d("mytag2", finalLocalFile.toString());
+                            BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                String[] items = line.split(",");
+
+                                Recipe recipe = new Recipe();
+                                recipe.setName(items[0]);
+                                String[] categories = items[1].split(";");
+                                for (String category : categories) {
+                                    if (category != null) {
+                                        Log.d("categ", "category: " + category);
+                                        switch (category) {
+                                            case "BREAKFAST":
+                                                recipe.addCategory(RecipeCategory.BREAKFAST);
+                                                break;
+                                            case "LUNCH":
+                                                recipe.addCategory(RecipeCategory.LUNCH);
+                                                break;
+                                            case "DINNER":
+                                                recipe.addCategory(RecipeCategory.DINNER);
+                                                break;
+                                            case "DESSERT":
+                                                recipe.addCategory(RecipeCategory.DESSERT);
+                                                break;
+                                            case "DRINKS":
+                                                recipe.addCategory(RecipeCategory.DRINKS);
+                                                break;
+                                            case "GLUTEN_FREE":
+                                                recipe.addCategory(RecipeCategory.GLUTEN_FREE);
+                                                break;
+                                            case "LOW_CALORIES":
+                                                recipe.addCategory(RecipeCategory.LOW_CALORIES);
+                                                break;
+                                        }
+                                    }
+                                }
+                                String[] ingredients = items[2].split(";");
+                                for (String ingredient : ingredients) {
+                                    if (ingredient != null) {
+                                        recipe.addIngredient(ingredient);
+                                    }
+                                }
+                                recipe.setServings(Integer.parseInt(items[3]));
+                                recipe.setQuantity(Integer.parseInt(items[4]));
+                                recipe.setCalories(Integer.parseInt(items[5]));
+                                recipe.setImg(items[6]);
+                                recipe.setSource(items[7]);
+                                recipe.setRecipeId(items[8]);
+
+                                recipes.add(recipe);
+                                Log.d("checkrecipes", recipe.toString() + " " + recipe.getCategories());
+                            }
+                            bufferedReader.close();
+                            if (recipes.size() > 0) {
+                                Log.d("mytag2", "Successfully loaded database!");
+                                Toast.makeText(MainActivity.this, "PhysicalActivityDB Loaded!", Toast.LENGTH_SHORT);
+                            } else {
+                                Log.d("mytag2", "There've been an error loading the database!");
+                            }
+                        } catch (Exception e) {
+                            Log.d("mytag2", "Exception occured: " + e.getMessage());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("mytag2", "Exception occured: " + exception.getMessage());
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //DATABASE LOADED SUCCESSFULLY
+                        }
+                    }
+                });
+
+                Log.d("mytag2", "Database task finished!");
+            }
+        }.start();
     }
 
     private void loadPhysicalActivities() {
