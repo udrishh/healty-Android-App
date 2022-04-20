@@ -17,6 +17,10 @@ public interface DateConverter {
         }
     }
 
+    static String fromDate(Date date){
+        return formatter.format(date);
+    }
+
     static Date fromLongString(String value) {
         try{
             return longFormatter.parse(value);
