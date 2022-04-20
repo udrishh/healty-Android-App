@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,16 +32,20 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.udrishh.healthy.R;
+import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.ActivityLevel;
 import com.udrishh.healthy.enums.GainLose;
+import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.utilities.Calculator;
+import com.udrishh.healthy.utilities.DateConverter;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -70,6 +75,7 @@ public class SignupActivity extends AppCompatActivity {
     //Firestore Connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Users");
+    private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
 
     private int getAge(String birthdate) {
         return Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(birthdateInput.getText().toString().trim().split("/")[2]);
@@ -313,36 +319,68 @@ public class SignupActivity extends AppCompatActivity {
                                 newUserObject.setUserId(currentUserId);
 
                                 //create user map to create user in the user collection
-                                Map<String, String> userFirebaseObject = new HashMap<>();
+                                Map<String, Object> userFirebaseObject = new HashMap<>();
                                 userFirebaseObject.put("userId", currentUserId);
                                 userFirebaseObject.put("name", newUserObject.getName());
                                 userFirebaseObject.put("birthdate", newUserObject.getBirthdate());
-                                userFirebaseObject.put("height", Integer.toString(newUserObject.getHeight()));
-                                userFirebaseObject.put("weight", Integer.toString(newUserObject.getWeight()));
+                                userFirebaseObject.put("height", newUserObject.getHeight());
+                                userFirebaseObject.put("weight", newUserObject.getWeight());
                                 userFirebaseObject.put("sex", newUserObject.getSex().toString());
                                 userFirebaseObject.put("caloriesPlan", Integer.toString(newUserObject.getCaloriesPlan()));
 
                                 //save to firebase firestore
-                                collectionReference.add(userFirebaseObject)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                collectionReference.document(currentUserId).set(userFirebaseObject)
+                                        .addOnSuccessListener(new OnSuccessListener() {
+
                                             @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                documentReference.get()
-                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                if (task.getResult().exists()) {
-                                                                    loading.setVisibility(View.INVISIBLE);
-                                                                    Intent intent = new Intent(SignupActivity.this,
-                                                                            MainActivity.class);
-                                                                    intent.putExtra("userObject", newUserObject);
-                                                                    startActivity(intent);
-                                                                } else {
-                                                                    loading.setVisibility(View.INVISIBLE);
-                                                                }
-                                                            }
-                                                        });
+                                            public void onSuccess(Object o) {
+                                                MeasurementRecord heightRecord = new MeasurementRecord();
+                                                heightRecord.setCategory(RecordType.HEIGHT);
+                                                heightRecord.setUserId(currentUser.getUid());
+                                                heightRecord.setName("Initial height");
+                                                heightRecord.setRecordId(UUID.randomUUID().toString());
+                                                heightRecord.setDate(DateConverter.fromDate(new Date()));
+                                                heightRecord.setValue(newUserObject.getHeight());
+                                                heightRecord.setInitial(true);
+                                                measurementRecordsReference.add(heightRecord)
+                                                        .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
+                                                        .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                                                //weight
+                                                MeasurementRecord weightRecord = new MeasurementRecord();
+                                                weightRecord.setCategory(RecordType.WEIGHT);
+                                                weightRecord.setUserId(currentUser.getUid());
+                                                weightRecord.setName("Initial weight");
+                                                weightRecord.setRecordId(UUID.randomUUID().toString());
+                                                weightRecord.setDate(DateConverter.fromDate(new Date()));
+                                                weightRecord.setValue(newUserObject.getWeight());
+                                                weightRecord.setInitial(true);
+                                                measurementRecordsReference.add(weightRecord)
+                                                        .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
+                                                        .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                                                //start activity
+                                                loading.setVisibility(View.INVISIBLE);
+                                                Intent intent = new Intent(SignupActivity.this,
+                                                        MainActivity.class);
+                                                intent.putExtra("userObject", newUserObject);
+                                                startActivity(intent);
                                             }
+
+//                                            @Override
+//                                            public void onSuccess(DocumentReference documentReference) {
+//                                                documentReference.get()
+//                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                                            @Override
+//                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                                                if (task.getResult().exists()) {
+//                                                                    //upload first records
+//                                                                    //height
+//
+//                                                                } else {
+//                                                                    loading.setVisibility(View.INVISIBLE);
+//                                                                }
+//                                                            }
+//                                                        });
+//                                            }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override

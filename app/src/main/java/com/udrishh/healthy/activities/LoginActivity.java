@@ -195,9 +195,9 @@ public class LoginActivity extends AppCompatActivity {
                                             userObject.setUserId(snapshot.getString("userId"));
                                             userObject.setName(snapshot.getString("name"));
                                             userObject.setBirthdate(snapshot.getString("birthdate"));
-                                            userObject.setHeight(Integer.parseInt(Objects.requireNonNull(snapshot.getString("height"))));
-                                            userObject.setWeight(Integer.parseInt(Objects.requireNonNull(snapshot.getString("weight"))));
-                                            userObject.setCaloriesPlan(Integer.parseInt(Objects.requireNonNull(snapshot.getString("caloriesPlan"))));
+                                            userObject.setHeight(snapshot.get("height",Integer.class));
+                                            userObject.setWeight(snapshot.get("weight",Integer.class));
+                                            userObject.setCaloriesPlan(snapshot.get("caloriesPlan",Integer.class));
                                             if (Objects.equals(snapshot.getString("sex"), "MALE")) {
                                                 userObject.setSex(Sex.MALE);
                                             } else {
@@ -356,9 +356,9 @@ public class LoginActivity extends AppCompatActivity {
                                                         userObject.setUserId(snapshot.getString("userId"));
                                                         userObject.setName(snapshot.getString("name"));
                                                         userObject.setBirthdate(snapshot.getString("birthdate"));
-                                                        userObject.setHeight(Integer.parseInt(Objects.requireNonNull(snapshot.getString("height"))));
-                                                        userObject.setWeight(Integer.parseInt(Objects.requireNonNull(snapshot.getString("weight"))));
-                                                        userObject.setCaloriesPlan(Integer.parseInt(Objects.requireNonNull(snapshot.getString("caloriesPlan"))));
+                                                        userObject.setHeight(snapshot.get("height",Integer.class));
+                                                        userObject.setWeight(snapshot.get("weight",Integer.class));
+                                                        userObject.setCaloriesPlan(snapshot.get("caloriesPlan",Integer.class));
                                                         if (Objects.equals(snapshot.getString("sex"), "MALE")) {
                                                             userObject.setSex(Sex.MALE);
                                                         } else {
