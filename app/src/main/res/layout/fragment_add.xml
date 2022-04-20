@@ -29,13 +29,16 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="80dp"/>
+                android:layout_marginBottom="8dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/foods_category_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/foods_category_btn_text"
+                app:icon="@drawable/burger_icon"
+                app:iconTint="@null"
+                app:iconSize="80dp"
                 app:layout_constraintBottom_toTopOf="@id/drinks_category_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -46,6 +49,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/drinks_category_btn"
                 android:text="@string/drinks_category_btn_text"
+                app:icon="@drawable/soda_icon"
+                app:iconTint="@null"
+                app:iconSize="80dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +63,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/activities_category_btn"
                 android:text="@string/activities_category_btn_text"
+                app:icon="@drawable/running_icon"
+                app:iconTint="@null"
+                app:iconSize="80dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +77,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/measurements_category_btn"
                 android:text="@string/measurements_category_btn_text"
+                app:icon="@drawable/measurement_icon"
+                app:iconTint="@null"
+                app:iconSize="80dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
