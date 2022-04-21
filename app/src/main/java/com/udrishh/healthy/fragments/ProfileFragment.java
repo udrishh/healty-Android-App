@@ -23,7 +23,9 @@ import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
+import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.utilities.DateConverter;
@@ -63,6 +65,7 @@ public class ProfileFragment extends Fragment {
     private User user;
     private ArrayList<FoodDrinkRecord> foodDrinkRecords;
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
+    private ArrayList<RecipeRecord> recipeRecords;
 
     private int caloriesProgress;
     private int caloriesEaten;
@@ -83,6 +86,7 @@ public class ProfileFragment extends Fragment {
         user = ((MainActivity) this.requireActivity()).getUserObject();
         foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
+        recipeRecords = ((MainActivity) this.requireActivity()).getRecipeRecords();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -150,6 +154,33 @@ public class ProfileFragment extends Fragment {
                 if (foodDrinkRecord.getCategory() == RecordType.DRINK) {
                     Log.d("mytag", "This is a drink!");
                     liquids += foodDrinkRecord.getQuantity();
+                    liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
+                    liquidsProgressIndicator.setProgress(liquids, true);
+                }
+            }
+        }
+
+        for(RecipeRecord recipeRecord : recipeRecords){
+            recordDate.setTime(DateConverter.fromLongString(recipeRecord.getDate()));
+            if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
+                    && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
+                    && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
+                caloriesProgress += recipeRecord.getTotalCalories();
+                caloriesEaten += recipeRecord.getTotalCalories();
+
+                caloriesProgressText.setText(getString(R.string.calories_progress_counter,
+                        caloriesProgress, user.getCaloriesPlan()));
+                eatenText.setText(getString(R.string.calories_eaten_counter, caloriesEaten));
+                proteinsText.setText(getString(R.string.proteins_counter, proteins));
+                lipidsText.setText(getString(R.string.lipids_counter, lipids));
+                carbsText.setText(getString(R.string.carbs_counter, carbs));
+                fibersText.setText(getString(R.string.fibers_counter, fibers));
+
+                caloriesProgressIndicator.setProgress(caloriesProgress, true);
+
+                if (recipeRecord.getCategory() == RecipeCategory.DRINKS) {
+                    Log.d("mytag", "This is a drink!");
+                    liquids += recipeRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }

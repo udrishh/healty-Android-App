@@ -39,6 +39,7 @@ import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.Recipe;
+import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<FoodDrinkRecord> foodDrinkRecords = new ArrayList<>();
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords = new ArrayList<>();
     private ArrayList<MeasurementRecord> measurementRecords = new ArrayList<>();
+    private ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference foodDrinkRecordsReference = db.collection("FoodDrinkRecords");
     private CollectionReference physicalActivityRecordsReference = db.collection("PhysicalActivityRecords");
     private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
+    private CollectionReference recipeRecordsReference = db.collection("RecipeRecords");
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -138,6 +141,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void addRecipeRecord(RecipeRecord recipeRecord) {
+        if (recipeRecord != null) {
+            recipeRecords.add(recipeRecord);
+            Log.d("mytag", recipeRecord.toString());
+            Log.d("mytag", "Record added succesfully");
+
+            //add to firebase
+            recipeRecordsReference.document(recipeRecord.getRecordId()).set(recipeRecord)
+                    .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
+                    .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+        }
+    }
+
     public BottomNavigationView getBottomNavigation() {
         return bottomNavigation;
     }
@@ -168,6 +184,10 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<PhysicalActivityRecord> getPhysicalActivityRecords() {
         return physicalActivityRecords;
+    }
+
+    public ArrayList<RecipeRecord> getRecipeRecords() {
+        return recipeRecords;
     }
 
     public FirebaseAuth getFirebaseAuth() {
@@ -214,14 +234,6 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-//    @Override public void onBackPressed() {
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_frame_layout);
-//        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-//            super.onBackPressed();
-//        }
-//        moveTaskToBack(true);
-//    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -238,6 +250,39 @@ public class MainActivity extends AppCompatActivity {
         if (measurementRecords.isEmpty()) {
             loadMeasurementRecords();
         }
+        if (recipeRecords.isEmpty()) {
+            loadRecipeRecords();
+        }
+    }
+
+    private void loadRecipeRecords() {
+        Log.d("mytag", "MainActivity loading records............");
+
+        recipeRecordsReference
+                .whereEqualTo("userId", user.getUserId())
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+                        return;
+                    }
+
+                    if (!queryDocumentSnapshots.isEmpty() && recipeRecords.isEmpty()) {
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            RecipeRecord recipeRecord = new RecipeRecord();
+                            recipeRecord.setCalories(snapshot.get("calories", Integer.class));
+                            recipeRecord.setDate(snapshot.getString("date"));
+                            recipeRecord.setQuantity(snapshot.get("quantity", Integer.class));
+                            recipeRecord.setItemId(snapshot.getString("itemId"));
+                            recipeRecord.setName(snapshot.getString("name"));
+                            recipeRecord.setRecordId(snapshot.getString("recordId"));
+                            recipeRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
+                            recipeRecord.setUserId(snapshot.getString("userId"));
+                            recipeRecords.add(recipeRecord);
+
+                            Log.d("mytag", "Record was retrieved from firebase successfully!");
+                        }
+                        setProfileFragment();
+                    }
+                });
     }
 
     private void loadMeasurementRecords() {
@@ -245,34 +290,30 @@ public class MainActivity extends AppCompatActivity {
 
         measurementRecordsReference
                 .whereEqualTo("userId", user.getUserId())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            return;
-                        }
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+                        return;
+                    }
 
-                        if (!queryDocumentSnapshots.isEmpty() && measurementRecords.isEmpty()) {
-                            for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                                MeasurementRecord measurementRecord = new MeasurementRecord();
-                                measurementRecord.setDate(snapshot.getString("date"));
-                                measurementRecord.setName(snapshot.getString("name"));
-                                measurementRecord.setRecordId(snapshot.getString("recordId"));
-                                measurementRecord.setUserId(snapshot.getString("userId"));
-                                measurementRecord.setValue(snapshot.get("value", Integer.class));
-                                measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
-                                if (snapshot.getString("category").equals("HEIGHT")) {
-                                    measurementRecord.setCategory(RecordType.HEIGHT);
-                                } else {
-                                    measurementRecord.setCategory(RecordType.WEIGHT);
-                                }
-                                measurementRecords.add(measurementRecord);
-
-                                Log.d("mytag", "Record was retrieved from firebase successfully!");
+                    if (!queryDocumentSnapshots.isEmpty() && measurementRecords.isEmpty()) {
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            MeasurementRecord measurementRecord = new MeasurementRecord();
+                            measurementRecord.setDate(snapshot.getString("date"));
+                            measurementRecord.setName(snapshot.getString("name"));
+                            measurementRecord.setRecordId(snapshot.getString("recordId"));
+                            measurementRecord.setUserId(snapshot.getString("userId"));
+                            measurementRecord.setValue(snapshot.get("value", Integer.class));
+                            measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
+                            if (snapshot.getString("category").equals("HEIGHT")) {
+                                measurementRecord.setCategory(RecordType.HEIGHT);
+                            } else {
+                                measurementRecord.setCategory(RecordType.WEIGHT);
                             }
-                            setProfileFragment();
+                            measurementRecords.add(measurementRecord);
+
+                            Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
+                        setProfileFragment();
                     }
                 });
     }

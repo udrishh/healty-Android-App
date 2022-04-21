@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +95,12 @@ public class RecipeDetailsFragment extends Fragment {
         }
         viewBtn.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(selectedRecipe.getSource())));
+        });
+        addBtn.setOnClickListener(v-> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new AddRecipeDetailsFragment(selectedRecipe))
+                    .commit();
         });
     }
 }
