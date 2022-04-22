@@ -13,13 +13,19 @@ import android.view.ViewGroup;
 import com.udrishh.healthy.R;
 
 public class StatisticsFragment extends Fragment {
+    private View view;
+    
     public StatisticsFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        initialiseComponents();
+        return view;
+    }
 
-        return inflater.inflate(R.layout.fragment_statistics, container, false);
+    private void initialiseComponents() {
     }
 }

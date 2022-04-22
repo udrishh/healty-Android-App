@@ -1,7 +1,5 @@
 package com.udrishh.healthy.classes;
 
-import com.udrishh.healthy.enums.RecordType;
-
 public class PhysicalActivityRecord {
     private String recordId;
     private String userId;
