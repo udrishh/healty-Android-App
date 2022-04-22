@@ -155,4 +155,12 @@
     <string name="add_recipe_name_hint">denumire<font color="#bb0000">*</font></string>
     <string name="add_recipe_quantity_all">Toată cantitatea din rețetă (%1$dg)</string>
     <string name="add_recipe_total_calories">Calorii totale: %1$dkcal</string>
+    <string name="statistics_no_records_text">Nu există înregistrări recente!</string>
+    <string name="statistics_view_records_btn_text">Vezi toate înregistrările</string>
+    <string name="statistics_view_stats_btn_text">Vezi toate statisticile</string>
+    <string name="statistics_stats_title">Statistici</string>
+    <string name="statistics_no_stats_text">Nu există statistici de afisat!</string>
+    <string name="statistics_history_title">Istoricul înregistrărilor</string>
+    <string name="record_item_name">%1$s</string>
+    <string name="record_item_date">%1$s\n%2$s</string>
 </resources>
