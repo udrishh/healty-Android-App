@@ -160,6 +160,8 @@
     <string name="statistics_view_stats_btn_text">Vezi toate statisticile</string>
     <string name="statistics_stats_title">Statistici</string>
     <string name="statistics_no_stats_text">Nu există statistici de afisat!</string>
+    <string name="statistics_stats_text">Ultimele %1$d înregistrări:</string>
+    <string name="statistics_one_stats_text">Ultima înregistrare:</string>
     <string name="statistics_history_title">Istoricul înregistrărilor</string>
     <string name="record_item_name">%1$s</string>
     <string name="record_item_date">%1$s\n%2$s</string>

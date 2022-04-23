@@ -40,6 +40,7 @@ import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
+import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MeasurementRecord> measurementRecords = new ArrayList<>();
     private ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
 
+    private ArrayList<Record> records = new ArrayList<>();
+
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
+            records.add(foodDrinkRecord);
             foodDrinkRecords.add(foodDrinkRecord);
             Log.d("mytag", foodDrinkRecord.toString());
             Log.d("mytag", "Record added succesfully");
@@ -109,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addPhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
         if (physicalActivityRecord != null) {
+            records.add(physicalActivityRecord);
             physicalActivityRecords.add(physicalActivityRecord);
             Log.d("mytag", physicalActivityRecord.toString());
             Log.d("mytag", "Record added succesfully");
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addMeasurementRecord(MeasurementRecord measurementRecord) {
         if (measurementRecord != null) {
+            records.add(measurementRecord);
             measurementRecords.add(measurementRecord);
             Log.d("mytag", measurementRecord.toString());
             Log.d("mytag", "Record added succesfully");
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addRecipeRecord(RecipeRecord recipeRecord) {
         if (recipeRecord != null) {
+            records.add(recipeRecord);
             recipeRecords.add(recipeRecord);
             Log.d("mytag", recipeRecord.toString());
             Log.d("mytag", "Record added succesfully");
@@ -188,6 +195,13 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<RecipeRecord> getRecipeRecords() {
         return recipeRecords;
+    }
+
+    public ArrayList<MeasurementRecord> getMeasurementRecords() {
+        return measurementRecords;
+    }
+    public ArrayList<Record> getRecords() {
+        return records;
     }
 
     public FirebaseAuth getFirebaseAuth() {
@@ -277,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
                             recipeRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
                             recipeRecord.setUserId(snapshot.getString("userId"));
                             recipeRecords.add(recipeRecord);
+                            records.add(recipeRecord);
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
@@ -310,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                                 measurementRecord.setCategory(RecordType.WEIGHT);
                             }
                             measurementRecords.add(measurementRecord);
+                            records.add(measurementRecord);
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
@@ -343,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                                 physicalActivityRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
                                 physicalActivityRecord.setUserId(snapshot.getString("userId"));
                                 physicalActivityRecords.add(physicalActivityRecord);
+                                records.add(physicalActivityRecord);
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
@@ -766,6 +783,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 foodDrinkRecords.add(foodDrinkRecord);
+                                records.add(foodDrinkRecord);
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
                             setProfileFragment();

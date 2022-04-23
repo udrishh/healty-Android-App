@@ -107,7 +107,7 @@ public class AddMeasurementDetailsFragment extends Fragment {
                 measurementRecord.setInitial(false);
                 measurementRecord.setUserId(user.getUserId());
                 measurementRecord.setRecordId(UUID.randomUUID().toString());
-                measurementRecord.setDate(DateConverter.fromDate(new Date()));
+                measurementRecord.setDate(DateConverter.fromLongDate(new Date()));
                 measurementRecord.setName(nameInput.getText().toString().trim());
                 measurementRecord.setValue(Integer.parseInt(valueInput.getText().toString().trim()));
                 measurementRecord.setCategory(recordType);
