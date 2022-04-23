@@ -17,7 +17,6 @@
             android:id="@+id/record_item_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/view_icon"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -43,10 +42,5 @@
             android:textColor="@color/black" />
 
     </LinearLayout>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
 
 </LinearLayout>
