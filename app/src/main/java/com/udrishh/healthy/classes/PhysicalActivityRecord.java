@@ -1,6 +1,6 @@
 package com.udrishh.healthy.classes;
 
-public class PhysicalActivityRecord {
+public class PhysicalActivityRecord extends Record{
     private String recordId;
     private String userId;
     private String itemId;

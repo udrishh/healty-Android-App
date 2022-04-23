@@ -2,7 +2,7 @@ package com.udrishh.healthy.classes;
 
 import com.udrishh.healthy.enums.RecordType;
 
-public class FoodDrinkRecord {
+public class FoodDrinkRecord extends Record{
     private String recordId;
     private String userId;
     private String itemId;

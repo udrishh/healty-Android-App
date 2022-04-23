@@ -2,7 +2,7 @@ package com.udrishh.healthy.classes;
 
 import com.udrishh.healthy.enums.RecordType;
 
-public class MeasurementRecord {
+public class MeasurementRecord extends Record{
     private String recordId;
     private String userId;
     private String name;
