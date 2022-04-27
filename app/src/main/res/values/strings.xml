@@ -150,6 +150,7 @@
     <string name="recipe_details_quantity">Ingrediente pentru: %1$dg produs</string>
     <string name="recipe_details_total_calories">Valoare energetică totală: cca %1$dkcal</string>
     <string name="recipes_nothing_text">Nu există rețete pe baza filtrelor aplicate!</string>
+    <string name="records_nothing_text">Nu există înregistrări pe baza filtrelor aplicate!</string>
     <string name="add_recipe_title"><b>REȚETĂ</b></string>
     <string name="add_recipe_quantity_hint">cantitate (g)<font color="#bb0000">*</font></string>
     <string name="add_recipe_name_hint">denumire<font color="#bb0000">*</font></string>
