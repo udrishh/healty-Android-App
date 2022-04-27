@@ -94,6 +94,9 @@ public class RecipesFragment extends Fragment {
                             selectedRecipes.add(recipe);
                         }
                     }
+                    if(selectedRecipes.isEmpty()){
+
+                    }
                     recipesList.setAdapter(new RecipeItemAdapter(getContext(), selectedRecipes));
                     noRecipesText.setVisibility(View.GONE);
                     break;

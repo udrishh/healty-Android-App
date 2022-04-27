@@ -2,16 +2,12 @@ package com.udrishh.healthy.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,10 +15,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -44,22 +39,17 @@ import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
-import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.fragments.SettingsFragment;
 import com.udrishh.healthy.fragments.AddFragment;
 import com.udrishh.healthy.fragments.ProfileFragment;
 import com.udrishh.healthy.fragments.RecipesFragment;
 import com.udrishh.healthy.fragments.StatisticsFragment;
-import com.udrishh.healthy.utilities.IOnBackPressed;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
@@ -79,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAnalytics firebaseAnalytics;
 
     private CollectionReference usersReference = db.collection("Users");
 
@@ -254,6 +245,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("mytag", "MainActivity onStart");
         loadDatabase();
+        loadRecords();
+    }
+
+    private void loadRecords() {
         //load records
         if (foodDrinkRecords.isEmpty()) {
             loadUserFoodDrinkRecords();
@@ -373,6 +368,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("userObject");
