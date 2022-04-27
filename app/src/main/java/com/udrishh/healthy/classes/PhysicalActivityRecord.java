@@ -8,9 +8,9 @@ public class PhysicalActivityRecord extends Record{
     private float calories;
     private int duration;
     private float totalCalories;
-    private String Date;
 
     public PhysicalActivityRecord() {
+        super();
     }
 
     public String getRecordId() {
@@ -70,10 +70,10 @@ public class PhysicalActivityRecord extends Record{
     }
 
     public String getDate() {
-        return Date;
+        return super.getDate();
     }
 
     public void setDate(String date) {
-        Date = date;
+        super.setDate(date);
     }
 }

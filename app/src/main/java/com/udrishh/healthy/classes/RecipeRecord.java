@@ -11,9 +11,9 @@ public class RecipeRecord extends Record{
     private int quantity;
     private int totalCalories;
     private RecipeCategory category;
-    private String date;
 
     public RecipeRecord() {
+        super();
     }
 
     public RecipeCategory getCategory() {
@@ -81,10 +81,10 @@ public class RecipeRecord extends Record{
     }
 
     public String getDate() {
-        return date;
+        return super.getDate();
     }
 
     public void setDate(String date) {
-        this.date = date;
+        super.setDate(date);
     }
 }

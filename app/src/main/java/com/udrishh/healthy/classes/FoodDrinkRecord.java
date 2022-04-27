@@ -19,7 +19,6 @@ public class FoodDrinkRecord extends Record{
     private int totalCarbs;
     private int totalFibers;
     private int totalProteins;
-    private String Date;
 
     public FoodDrinkRecord() {
     }
@@ -43,7 +42,7 @@ public class FoodDrinkRecord extends Record{
         sb.append(", totalCarbs=").append(totalCarbs);
         sb.append(", totalFibers=").append(totalFibers);
         sb.append(", totalProteins=").append(totalProteins);
-        sb.append(", Date='").append(Date).append('\'');
+        sb.append(", Date='").append(super.getDate()).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -177,10 +176,10 @@ public class FoodDrinkRecord extends Record{
     }
 
     public String getDate() {
-        return Date;
+        return super.getDate();
     }
 
     public void setDate(String date) {
-        Date = date;
+        super.setDate(date);
     }
 }

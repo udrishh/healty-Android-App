@@ -2,16 +2,16 @@ package com.udrishh.healthy.classes;
 
 import com.udrishh.healthy.enums.RecordType;
 
-public class MeasurementRecord extends Record{
+public class MeasurementRecord extends Record {
     private String recordId;
     private String userId;
     private String name;
     private RecordType category;
-    private String date;
     private int value;
     private boolean isInitial;
 
     public MeasurementRecord() {
+        super();
     }
 
     @Override
@@ -21,7 +21,7 @@ public class MeasurementRecord extends Record{
         sb.append(", userId='").append(userId).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", category=").append(category);
-        sb.append(", date='").append(date).append('\'');
+        sb.append(", date='").append(super.getDate()).append('\'');
         sb.append(", value=").append(value);
         sb.append(", isInitial=").append(isInitial);
         sb.append('}');
@@ -69,11 +69,11 @@ public class MeasurementRecord extends Record{
     }
 
     public String getDate() {
-        return date;
+        return super.getDate();
     }
 
     public void setDate(String date) {
-        this.date = date;
+        super.setDate(date);
     }
 
     public int getValue() {
