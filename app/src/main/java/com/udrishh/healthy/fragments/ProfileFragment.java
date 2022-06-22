@@ -39,12 +39,17 @@ public class ProfileFragment extends Fragment {
     private LinearProgressIndicator liquidsProgressIndicator;
     private TextView greetingText;
     private TextView nameText;
+    private ImageView nameIcon;
     private TextView ageText;
+    private ImageView ageIcon;
     private TextView sexText;
-    private TextView heightText;
-    private TextView weightText;
-    private TextView planText;
     private ImageView sexIcon;
+    private TextView heightText;
+    private ImageView heightIcon;
+    private TextView weightText;
+    private ImageView weightIcon;
+    private TextView planText;
+    private ImageView planIcon;
     private TextView caloriesProgressText;
     private TextView liquidsProgressText;
     private TextView burnedText;
@@ -53,6 +58,7 @@ public class ProfileFragment extends Fragment {
     private TextView lipidsText;
     private TextView carbsText;
     private TextView fibersText;
+    private ImageView expandBtn;
 
     private ConstraintLayout cardLayout;
 
@@ -69,6 +75,8 @@ public class ProfileFragment extends Fragment {
     private int carbs;
     private int lipids;
     private int liquids;
+
+    private boolean isExpanded = true;
 
     public ProfileFragment() {
     }
@@ -152,20 +160,20 @@ public class ProfileFragment extends Fragment {
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }
             }
-            if(caloriesEaten <= user.getCaloriesPlan()*0.5f){
+            if (caloriesEaten <= user.getCaloriesPlan() * 0.5f) {
                 cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_low));
-            } else if(caloriesEaten > user.getCaloriesPlan()*0.5f
-                    && caloriesEaten <= user.getCaloriesPlan()){
+            } else if (caloriesEaten > user.getCaloriesPlan() * 0.5f
+                    && caloriesEaten <= user.getCaloriesPlan()) {
                 cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_medium));
-            } else if(caloriesEaten > user.getCaloriesPlan()*1
-                    && caloriesEaten <= user.getCaloriesPlan()*1.25){
+            } else if (caloriesEaten > user.getCaloriesPlan() * 1
+                    && caloriesEaten <= user.getCaloriesPlan() * 1.25) {
                 cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_high));
             } else {
                 caloriesProgressIndicator.setIndicatorColor(Color.RED);
             }
         }
 
-        for(RecipeRecord recipeRecord : recipeRecords){
+        for (RecipeRecord recipeRecord : recipeRecords) {
             recordDate.setTime(DateConverter.fromLongString(recipeRecord.getDate()));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
@@ -235,10 +243,12 @@ public class ProfileFragment extends Fragment {
 
         nameText = view.findViewById(R.id.user_name_textview);
         nameText.setText(getString(R.string.user_profile_name, user.getName()));
+        nameIcon = view.findViewById(R.id.user_name_icon);
         ageText = view.findViewById(R.id.user_age_textview);
         ageText.setText(getString(R.string.user_profile_age,
                 Calendar.getInstance().get(Calendar.YEAR)
                         - Integer.parseInt(user.getBirthdate().split("/")[2])));
+        ageIcon = view.findViewById(R.id.user_age_icon);
         sexText = view.findViewById(R.id.user_sex_textview);
         sexIcon = view.findViewById(R.id.user_sex_icon);
         if (user.getSex() == Sex.MALE) {
@@ -250,10 +260,41 @@ public class ProfileFragment extends Fragment {
         }
         heightText = view.findViewById(R.id.user_height_textview);
         heightText.setText(getString(R.string.user_profile_height, user.getHeight()));
+        heightIcon = view.findViewById(R.id.user_height_icon);
         weightText = view.findViewById(R.id.user_weight_textview);
         weightText.setText(getString(R.string.user_profile_weight, user.getWeight()));
+        weightIcon = view.findViewById(R.id.user_weight_icon);
         planText = view.findViewById(R.id.user_calories_textview);
         planText.setText(getString(R.string.user_profile_calories, user.getCaloriesPlan()));
+        planIcon = view.findViewById(R.id.user_calories_icon);
         cardLayout = view.findViewById(R.id.progress_card_layout);
+
+        expandBtn = view.findViewById(R.id.user_collapse_icon);
+        expandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int visibility;
+                if (isExpanded) {
+                    visibility = View.GONE;
+                    expandBtn.setImageResource(R.drawable.expand_icon);
+                } else {
+                    visibility = View.VISIBLE;
+                    expandBtn.setImageResource(R.drawable.collapse_icon);
+                }
+                nameText.setVisibility(visibility);
+                ageText.setVisibility(visibility);
+                sexText.setVisibility(visibility);
+                heightText.setVisibility(visibility);
+                weightText.setVisibility(visibility);
+                planText.setVisibility(visibility);
+                nameIcon.setVisibility(visibility);
+                ageIcon.setVisibility(visibility);
+                sexIcon.setVisibility(visibility);
+                heightIcon.setVisibility(visibility);
+                weightIcon.setVisibility(visibility);
+                planIcon.setVisibility(visibility);
+                isExpanded = !isExpanded;
+            }
+        });
     }
 }

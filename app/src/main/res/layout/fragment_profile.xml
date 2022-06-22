@@ -19,7 +19,7 @@
 
             <include
                 android:id="@+id/profile_fragment_card_user"
-                layout="@layout/expanded_card_user"
+                layout="@layout/card_user_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
