@@ -179,4 +179,5 @@
     <string name="record_details_duration_text"><b>Durată: </b>%1$d minute</string>
     <string name="record_details_weight_value_text"><b>Valoare: </b>%1$d kg.</string>
     <string name="record_details_height_value_text"><b>Valoare: </b>%1$d cm.</string>
+    <string name="record_edited_message">Înregistrare editată!</string>
 </resources>

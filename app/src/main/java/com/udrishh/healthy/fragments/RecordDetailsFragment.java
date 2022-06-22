@@ -3,6 +3,7 @@ package com.udrishh.healthy.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
+import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
@@ -35,6 +38,8 @@ public class RecordDetailsFragment extends Fragment {
     private TextView recordQuantity;
     private TextView recordValue;
     private TextView recordDate;
+    private MaterialButton deleteBtn;
+    private MaterialButton editBtn;
     private boolean isRecipe = false;
 
     public RecordDetailsFragment() {
@@ -49,7 +54,44 @@ public class RecordDetailsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_record_details, container, false);
         initialiseComponents();
         determineRecordType();
+        addBtnEvents();
         return view;
+    }
+
+    private void addBtnEvents() {
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isValid = true;
+                if (recordName.getText().toString().trim().length() <= 1) {
+                    recordName.setError(getString(R.string.invalid_name_text));
+                    isValid = false;
+                }
+                if(isValid){
+                    recordName.setError(null);
+
+                    if(isRecipe){
+                        ((RecipeRecord)selectedRecord).setName(recordName.getText().toString().trim());
+                        ((MainActivity) requireActivity()).editRecipeRecord((RecipeRecord) selectedRecord);
+                    } else if(recordType == RecordType.FOOD || recordType == RecordType.DRINK) {
+                        ((FoodDrinkRecord)selectedRecord).setName(recordName.getText().toString().trim());
+                        ((MainActivity) requireActivity()).editFoodDrinkRecord((FoodDrinkRecord) selectedRecord);
+                    } else if(recordType == RecordType.HEIGHT || recordType == RecordType.WEIGHT){
+                        ((MeasurementRecord)selectedRecord).setName(recordName.getText().toString().trim());
+                        ((MainActivity) requireActivity()).editMeasurementRecord((MeasurementRecord) selectedRecord);
+                    } if(recordType == RecordType.PHYSICAL_ACTIVITY) {
+                        ((PhysicalActivityRecord)selectedRecord).setName(recordName.getText().toString().trim());
+                        ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
+                    }
+
+                    Toast.makeText(getContext(), getString(R.string.record_edited_message), Toast.LENGTH_LONG).show();
+                    FragmentManager fragmentManager = getParentFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_frame_layout, new ProfileFragment())
+                            .commit();
+                }
+            }
+        });
     }
 
     private void determineRecordType() {
@@ -87,7 +129,8 @@ public class RecordDetailsFragment extends Fragment {
         recordDate = view.findViewById(R.id.record_details_date);
         recordName = view.findViewById(R.id.record_details_name);
         recordImage = view.findViewById(R.id.record_details_image);
-
+        deleteBtn = view.findViewById(R.id.record_details_delete);
+        editBtn = view.findViewById(R.id.record_details_edit);
         recordDate.setText(getString(R.string.record_details_date_text, selectedRecord.getDate()));
     }
 

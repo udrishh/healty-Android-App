@@ -307,22 +307,24 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!queryDocumentSnapshots.isEmpty() && measurementRecords.isEmpty()) {
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                            MeasurementRecord measurementRecord = new MeasurementRecord();
-                            measurementRecord.setDate(snapshot.getString("date"));
-                            measurementRecord.setName(snapshot.getString("name"));
-                            measurementRecord.setRecordId(snapshot.getString("recordId"));
-                            measurementRecord.setUserId(snapshot.getString("userId"));
-                            measurementRecord.setValue(snapshot.get("value", Integer.class));
-                            measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
-                            if (snapshot.getString("category").equals("HEIGHT")) {
-                                measurementRecord.setMeasurementCategory(RecordType.HEIGHT);
-                            } else {
-                                measurementRecord.setMeasurementCategory(RecordType.WEIGHT);
-                            }
-                            measurementRecords.add(measurementRecord);
-                            records.add(measurementRecord);
+                            if(snapshot!=null){
+                                MeasurementRecord measurementRecord = new MeasurementRecord();
+                                measurementRecord.setDate(snapshot.getString("date"));
+                                measurementRecord.setName(snapshot.getString("name"));
+                                measurementRecord.setRecordId(snapshot.getString("recordId"));
+                                measurementRecord.setUserId(snapshot.getString("userId"));
+                                measurementRecord.setValue(snapshot.get("value", Integer.class));
+                                measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
+                                if (snapshot.getString("measurementCategory").equals("HEIGHT")) {
+                                    measurementRecord.setMeasurementCategory(RecordType.HEIGHT);
+                                } else {
+                                    measurementRecord.setMeasurementCategory(RecordType.WEIGHT);
+                                }
+                                measurementRecords.add(measurementRecord);
+                                records.add(measurementRecord);
 
-                            Log.d("mytag", "Record was retrieved from firebase successfully!");
+                                Log.d("mytag", "Record was retrieved from firebase successfully!");
+                            }
                         }
                         setProfileFragment();
                     }
@@ -788,5 +790,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void editFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
+        foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId())
+                .update("name", foodDrinkRecord.getName());
+    }
+
+    public void editMeasurementRecord(MeasurementRecord measurementRecord){
+        measurementRecordsReference.document(measurementRecord.getRecordId())
+                .update("name", measurementRecord.getName());
+    }
+
+    public void editRecipeRecord(RecipeRecord recipeRecord) {
+        recipeRecordsReference.document(recipeRecord.getRecordId())
+                .update("name", recipeRecord.getName());
+    }
+
+    public void editPhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
+        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId())
+                .update("name", physicalActivityRecord.getName());
     }
 }

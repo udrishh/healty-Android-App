@@ -75,5 +75,13 @@ public class StatisticsFragment extends Fragment {
                     .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
                     .commit();
         });
+
+        recordsList.setOnItemClickListener((parent, view, position, id) -> {
+            Record selectedRecord = (Record) parent.getItemAtPosition(position);
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
+                    .commit();
+        });
     }
 }
