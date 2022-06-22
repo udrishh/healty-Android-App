@@ -59,38 +59,53 @@ public class RecordDetailsFragment extends Fragment {
     }
 
     private void addBtnEvents() {
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isValid = true;
-                if (recordName.getText().toString().trim().length() <= 1) {
-                    recordName.setError(getString(R.string.invalid_name_text));
-                    isValid = false;
-                }
-                if(isValid){
-                    recordName.setError(null);
-
-                    if(isRecipe){
-                        ((RecipeRecord)selectedRecord).setName(recordName.getText().toString().trim());
-                        ((MainActivity) requireActivity()).editRecipeRecord((RecipeRecord) selectedRecord);
-                    } else if(recordType == RecordType.FOOD || recordType == RecordType.DRINK) {
-                        ((FoodDrinkRecord)selectedRecord).setName(recordName.getText().toString().trim());
-                        ((MainActivity) requireActivity()).editFoodDrinkRecord((FoodDrinkRecord) selectedRecord);
-                    } else if(recordType == RecordType.HEIGHT || recordType == RecordType.WEIGHT){
-                        ((MeasurementRecord)selectedRecord).setName(recordName.getText().toString().trim());
-                        ((MainActivity) requireActivity()).editMeasurementRecord((MeasurementRecord) selectedRecord);
-                    } if(recordType == RecordType.PHYSICAL_ACTIVITY) {
-                        ((PhysicalActivityRecord)selectedRecord).setName(recordName.getText().toString().trim());
-                        ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
-                    }
-
-                    Toast.makeText(getContext(), getString(R.string.record_edited_message), Toast.LENGTH_LONG).show();
-                    FragmentManager fragmentManager = getParentFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.main_frame_layout, new ProfileFragment())
-                            .commit();
-                }
+        editBtn.setOnClickListener(v -> {
+            boolean isValid = true;
+            if (recordName.getText().toString().trim().length() <= 1) {
+                recordName.setError(getString(R.string.invalid_name_text));
+                isValid = false;
             }
+            if (isValid) {
+                recordName.setError(null);
+
+                if (isRecipe) {
+                    ((RecipeRecord) selectedRecord).setName(recordName.getText().toString().trim());
+                    ((MainActivity) requireActivity()).editRecipeRecord((RecipeRecord) selectedRecord);
+                } else if (recordType == RecordType.FOOD || recordType == RecordType.DRINK) {
+                    ((FoodDrinkRecord) selectedRecord).setName(recordName.getText().toString().trim());
+                    ((MainActivity) requireActivity()).editFoodDrinkRecord((FoodDrinkRecord) selectedRecord);
+                } else if (recordType == RecordType.HEIGHT || recordType == RecordType.WEIGHT) {
+                    ((MeasurementRecord) selectedRecord).setName(recordName.getText().toString().trim());
+                    ((MainActivity) requireActivity()).editMeasurementRecord((MeasurementRecord) selectedRecord);
+                } else if (recordType == RecordType.PHYSICAL_ACTIVITY) {
+                    ((PhysicalActivityRecord) selectedRecord).setName(recordName.getText().toString().trim());
+                    ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
+                }
+
+                Toast.makeText(getContext(), getString(R.string.record_edited_message), Toast.LENGTH_LONG).show();
+                FragmentManager fragmentManager = getParentFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_frame_layout, new ProfileFragment())
+                        .commit();
+            }
+        });
+
+        deleteBtn.setOnClickListener(v -> {
+            if (isRecipe) {
+                ((MainActivity) requireActivity()).deleteRecipeRecord((RecipeRecord) selectedRecord);
+            } else if (recordType == RecordType.FOOD || recordType == RecordType.DRINK) {
+                ((MainActivity) requireActivity()).deleteFoodDrinkRecord((FoodDrinkRecord) selectedRecord);
+            } else if (recordType == RecordType.HEIGHT || recordType == RecordType.WEIGHT) {
+                ((MainActivity) requireActivity()).deleteMeasurementRecord((MeasurementRecord) selectedRecord, recordType);
+            } else if (recordType == RecordType.PHYSICAL_ACTIVITY) {
+                ((MainActivity) requireActivity()).deletePhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
+            }
+
+            Toast.makeText(getContext(), getString(R.string.record_deleted_message), Toast.LENGTH_LONG).show();
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new ProfileFragment())
+                    .commit();
         });
     }
 
@@ -161,7 +176,6 @@ public class RecordDetailsFragment extends Fragment {
     }
 
     private void initialiseDrinkRecord() {
-        Toast.makeText(this.getContext(), "test", Toast.LENGTH_LONG).show();
         if (isRecipe) {
             recordImage.setImageResource(R.drawable.meal_icon);
             recordCategory.setText(getString(R.string.add_recipe_title));

@@ -55,7 +55,9 @@ public class StatisticsFragment extends Fragment {
         if (records.isEmpty()) {
             recordsTitle.setText(getString(R.string.statistics_no_records_text));
         } else {
-            Collections.sort(records, new RecordDateComparator());
+            if(records!=null){
+                Collections.sort(records, new RecordDateComparator());
+            }
             ArrayList<Record> lastRecords = new ArrayList<>();
             int nb = Math.min(records.size(), 5);
             if(nb == 1){

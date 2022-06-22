@@ -324,7 +324,7 @@ public class SignupActivity extends AppCompatActivity {
                                 userFirebaseObject.put("height", newUserObject.getHeight());
                                 userFirebaseObject.put("weight", newUserObject.getWeight());
                                 userFirebaseObject.put("sex", newUserObject.getSex().toString());
-                                userFirebaseObject.put("caloriesPlan", Integer.toString(newUserObject.getCaloriesPlan()));
+                                userFirebaseObject.put("caloriesPlan", newUserObject.getCaloriesPlan());
 
                                 //save to firebase firestore
                                 collectionReference.document(currentUserId).set(userFirebaseObject)
@@ -337,24 +337,20 @@ public class SignupActivity extends AppCompatActivity {
                                                 heightRecord.setUserId(currentUser.getUid());
                                                 heightRecord.setName("Initial height");
                                                 heightRecord.setRecordId(UUID.randomUUID().toString());
-                                                heightRecord.setDate(DateConverter.fromDate(new Date()));
+                                                heightRecord.setDate(DateConverter.fromLongDate(new Date()));
                                                 heightRecord.setValue(newUserObject.getHeight());
                                                 heightRecord.setInitial(true);
-                                                measurementRecordsReference.add(heightRecord)
-                                                        .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
-                                                        .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                                                measurementRecordsReference.document(heightRecord.getRecordId()).set(heightRecord);
                                                 //weight
                                                 MeasurementRecord weightRecord = new MeasurementRecord();
                                                 weightRecord.setMeasurementCategory(RecordType.WEIGHT);
                                                 weightRecord.setUserId(currentUser.getUid());
                                                 weightRecord.setName("Initial weight");
                                                 weightRecord.setRecordId(UUID.randomUUID().toString());
-                                                weightRecord.setDate(DateConverter.fromDate(new Date()));
+                                                weightRecord.setDate(DateConverter.fromLongDate(new Date()));
                                                 weightRecord.setValue(newUserObject.getWeight());
                                                 weightRecord.setInitial(true);
-                                                measurementRecordsReference.add(weightRecord)
-                                                        .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
-                                                        .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                                                measurementRecordsReference.document(weightRecord.getRecordId()).set(weightRecord);
                                                 //start activity
                                                 loading.setVisibility(View.INVISIBLE);
                                                 Intent intent = new Intent(SignupActivity.this,

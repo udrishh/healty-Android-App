@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<MeasurementRecord> getMeasurementRecords() {
         return measurementRecords;
     }
+
     public ArrayList<Record> getRecords() {
         return records;
     }
@@ -307,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!queryDocumentSnapshots.isEmpty() && measurementRecords.isEmpty()) {
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                            if(snapshot!=null){
+                            if (snapshot != null) {
                                 MeasurementRecord measurementRecord = new MeasurementRecord();
                                 measurementRecord.setDate(snapshot.getString("date"));
                                 measurementRecord.setName(snapshot.getString("name"));
@@ -321,7 +322,9 @@ public class MainActivity extends AppCompatActivity {
                                     measurementRecord.setMeasurementCategory(RecordType.WEIGHT);
                                 }
                                 measurementRecords.add(measurementRecord);
-                                records.add(measurementRecord);
+                                if(!measurementRecord.isInitial()){
+                                    records.add(measurementRecord);
+                                }
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
@@ -797,7 +800,7 @@ public class MainActivity extends AppCompatActivity {
                 .update("name", foodDrinkRecord.getName());
     }
 
-    public void editMeasurementRecord(MeasurementRecord measurementRecord){
+    public void editMeasurementRecord(MeasurementRecord measurementRecord) {
         measurementRecordsReference.document(measurementRecord.getRecordId())
                 .update("name", measurementRecord.getName());
     }
@@ -808,7 +811,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editPhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
-        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId())
-                .update("name", physicalActivityRecord.getName());
+        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).delete();
+    }
+
+    public void deleteFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
+        foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId()).delete();
+        records.remove(foodDrinkRecord);
+        foodDrinkRecords.remove(foodDrinkRecord);
+    }
+
+    public void deleteMeasurementRecord(MeasurementRecord measurementRecord, RecordType recordType) {
+        measurementRecordsReference.document(measurementRecord.getRecordId()).delete();
+        records.remove(measurementRecord);
+        measurementRecords.remove(measurementRecord);
+        //update user data with last record available
+        MeasurementRecord lastRecordAvailable = null;
+        for (MeasurementRecord record : measurementRecords) {
+            if (recordType == record.getMeasurementCategory()) {
+                lastRecordAvailable = record;
+            }
+        }
+        if (lastRecordAvailable != null) {
+            if (recordType == RecordType.HEIGHT) {
+                usersReference.document(user.getUserId())
+                        .update("height", lastRecordAvailable.getValue());
+            } else {
+                usersReference.document(user.getUserId())
+                        .update("weight", lastRecordAvailable.getValue());
+            }
+        }
+    }
+
+    public void deleteRecipeRecord(RecipeRecord recipeRecord) {
+        recipeRecordsReference.document(recipeRecord.getRecordId()).delete();
+        records.remove(recipeRecord);
+        recipeRecords.remove(recipeRecord);
+    }
+
+    public void deletePhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
+        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).delete();
+        records.remove(physicalActivityRecord);
+        physicalActivityRecords.remove(physicalActivityRecord);
     }
 }
