@@ -1,8 +1,7 @@
 package com.udrishh.healthy.fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
-import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
@@ -30,13 +28,9 @@ import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.utilities.DateConverter;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
     private View view;
@@ -158,6 +152,17 @@ public class ProfileFragment extends Fragment {
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }
             }
+            if(caloriesEaten <= user.getCaloriesPlan()*0.5f){
+                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_low));
+            } else if(caloriesEaten > user.getCaloriesPlan()*0.5f
+                    && caloriesEaten <= user.getCaloriesPlan()){
+                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_medium));
+            } else if(caloriesEaten > user.getCaloriesPlan()*1
+                    && caloriesEaten <= user.getCaloriesPlan()*1.25){
+                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_high));
+            } else {
+                caloriesProgressIndicator.setIndicatorColor(Color.RED);
+            }
         }
 
         for(RecipeRecord recipeRecord : recipeRecords){
@@ -178,7 +183,7 @@ public class ProfileFragment extends Fragment {
 
                 caloriesProgressIndicator.setProgress(caloriesProgress, true);
 
-                if (recipeRecord.getCategory() == RecipeCategory.DRINKS) {
+                if (recipeRecord.getRecipeCategory() == RecipeCategory.DRINKS) {
                     Log.d("mytag", "This is a drink!");
                     liquids += recipeRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
@@ -249,5 +254,6 @@ public class ProfileFragment extends Fragment {
         weightText.setText(getString(R.string.user_profile_weight, user.getWeight()));
         planText = view.findViewById(R.id.user_calories_textview);
         planText.setText(getString(R.string.user_profile_calories, user.getCaloriesPlan()));
+        cardLayout = view.findViewById(R.id.progress_card_layout);
     }
 }

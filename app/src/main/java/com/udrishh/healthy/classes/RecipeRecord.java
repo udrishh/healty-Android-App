@@ -10,18 +10,18 @@ public class RecipeRecord extends Record{
     private int calories;
     private int quantity;
     private int totalCalories;
-    private RecipeCategory category;
+    private RecipeCategory recipeCategory;
 
     public RecipeRecord() {
         super();
     }
 
-    public RecipeCategory getCategory() {
-        return category;
+    public RecipeCategory getRecipeCategory() {
+        return recipeCategory;
     }
 
-    public void setCategory(RecipeCategory category) {
-        this.category = category;
+    public void setRecipeCategory(RecipeCategory recipeCategory) {
+        this.recipeCategory = recipeCategory;
     }
 
     public String getRecordId() {

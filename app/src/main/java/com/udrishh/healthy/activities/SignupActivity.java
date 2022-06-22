@@ -28,8 +28,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.classes.MeasurementRecord;
@@ -335,7 +333,7 @@ public class SignupActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Object o) {
                                                 MeasurementRecord heightRecord = new MeasurementRecord();
-                                                heightRecord.setCategory(RecordType.HEIGHT);
+                                                heightRecord.setMeasurementCategory(RecordType.HEIGHT);
                                                 heightRecord.setUserId(currentUser.getUid());
                                                 heightRecord.setName("Initial height");
                                                 heightRecord.setRecordId(UUID.randomUUID().toString());
@@ -347,7 +345,7 @@ public class SignupActivity extends AppCompatActivity {
                                                         .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
                                                 //weight
                                                 MeasurementRecord weightRecord = new MeasurementRecord();
-                                                weightRecord.setCategory(RecordType.WEIGHT);
+                                                weightRecord.setMeasurementCategory(RecordType.WEIGHT);
                                                 weightRecord.setUserId(currentUser.getUid());
                                                 weightRecord.setName("Initial weight");
                                                 weightRecord.setRecordId(UUID.randomUUID().toString());

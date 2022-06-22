@@ -110,7 +110,7 @@ public class AddMeasurementDetailsFragment extends Fragment {
                 measurementRecord.setDate(DateConverter.fromLongDate(new Date()));
                 measurementRecord.setName(nameInput.getText().toString().trim());
                 measurementRecord.setValue(Integer.parseInt(valueInput.getText().toString().trim()));
-                measurementRecord.setCategory(recordType);
+                measurementRecord.setMeasurementCategory(recordType);
 
                 ((MainActivity) requireActivity()).addMeasurementRecord(measurementRecord);
 

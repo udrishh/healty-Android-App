@@ -166,4 +166,17 @@
     <string name="statistics_history_title">Istoricul înregistrărilor</string>
     <string name="record_item_name">%1$s</string>
     <string name="record_item_date">%1$s\n%2$s</string>
+    <string name="recipe_category_recomanded">Recomandate</string>
+    <string name="record_type_title"><b>CATEGORIE ÎNREGISTRARE</b></string>
+    <string name="btn_record_details_delete_text">Șterge</string>
+    <string name="btn_record_details_edit_text">Editează</string>
+    <string name="record_name_hint">Denumire<font color="#bb0000">*</font></string>
+    <string name="record_details_food_quantity_text"><b>Cantitate: </b>%1$d g.</string>
+    <string name="record_details_drink_quantity_text"><b>Cantitate: </b>%1$d ml.</string>
+    <string name="record_details_total_calories_text"><b>Calorii totale: </b>%1$d kcal.</string>
+    <string name="record_details_burned_calories_text"><b>Calorii arse: </b>%1$d kcal.</string>
+    <string name="record_details_date_text"><b>Dată înregistrare: </b>%1$s</string>
+    <string name="record_details_duration_text"><b>Durată: </b>%1$d minute</string>
+    <string name="record_details_weight_value_text"><b>Valoare: </b>%1$d kg.</string>
+    <string name="record_details_height_value_text"><b>Valoare: </b>%1$d cm.</string>
 </resources>

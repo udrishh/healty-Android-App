@@ -6,7 +6,7 @@ public class MeasurementRecord extends Record {
     private String recordId;
     private String userId;
     private String name;
-    private RecordType category;
+    private RecordType measurementCategory;
     private int value;
     private boolean isInitial;
 
@@ -20,7 +20,7 @@ public class MeasurementRecord extends Record {
         sb.append("recordId='").append(recordId).append('\'');
         sb.append(", userId='").append(userId).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", category=").append(category);
+        sb.append(", category=").append(measurementCategory);
         sb.append(", date='").append(super.getDate()).append('\'');
         sb.append(", value=").append(value);
         sb.append(", isInitial=").append(isInitial);
@@ -60,12 +60,12 @@ public class MeasurementRecord extends Record {
         this.name = name;
     }
 
-    public RecordType getCategory() {
-        return category;
+    public RecordType getMeasurementCategory() {
+        return measurementCategory;
     }
 
-    public void setCategory(RecordType category) {
-        this.category = category;
+    public void setMeasurementCategory(RecordType measurementCategory) {
+        this.measurementCategory = measurementCategory;
     }
 
     public String getDate() {

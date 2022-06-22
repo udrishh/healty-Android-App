@@ -88,12 +88,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:checked="true"
+                            android:buttonTint="@color/black"
                             android:text="@string/add_known100_drink_text" />
 
                         <RadioButton
                             android:id="@+id/add_unknown100_drink_radio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/black"
                             android:text="@string/add_unknown100_drink_text" />
 
                     </RadioGroup>

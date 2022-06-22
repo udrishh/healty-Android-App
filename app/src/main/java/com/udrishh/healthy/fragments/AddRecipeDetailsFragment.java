@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
-import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
@@ -129,9 +127,9 @@ public class AddRecipeDetailsFragment extends Fragment {
             recipeRecord.setTotalCalories(recipeRecord.getCalories() *
                     Integer.parseInt(quantityInput.getText().toString().trim()) / 100);
             if(selectedRecipe.isInCategory(RecipeCategory.DRINKS)){
-                recipeRecord.setCategory(RecipeCategory.DRINKS);
+                recipeRecord.setRecipeCategory(RecipeCategory.DRINKS);
             } else {
-                recipeRecord.setCategory(RecipeCategory.FOODS);
+                recipeRecord.setRecipeCategory(RecipeCategory.FOODS);
             }
 
             ((MainActivity) requireActivity()).addRecipeRecord(recipeRecord);

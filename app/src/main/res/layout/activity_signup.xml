@@ -159,6 +159,7 @@
                 android:id="@+id/signup_user_data_sex_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
                 android:text="@string/signup_user_data_sex_title" />
 
             <RadioGroup
@@ -174,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
+                    android:buttonTint="@color/black"
                     android:text="@string/signup_user_data_sex_m_text" />
 
                 <RadioButton
@@ -181,6 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:buttonTint="@color/black"
                     android:text="@string/signup_user_data_sex_f_text" />
 
             </RadioGroup>

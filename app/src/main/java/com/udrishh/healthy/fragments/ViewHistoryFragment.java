@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,11 @@ import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
-import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordPeriod;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.RecordDateComparator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class ViewHistoryFragment extends Fragment {
@@ -61,6 +60,14 @@ public class ViewHistoryFragment extends Fragment {
         recordCategories = view.findViewById(R.id.history_record_categories);
         recordPeriods = view.findViewById(R.id.history_record_periods);
         noRecordsText = view.findViewById(R.id.records_nothing);
+
+        recordList.setOnItemClickListener((parent, view, position, id) -> {
+            Record selectedRecord = (Record) parent.getItemAtPosition(position);
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
+                    .commit();
+        });
 
         showRecords(records);
         categoryChangeListener();

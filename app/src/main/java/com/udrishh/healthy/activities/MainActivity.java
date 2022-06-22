@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
         }
         //update user height or weight
-        if (measurementRecord.getCategory() == RecordType.HEIGHT) {
+        if (measurementRecord.getMeasurementCategory() == RecordType.HEIGHT) {
             usersReference.document(user.getUserId())
                     .update("height", measurementRecord.getValue());
         } else {
@@ -315,9 +315,9 @@ public class MainActivity extends AppCompatActivity {
                             measurementRecord.setValue(snapshot.get("value", Integer.class));
                             measurementRecord.setInitial(snapshot.get("initial", Boolean.class));
                             if (snapshot.getString("category").equals("HEIGHT")) {
-                                measurementRecord.setCategory(RecordType.HEIGHT);
+                                measurementRecord.setMeasurementCategory(RecordType.HEIGHT);
                             } else {
-                                measurementRecord.setCategory(RecordType.WEIGHT);
+                                measurementRecord.setMeasurementCategory(RecordType.WEIGHT);
                             }
                             measurementRecords.add(measurementRecord);
                             records.add(measurementRecord);
