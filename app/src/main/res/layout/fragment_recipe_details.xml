@@ -160,7 +160,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:layout_weight="2"
-                        android:text="@string/recipe_details_view_btn_text" />
+                        android:text="@string/recipe_details_view_btn_text"
+                        app:cornerRadius="10dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/recipe_details_add_btn"
@@ -168,7 +169,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:layout_weight="1"
-                        android:text="@string/recipe_details_add_btn_text" />
+                        android:text="@string/recipe_details_add_btn_text"
+                        app:cornerRadius="10dp"/>
 
                 </LinearLayout>
 

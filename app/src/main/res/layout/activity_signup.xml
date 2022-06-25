@@ -15,7 +15,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +64,8 @@
                 android:layout_marginVertical="8dp"
                 android:text="@string/signup_continue_btn_text"
                 app:icon="@drawable/next_icon"
-                app:iconGravity="textEnd" />
+                app:iconGravity="textEnd"
+                app:cornerRadius="10dp"/>
 
         </LinearLayout>
 
@@ -77,7 +79,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,7 +198,8 @@
                 android:layout_marginVertical="8dp"
                 android:text="@string/signup_continue_btn_text"
                 app:icon="@drawable/next_icon"
-                app:iconGravity="textEnd" />
+                app:iconGravity="textEnd"
+                app:cornerRadius="10dp"/>
 
         </LinearLayout>
 
@@ -209,7 +213,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -255,7 +260,8 @@
                 android:layout_marginVertical="8dp"
                 android:text="@string/signup_finish_btn_text"
                 app:icon="@drawable/next_icon"
-                app:iconGravity="textEnd" />
+                app:iconGravity="textEnd"
+                app:cornerRadius="10dp"/>
 
             <ProgressBar
                 android:id="@+id/login_loading"

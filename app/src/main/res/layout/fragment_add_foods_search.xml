@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="8dp">
+        android:padding="8dp"
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +27,8 @@
                 app:layout_constraintBottom_toTopOf="@id/add_alternative_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:cornerRadius="10dp"/>
 
             <TextView
                 android:id="@+id/add_alternative_text"

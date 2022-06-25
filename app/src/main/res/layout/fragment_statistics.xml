@@ -53,7 +53,8 @@
                         android:id="@+id/statistics_view_all_records"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/statistics_view_records_btn_text"/>
+                        android:text="@string/statistics_view_records_btn_text"
+                        app:cornerRadius="10dp"/>
 
                 </LinearLayout>
 
@@ -98,7 +99,8 @@
                         android:id="@+id/statistics_view_all_stats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/statistics_view_stats_btn_text"/>
+                        android:text="@string/statistics_view_stats_btn_text"
+                        app:cornerRadius="10dp"/>
 
                 </LinearLayout>
 
