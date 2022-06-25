@@ -29,6 +29,7 @@ public class StatisticsFragment extends Fragment {
     private ListView recordsList;
     private ArrayList<Record> records;
     private MaterialButton viewAllRecordsBtn;
+    private MaterialButton viewAllStatisticsBtn;
 
     public StatisticsFragment() {
     }
@@ -51,6 +52,7 @@ public class StatisticsFragment extends Fragment {
         recordsTitle = view.findViewById(R.id.statistics_record_card_title);
         recordsList = view.findViewById(R.id.statistics_record_list);
         viewAllRecordsBtn = view.findViewById(R.id.statistics_view_all_records);
+        viewAllStatisticsBtn = view.findViewById(R.id.statistics_view_all_stats);
 
         if (records.isEmpty()) {
             recordsTitle.setText(getString(R.string.statistics_no_records_text));
@@ -75,6 +77,13 @@ public class StatisticsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
+                    .commit();
+        });
+
+        viewAllStatisticsBtn.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new PieChartFragment())
                     .commit();
         });
 
