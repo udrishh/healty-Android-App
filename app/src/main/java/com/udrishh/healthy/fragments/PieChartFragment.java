@@ -187,9 +187,9 @@ public class PieChartFragment extends Fragment {
             for (int color : ColorTemplate.MATERIAL_COLORS) {
                 colors.add(color);
             }
-//            for (int color : ColorTemplate.VORDIPLOM_COLORS) {
-//                colors.add(color);
-//            }
+            for (int color : ColorTemplate.VORDIPLOM_COLORS) {
+                colors.add(color);
+            }
 
             PieDataSet dataSet = new PieDataSet(entries, "Statistici pentru ziua selectată");
             dataSet.setColors(colors);

@@ -54,6 +54,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private FragmentManager fragmentManager;
+    private String joinDate = "";
 
     private User user;
     private ArrayList<Food> foods = new ArrayList<>();
@@ -154,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
     public BottomNavigationView getBottomNavigation() {
         return bottomNavigation;
+    }
+
+    public String getJoinDate() {
+        return joinDate;
     }
 
     public User getUserObject() {
@@ -322,8 +327,10 @@ public class MainActivity extends AppCompatActivity {
                                     measurementRecord.setMeasurementCategory(RecordType.WEIGHT);
                                 }
                                 measurementRecords.add(measurementRecord);
-                                if(!measurementRecord.isInitial()){
+                                if (!measurementRecord.isInitial()) {
                                     records.add(measurementRecord);
+                                }else{
+                                    joinDate = measurementRecord.getDate().split(" ")[0];
                                 }
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
