@@ -32,7 +32,8 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:src="@drawable/profile_picture" />
+                    android:src="@drawable/icon_h_rounded"
+                    android:padding="8dp"/>
 
                 <TextView
                     android:id="@+id/user_greeting_textview"

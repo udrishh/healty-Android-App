@@ -168,6 +168,7 @@ public class ProfileFragment extends Fragment {
                     && caloriesEaten <= user.getCaloriesPlan() * 1.25) {
                 cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
             } else if(caloriesEaten > user.getCaloriesPlan() *1.25){
+                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
                 caloriesProgressIndicator.setIndicatorColor(Color.RED);
             }
         }
