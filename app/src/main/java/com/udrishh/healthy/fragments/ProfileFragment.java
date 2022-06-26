@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment {
     private int lipids;
     private int liquids;
 
-    private boolean isExpanded = true;
+    private boolean isExpanded = false;
 
     public ProfileFragment() {
     }

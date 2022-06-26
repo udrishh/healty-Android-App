@@ -61,6 +61,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_name_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                     android:src="@drawable/name_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_name_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_age_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -95,6 +98,7 @@
                     android:src="@drawable/age_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_age_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -112,6 +116,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_sex_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -121,6 +126,7 @@
                     android:src="@drawable/male_gender_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_sex_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -138,6 +144,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_height_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -147,6 +154,7 @@
                     android:src="@drawable/height_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_height_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -164,6 +172,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_weight_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -173,6 +182,7 @@
                     android:src="@drawable/weight_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_weight_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -190,6 +200,7 @@
                 android:weightSum="8">
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/user_calories_icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -199,6 +210,7 @@
                     android:src="@drawable/calories_icon" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/user_calories_textview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -226,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/collapse_icon" />
+                    android:src="@drawable/expand_icon" />
 
             </LinearLayout>
 
