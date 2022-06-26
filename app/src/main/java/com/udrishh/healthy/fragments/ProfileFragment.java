@@ -31,6 +31,7 @@ import com.udrishh.healthy.utilities.DateConverter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
     private View view;
@@ -97,18 +98,18 @@ public class ProfileFragment extends Fragment {
             initialiseProgressCardComponents();
 
             loadFoodDrinksRecordsProgress();
-            loadPhysicalActivtiesProgress();
+            loadPhysicalActivitiesProgress();
         }
 
         return view;
     }
 
-    private void loadPhysicalActivtiesProgress() {
+    private void loadPhysicalActivitiesProgress() {
         caloriesBurned = 0;
         Calendar todayDate = Calendar.getInstance();
         Calendar recordDate = Calendar.getInstance();
         for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
-            recordDate.setTime(DateConverter.fromLongString(physicalActivityRecord.getDate()));
+            recordDate.setTime(Objects.requireNonNull(DateConverter.fromLongString(physicalActivityRecord.getDate())));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
@@ -118,8 +119,8 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void loadFoodDrinksRecordsProgress() {
-        Log.d("mytag", "Profile fragment loading progress....");
         caloriesProgress = 0;
         caloriesEaten = 0;
         proteins = 0;
@@ -131,8 +132,7 @@ public class ProfileFragment extends Fragment {
         Calendar recordDate = Calendar.getInstance();
 
         for (FoodDrinkRecord foodDrinkRecord : foodDrinkRecords) {
-            Log.d("mytag", "Adding record: " + foodDrinkRecord.toString());
-            recordDate.setTime(DateConverter.fromLongString(foodDrinkRecord.getDate()));
+            recordDate.setTime(Objects.requireNonNull(DateConverter.fromLongString(foodDrinkRecord.getDate())));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
@@ -154,27 +154,26 @@ public class ProfileFragment extends Fragment {
                 caloriesProgressIndicator.setProgress(caloriesProgress, true);
 
                 if (foodDrinkRecord.getCategory() == RecordType.DRINK) {
-                    Log.d("mytag", "This is a drink!");
                     liquids += foodDrinkRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }
             }
             if (caloriesEaten <= user.getCaloriesPlan() * 0.5f) {
-                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_low));
+                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_low));
             } else if (caloriesEaten > user.getCaloriesPlan() * 0.5f
                     && caloriesEaten <= user.getCaloriesPlan()) {
-                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_medium));
-            } else if (caloriesEaten > user.getCaloriesPlan() * 1
+                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_medium));
+            } else if (caloriesEaten > user.getCaloriesPlan()
                     && caloriesEaten <= user.getCaloriesPlan() * 1.25) {
-                cardLayout.setBackground(getContext().getDrawable(R.drawable.gradient_progress_high));
-            } else {
+                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
+            } else if(caloriesEaten > user.getCaloriesPlan() *1.25){
                 caloriesProgressIndicator.setIndicatorColor(Color.RED);
             }
         }
 
         for (RecipeRecord recipeRecord : recipeRecords) {
-            recordDate.setTime(DateConverter.fromLongString(recipeRecord.getDate()));
+            recordDate.setTime(Objects.requireNonNull(DateConverter.fromLongString(recipeRecord.getDate())));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
@@ -192,7 +191,6 @@ public class ProfileFragment extends Fragment {
                 caloriesProgressIndicator.setProgress(caloriesProgress, true);
 
                 if (recipeRecord.getRecipeCategory() == RecipeCategory.DRINKS) {
-                    Log.d("mytag", "This is a drink!");
                     liquids += recipeRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
                     liquidsProgressIndicator.setProgress(liquids, true);
