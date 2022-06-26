@@ -60,6 +60,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/foods_category_btn"
+                app:layout_constraintBottom_toTopOf="@id/water_category_btn"
+                android:layout_marginVertical="8dp"
+                app:cornerRadius="10dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/water_category_btn"
+                android:text="@string/water_category_btn_text"
+                app:icon="@drawable/water_icon"
+                app:iconTint="@null"
+                app:iconSize="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/drinks_category_btn"
                 app:layout_constraintBottom_toTopOf="@id/activities_category_btn"
                 android:layout_marginVertical="8dp"
                 app:cornerRadius="10dp"/>
@@ -74,7 +89,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/drinks_category_btn"
+                app:layout_constraintTop_toBottomOf="@id/water_category_btn"
                 app:layout_constraintBottom_toTopOf="@id/measurements_category_btn"
                 android:layout_marginVertical="8dp"
                 app:cornerRadius="10dp"/>

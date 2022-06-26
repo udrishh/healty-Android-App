@@ -19,6 +19,7 @@ public class AddFragment extends Fragment {
 
     private MaterialButton addFoodBtn;
     private MaterialButton addDrinkBtn;
+    private MaterialButton addWaterBtn;
     private MaterialButton addPhysicalActivityBtn;
     private MaterialButton addMeasurementBtn;
 
@@ -30,14 +31,15 @@ public class AddFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_add, container, false);
-        intialiseComponents();
+        initialiseComponents();
 
         return view;
     }
 
-    private void intialiseComponents() {
+    private void initialiseComponents() {
         addFoodBtn = view.findViewById(R.id.foods_category_btn);
         addDrinkBtn = view.findViewById(R.id.drinks_category_btn);
+        addWaterBtn = view.findViewById(R.id.water_category_btn);
         addPhysicalActivityBtn = view.findViewById(R.id.activities_category_btn);
         addMeasurementBtn = view.findViewById(R.id.measurements_category_btn);
 
@@ -52,6 +54,13 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddDrinksSearchFragment())
+                    .commit();
+        });
+
+        addWaterBtn.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new AddWaterFragment())
                     .commit();
         });
 

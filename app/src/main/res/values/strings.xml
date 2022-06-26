@@ -192,4 +192,9 @@
     <string name="statistics_view_bar_chart_btn_text">completarea planului caloric zilnic</string>
     <string name="statistics_line_chart_title">Graficul evoluției greutății</string>
     <string name="no_statistics_line_chart_text">Nu există destule date pentru a afișa statistici despre greutate!</string>
+    <string name="water_category_btn_text">Apă</string>
+    <string name="add_water_title"><b>APĂ</b></string>
+    <string name="add_water_name_hint">denumire<font color="#bb0000">*</font></string>
+    <string name="add_water_quantity_hint">cantitate (ml)<font color="#bb0000">*</font></string>
+    <string name="water">Apa</string>
 </resources>
