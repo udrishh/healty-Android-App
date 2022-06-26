@@ -128,13 +128,6 @@
                         android:text="@string/statistics_line_chart_btn_text"
                         app:cornerRadius="10dp"/>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/statistics_view_bar_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/statistics_view_bar_chart_btn_text"
-                        app:cornerRadius="10dp"/>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
