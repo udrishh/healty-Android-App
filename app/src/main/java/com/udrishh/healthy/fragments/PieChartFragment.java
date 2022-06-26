@@ -121,14 +121,14 @@ public class PieChartFragment extends Fragment {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                if(isEatenSelected){
+                if (isEatenSelected) {
                     highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                             showingFoodDrinkRecords.get((int) h.getX()).getName(),
                             showingFoodDrinkRecords.get((int) h.getX()).getTotalCalories()));
-                } else{
+                } else {
                     highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                             showingPhysicalActivityRecords.get((int) h.getX()).getName(),
-                            (int)showingPhysicalActivityRecords.get((int) h.getX()).getTotalCalories()));
+                            (int) showingPhysicalActivityRecords.get((int) h.getX()).getTotalCalories()));
                 }
                 highlightedDetails.setVisibility(View.VISIBLE);
             }
@@ -150,7 +150,7 @@ public class PieChartFragment extends Fragment {
     private void loadPieChartData(String selectedDate) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         int totalCalories = 0;
-        if(isEatenSelected){
+        if (isEatenSelected) {
             for (FoodDrinkRecord record : foodDrinkRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     totalCalories += record.getTotalCalories();
@@ -160,8 +160,10 @@ public class PieChartFragment extends Fragment {
             for (FoodDrinkRecord record : foodDrinkRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     float percent = (record.getTotalCalories() * 100) / (float) totalCalories;
-                    entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
-                    showingFoodDrinkRecords.add(record);
+                    if (percent >= 1) {
+                        entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
+                        showingFoodDrinkRecords.add(record);
+                    }
                 }
             }
         } else {
@@ -174,8 +176,10 @@ public class PieChartFragment extends Fragment {
             for (PhysicalActivityRecord record : physicalActivityRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     float percent = (record.getTotalCalories() * 100) / (float) totalCalories;
-                    entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
-                    showingPhysicalActivityRecords.add(record);
+                    if (percent >= 1) {
+                        entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
+                        showingPhysicalActivityRecords.add(record);
+                    }
                 }
             }
         }
