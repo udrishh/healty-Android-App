@@ -197,4 +197,11 @@
     <string name="add_water_name_hint">denumire<font color="#bb0000">*</font></string>
     <string name="add_water_quantity_hint">cantitate (ml)<font color="#bb0000">*</font></string>
     <string name="water">Apa</string>
+    <string name="settings_title">Setări</string>
+    <string name="logout_btn_text">Deconectare</string>
+    <string name="modify_plan_btn_text">Modifică planul caloric</string>
+    <string name="settings_account_text">Cont de utiilizator</string>
+    <string name="settings_plan_text">Plan caloric</string>
+    <string name="settings_user_data_text">Date utilizator</string>
+    <string name="modify_user_data_btn_text">Mofifică datele personale</string>
 </resources>
