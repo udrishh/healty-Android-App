@@ -25,6 +25,7 @@ import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.DateConverter;
+import com.udrishh.healthy.utilities.RecordDateComparator;
 import com.udrishh.healthy.utilities.ValueFormatter;
 
 import java.text.DecimalFormat;
@@ -33,6 +34,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -70,6 +72,8 @@ public class LineChartFragment extends Fragment {
     private void loadLineChartData() {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         ArrayList<Entry> entries = new ArrayList<>();
+
+        Collections.sort(records, new RecordDateComparator());
 
         for (int i = records.size() - 1; i >= 0; i--) {
             MeasurementRecord record = records.get(i);
