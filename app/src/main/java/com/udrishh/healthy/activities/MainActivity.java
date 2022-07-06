@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                                 measurementRecords.add(measurementRecord);
                                 if (!measurementRecord.isInitial()) {
                                     records.add(measurementRecord);
-                                }else{
+                                } else {
                                     joinDate = measurementRecord.getDate().split(" ")[0];
                                 }
 
@@ -859,5 +859,24 @@ public class MainActivity extends AppCompatActivity {
         physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).delete();
         records.remove(physicalActivityRecord);
         physicalActivityRecords.remove(physicalActivityRecord);
+    }
+
+    public void editUserData(User user) {
+        this.user = user;
+        usersReference.document(user.getUserId())
+                .update("name", user.getName(),
+                        "sex", user.getSex(), "birthdate", user.getBirthdate())
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(MainActivity.this, getText(R.string.user_data_edited_text), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("mytagg","fail");
+            }
+        });
     }
 }

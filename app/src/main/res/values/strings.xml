@@ -203,5 +203,10 @@
     <string name="settings_account_text">Cont de utiilizator</string>
     <string name="settings_plan_text">Plan caloric</string>
     <string name="settings_user_data_text">Date utilizator</string>
-    <string name="modify_user_data_btn_text">Mofifică datele personale</string>
+    <string name="modify_user_data_btn_text">Modifică datele personale</string>
+    <string name="edit_user_data_title"><b>MODIFICĂ DATELE PERSONALE</b></string>
+    <string name="btn_edit_user_data_text">Salvează</string>
+    <string name="edit_user_data_note">Notă: Modificarea datelor personale nu va modifica necesarul caloric stabilit.</string>
+    <string name="user_data_edited_text">Datele au fost actualizate!</string>
+    <string name="try_again_error_text">A avut loc o eroare!\nVă rugăm încercați mai târziu!</string>
 </resources>

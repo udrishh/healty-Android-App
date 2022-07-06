@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,10 @@ public class SettingsFragment extends Fragment {
     private View view;
     private FirebaseAuth firebaseAuth;
     private MaterialButton logoutBtn;
+    private MaterialButton editUserDataBtn;
+    private MaterialButton editCaloriesPlanBtn;
     private User user;
+
 
     public SettingsFragment() {
     }
@@ -48,15 +52,20 @@ public class SettingsFragment extends Fragment {
 
     private void initialiseComponents() {
         logoutBtn = view.findViewById(R.id.logout_btn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (user != null && firebaseAuth != null) {
-                    firebaseAuth.signOut();
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    requireActivity().finish();
-                }
+        logoutBtn.setOnClickListener(v -> {
+            if (user != null && firebaseAuth != null) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                requireActivity().finish();
             }
+        });
+
+        editUserDataBtn = view.findViewById(R.id.edit_user_data_btn);
+        editUserDataBtn.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new EditUserDataFragment())
+                    .commit();
         });
     }
 }
