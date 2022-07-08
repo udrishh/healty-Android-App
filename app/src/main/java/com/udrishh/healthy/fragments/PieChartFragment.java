@@ -33,6 +33,9 @@ import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
+import com.udrishh.healthy.classes.Recipe;
+import com.udrishh.healthy.classes.RecipeRecord;
+import com.udrishh.healthy.classes.Record;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,11 +45,11 @@ public class PieChartFragment extends Fragment {
     private View view;
     private PieChart pieChart;
     private CalendarView calendarView;
-    private ArrayList<FoodDrinkRecord> foodDrinkRecords;
+    private ArrayList<Record> eatenRecords;
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
     private TextView noStatsText;
     private TextView highlightedDetails;
-    private ArrayList<FoodDrinkRecord> showingFoodDrinkRecords;
+    private ArrayList<Record> showingEatenRecords;
     private ArrayList<PhysicalActivityRecord> showingPhysicalActivityRecords;
     private RadioGroup radioGroup;
     private boolean isEatenSelected;
@@ -59,7 +62,11 @@ public class PieChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_pie_chart, container, false);
-        foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
+        eatenRecords = new ArrayList<>();
+        eatenRecords.addAll(((MainActivity) this.requireActivity()).getFoodDrinkRecords());
+        eatenRecords.addAll(((MainActivity) this.requireActivity()).getRecipeRecords());
+
+        Log.d("mytagg",String.valueOf(eatenRecords.size()));
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         initialiseComponents();
         return view;
@@ -122,9 +129,16 @@ public class PieChartFragment extends Fragment {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 if (isEatenSelected) {
-                    highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
-                            showingFoodDrinkRecords.get((int) h.getX()).getName(),
-                            showingFoodDrinkRecords.get((int) h.getX()).getTotalCalories()));
+                    if (showingEatenRecords.get((int) h.getX()) instanceof RecipeRecord) {
+                        highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
+                                ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getName(),
+                                ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getTotalCalories()));
+                    } else {
+                        highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
+                                ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getName(),
+                                ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getTotalCalories()));
+                    }
+
                 } else {
                     highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                             showingPhysicalActivityRecords.get((int) h.getX()).getName(),
@@ -151,18 +165,30 @@ public class PieChartFragment extends Fragment {
         ArrayList<PieEntry> entries = new ArrayList<>();
         int totalCalories = 0;
         if (isEatenSelected) {
-            for (FoodDrinkRecord record : foodDrinkRecords) {
+            for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
-                    totalCalories += record.getTotalCalories();
+                    if (record instanceof RecipeRecord) {
+                        totalCalories += ((RecipeRecord) record).getTotalCalories();
+                    } else {
+                        totalCalories += ((FoodDrinkRecord) record).getTotalCalories();
+                    }
                 }
             }
-            showingFoodDrinkRecords = new ArrayList<>();
-            for (FoodDrinkRecord record : foodDrinkRecords) {
+            showingEatenRecords = new ArrayList<>();
+            for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
-                    float percent = (record.getTotalCalories() * 100) / (float) totalCalories;
-                    if (percent >= 1) {
-                        entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
-                        showingFoodDrinkRecords.add(record);
+                    if (record instanceof RecipeRecord) {
+                        float percent = (((RecipeRecord)record).getTotalCalories() * 100) / (float) totalCalories;
+                        if (percent >= 1) {
+                            entries.add(new PieEntry(percent, ((RecipeRecord)record).getName().split(" ")[0]));
+                            showingEatenRecords.add(record);
+                        }
+                    } else {
+                        float percent = (((FoodDrinkRecord)record).getTotalCalories() * 100) / (float) totalCalories;
+                        if (percent >= 1) {
+                            entries.add(new PieEntry(percent, ((FoodDrinkRecord)record).getName().split(" ")[0]));
+                            showingEatenRecords.add(record);
+                        }
                     }
                 }
             }
