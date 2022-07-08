@@ -861,6 +861,24 @@ public class MainActivity extends AppCompatActivity {
         physicalActivityRecords.remove(physicalActivityRecord);
     }
 
+    public void editUserCaloriesPlan(User user){
+        this.user = user;
+        usersReference.document(user.getUserId())
+                .update("caloriesPlan", user.getCaloriesPlan())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MainActivity.this, getText(R.string.user_calories_plan_edited_text), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("mytagg","fail");
+                    }
+                });
+    }
+
     public void editUserData(User user) {
         this.user = user;
         usersReference.document(user.getUserId())

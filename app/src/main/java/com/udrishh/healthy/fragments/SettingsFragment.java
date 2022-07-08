@@ -67,5 +67,13 @@ public class SettingsFragment extends Fragment {
                     .replace(R.id.main_frame_layout, new EditUserDataFragment())
                     .commit();
         });
+
+        editCaloriesPlanBtn = view.findViewById(R.id.edit_calories_plan_btn);
+        editCaloriesPlanBtn.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, new EditCaloriesPlanFragment())
+                    .commit();
+        });
     }
 }

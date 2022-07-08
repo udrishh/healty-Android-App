@@ -64,6 +64,7 @@
         <entry key="app/src/main/res/layout/fragment_add_physical_activity_search.xml" value="0.2935185185185185" />
         <entry key="app/src/main/res/layout/fragment_add_recipe_details.xml" value="0.2935185185185185" />
         <entry key="app/src/main/res/layout/fragment_add_water.xml" value="0.2935185185185185" />
+        <entry key="app/src/main/res/layout/fragment_edit_calories_plan.xml" value="0.2935185185185185" />
         <entry key="app/src/main/res/layout/fragment_edit_user_data.xml" value="0.2935185185185185" />
         <entry key="app/src/main/res/layout/fragment_line_chart.xml" value="0.2935185185185185" />
         <entry key="app/src/main/res/layout/fragment_pie_chart.xml" value="0.2935185185185185" />

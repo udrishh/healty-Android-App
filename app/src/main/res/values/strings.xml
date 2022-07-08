@@ -200,7 +200,7 @@
     <string name="settings_title">Setări</string>
     <string name="logout_btn_text">Deconectare</string>
     <string name="modify_plan_btn_text">Modifică planul caloric</string>
-    <string name="settings_account_text">Cont de utiilizator</string>
+    <string name="settings_account_text">Cont utiilizator</string>
     <string name="settings_plan_text">Plan caloric</string>
     <string name="settings_user_data_text">Date utilizator</string>
     <string name="modify_user_data_btn_text">Modifică datele personale</string>
@@ -209,4 +209,8 @@
     <string name="edit_user_data_note">Notă: Modificarea datelor personale nu va modifica necesarul caloric stabilit.</string>
     <string name="user_data_edited_text">Datele au fost actualizate!</string>
     <string name="try_again_error_text">A avut loc o eroare!\nVă rugăm încercați mai târziu!</string>
+    <string name="edit_calories_plan_title"><b>MODIFICĂ PLANUL CALORIC</b></string>
+    <string name="edit_calories_plan_calories">Necesarul caloric:</string>
+    <string name="edit_calories_plan_manually_check">Doresc să îmi setez manual necesarul caloric</string>
+    <string name="user_calories_plan_edited_text">Planul caloric a fost actualizat!</string>
 </resources>
