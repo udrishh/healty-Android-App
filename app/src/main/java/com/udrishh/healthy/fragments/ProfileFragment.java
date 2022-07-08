@@ -68,14 +68,14 @@ public class ProfileFragment extends Fragment {
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
     private ArrayList<RecipeRecord> recipeRecords;
 
-    private int caloriesProgress;
-    private int caloriesEaten;
-    private int caloriesBurned;
-    private int proteins;
-    private int fibers;
-    private int carbs;
-    private int lipids;
-    private int liquids;
+    private int caloriesProgress = 0;
+    private int caloriesEaten = 0;
+    private int caloriesBurned = 0;
+    private int proteins = 0;
+    private int fibers = 0;
+    private int carbs = 0;
+    private int lipids = 0;
+    private int liquids = 0;
 
     private boolean isExpanded = false;
 
@@ -97,15 +97,14 @@ public class ProfileFragment extends Fragment {
             initialiseProfileCardComponents();
             initialiseProgressCardComponents();
 
-            loadFoodDrinksRecordsProgress();
-            loadPhysicalActivitiesProgress();
+            loadEatenCaloriesProgress();
+            loadBurnedCaloriesProgress();
         }
 
         return view;
     }
 
-    private void loadPhysicalActivitiesProgress() {
-        caloriesBurned = 0;
+    private void loadBurnedCaloriesProgress() {
         Calendar todayDate = Calendar.getInstance();
         Calendar recordDate = Calendar.getInstance();
         for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
@@ -120,17 +119,15 @@ public class ProfileFragment extends Fragment {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void loadFoodDrinksRecordsProgress() {
-        caloriesProgress = 0;
-        caloriesEaten = 0;
-        proteins = 0;
-        fibers = 0;
-        carbs = 0;
-        lipids = 0;
-        liquids = 0;
+    private void loadEatenCaloriesProgress() {
+        loadFoodDrinkRecordsProgress();
+        loadRecipeRecordsProgress();
+        showGradient();
+    }
+
+    private void loadFoodDrinkRecordsProgress() {
         Calendar todayDate = Calendar.getInstance();
         Calendar recordDate = Calendar.getInstance();
-
         for (FoodDrinkRecord foodDrinkRecord : foodDrinkRecords) {
             recordDate.setTime(Objects.requireNonNull(DateConverter.fromLongString(foodDrinkRecord.getDate())));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
@@ -159,20 +156,12 @@ public class ProfileFragment extends Fragment {
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }
             }
-            if (caloriesEaten <= user.getCaloriesPlan() * 0.5f) {
-                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_low));
-            } else if (caloriesEaten > user.getCaloriesPlan() * 0.5f
-                    && caloriesEaten <= user.getCaloriesPlan()) {
-                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_medium));
-            } else if (caloriesEaten > user.getCaloriesPlan()
-                    && caloriesEaten <= user.getCaloriesPlan() * 1.25) {
-                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
-            } else if(caloriesEaten > user.getCaloriesPlan() *1.25){
-                cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
-                caloriesProgressIndicator.setIndicatorColor(Color.RED);
-            }
         }
+    }
 
+    private void loadRecipeRecordsProgress() {
+        Calendar todayDate = Calendar.getInstance();
+        Calendar recordDate = Calendar.getInstance();
         for (RecipeRecord recipeRecord : recipeRecords) {
             recordDate.setTime(Objects.requireNonNull(DateConverter.fromLongString(recipeRecord.getDate())));
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
@@ -197,6 +186,22 @@ public class ProfileFragment extends Fragment {
                     liquidsProgressIndicator.setProgress(liquids, true);
                 }
             }
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void showGradient() {
+        if (caloriesEaten <= user.getCaloriesPlan() * 0.5f) {
+            cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_low));
+        } else if (caloriesEaten > user.getCaloriesPlan() * 0.5f
+                && caloriesEaten <= user.getCaloriesPlan()) {
+            cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_medium));
+        } else if (caloriesEaten > user.getCaloriesPlan()
+                && caloriesEaten <= user.getCaloriesPlan() * 1.25) {
+            cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
+        } else if (caloriesEaten > user.getCaloriesPlan() * 1.25) {
+            cardLayout.setBackground(requireContext().getDrawable(R.drawable.gradient_progress_high));
+            caloriesProgressIndicator.setIndicatorColor(Color.RED);
         }
     }
 
@@ -269,31 +274,28 @@ public class ProfileFragment extends Fragment {
         cardLayout = view.findViewById(R.id.progress_card_layout);
 
         expandBtn = view.findViewById(R.id.user_collapse_icon);
-        expandBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int visibility;
-                if (isExpanded) {
-                    visibility = View.GONE;
-                    expandBtn.setImageResource(R.drawable.expand_icon);
-                } else {
-                    visibility = View.VISIBLE;
-                    expandBtn.setImageResource(R.drawable.collapse_icon);
-                }
-                nameText.setVisibility(visibility);
-                ageText.setVisibility(visibility);
-                sexText.setVisibility(visibility);
-                heightText.setVisibility(visibility);
-                weightText.setVisibility(visibility);
-                planText.setVisibility(visibility);
-                nameIcon.setVisibility(visibility);
-                ageIcon.setVisibility(visibility);
-                sexIcon.setVisibility(visibility);
-                heightIcon.setVisibility(visibility);
-                weightIcon.setVisibility(visibility);
-                planIcon.setVisibility(visibility);
-                isExpanded = !isExpanded;
+        expandBtn.setOnClickListener(v -> {
+            int visibility;
+            if (isExpanded) {
+                visibility = View.GONE;
+                expandBtn.setImageResource(R.drawable.expand_icon);
+            } else {
+                visibility = View.VISIBLE;
+                expandBtn.setImageResource(R.drawable.collapse_icon);
             }
+            nameText.setVisibility(visibility);
+            ageText.setVisibility(visibility);
+            sexText.setVisibility(visibility);
+            heightText.setVisibility(visibility);
+            weightText.setVisibility(visibility);
+            planText.setVisibility(visibility);
+            nameIcon.setVisibility(visibility);
+            ageIcon.setVisibility(visibility);
+            sexIcon.setVisibility(visibility);
+            heightIcon.setVisibility(visibility);
+            weightIcon.setVisibility(visibility);
+            planIcon.setVisibility(visibility);
+            isExpanded = !isExpanded;
         });
     }
 }
