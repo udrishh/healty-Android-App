@@ -21,7 +21,7 @@ public class DrinksUploadThread extends Thread{
     private CollectionReference collectionReference;
 
     public DrinksUploadThread(FirebaseFirestore db) {
-        collectionReference = db.collection("drinks");
+        collectionReference = db.collection("Drinks");
     }
 
     public void run() {

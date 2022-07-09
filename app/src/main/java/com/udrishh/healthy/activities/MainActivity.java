@@ -59,6 +59,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int eatenCalories;
     private boolean connectionAvailable;
+    private boolean uiReady = false;
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -289,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
-                        if(isNetworkAvailable()){
+                        if (isNetworkAvailable() && uiReady) {
                             setProfileFragment();
                         }
                     }
@@ -331,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
                         }
-                        if(isNetworkAvailable()){
+                        if (isNetworkAvailable() && uiReady) {
                             setProfileFragment();
                         }
                     }
@@ -367,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-                            if(isNetworkAvailable()){
+                            if (isNetworkAvailable() && uiReady) {
                                 setProfileFragment();
                             }
                         }
@@ -398,8 +400,9 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         fragmentManager = getSupportFragmentManager();
+        uiReady = true;
 
-        if(isNetworkAvailable()){
+        if (isNetworkAvailable()) {
             setProfileFragment();
         } else {
             setNoInternetFragment();
@@ -411,8 +414,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onAvailable(@NonNull Network network) {
             super.onAvailable(network);
-            setProfileFragment();
-            connectionAvailable = true;bottomNavigation.setVisibility(View.VISIBLE);
+            if(uiReady){
+                setProfileFragment();
+            }
+            connectionAvailable = true;
+            bottomNavigation.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -464,6 +470,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (recipes.isEmpty()) {
             loadRecipes();
+        }
+        if (uiReady && isNetworkAvailable()) {
+            setProfileFragment();
         }
     }
 
@@ -646,144 +655,181 @@ public class MainActivity extends AppCompatActivity {
     private void loadDrinks() {
         //LOAD DRINKS
         new Thread() {
+            private final CollectionReference collectionReference = db.collection("Drinks");
+
             @Override
             public void run() {
                 super.run();
-
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                StorageReference filepath = storageReference.child("drinks_db.csv");
-
-                File localFile = null;
-                try {
-                    localFile = File.createTempFile("drinks_db", "csv");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                File finalLocalFile = localFile;
-                Log.d("mytag", finalLocalFile.toString());
-                filepath.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-                    try {
-                        Log.d("mytag", "Started loading database!");
-                        Log.d("mytag", finalLocalFile.toString());
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
-                        bufferedReader.readLine();
-                        String line;
-                        while ((line = bufferedReader.readLine()) != null) {
-                            String[] items = line.split(",");
-                            Drink drink = new Drink();
-                            drink.setName(items[0]);
-                            drink.setCalories(Integer.parseInt(items[1]));
-                            drink.setProteins(Integer.parseInt(items[2]));
-                            drink.setLipids(Integer.parseInt(items[3]));
-                            drink.setCarbs(Integer.parseInt(items[4]));
-                            drink.setFibers(Integer.parseInt(items[5]));
-                            drink.setUserId(items[6]);
-                            drink.setDrinkId(items[7]);
-
-                            drinks.add(drink);
-                            //Log.d("mytag", food.toString());
-                        }
-                        bufferedReader.close();
-                        if (drinks.size() > 0) {
-                            Log.d("mytag", "Successfully loaded database!");
-                            Toast.makeText(MainActivity.this, "DrinkDB Loaded!", Toast.LENGTH_SHORT);
-                        } else {
-                            Log.d("mytag", "There've been an error loading the database!");
-                        }
-                    } catch (Exception e) {
-                        Log.d("mytag", "Exception occured: " + e.getMessage());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d("mytag", "Exception occured: " + exception.getMessage());
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            //DATABASE LOADED SUCCESSFULLY
-                        }
-                    }
-                });
-
-                Log.d("mytag", "Database task finished!");
+                collectionReference.get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (QueryDocumentSnapshot drinkSnapshot : queryDocumentSnapshots) {
+                                    Drink drink = drinkSnapshot.toObject(Drink.class);
+                                    drinks.add(drink);
+                                }
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.d("db_threads", "Error loading drinks"));
             }
         }.start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//
+//                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+//                StorageReference filepath = storageReference.child("drinks_db.csv");
+//
+//                File localFile = null;
+//                try {
+//                    localFile = File.createTempFile("drinks_db", "csv");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                File finalLocalFile = localFile;
+//                Log.d("mytag", finalLocalFile.toString());
+//                filepath.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+//                    try {
+//                        Log.d("mytag", "Started loading database!");
+//                        Log.d("mytag", finalLocalFile.toString());
+//                        BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
+//                        bufferedReader.readLine();
+//                        String line;
+//                        while ((line = bufferedReader.readLine()) != null) {
+//                            String[] items = line.split(",");
+//                            Drink drink = new Drink();
+//                            drink.setName(items[0]);
+//                            drink.setCalories(Integer.parseInt(items[1]));
+//                            drink.setProteins(Integer.parseInt(items[2]));
+//                            drink.setLipids(Integer.parseInt(items[3]));
+//                            drink.setCarbs(Integer.parseInt(items[4]));
+//                            drink.setFibers(Integer.parseInt(items[5]));
+//                            drink.setUserId(items[6]);
+//                            drink.setDrinkId(items[7]);
+//
+//                            drinks.add(drink);
+//                            //Log.d("mytag", food.toString());
+//                        }
+//                        bufferedReader.close();
+//                        if (drinks.size() > 0) {
+//                            Log.d("mytag", "Successfully loaded database!");
+//                            Toast.makeText(MainActivity.this, "DrinkDB Loaded!", Toast.LENGTH_SHORT);
+//                        } else {
+//                            Log.d("mytag", "There've been an error loading the database!");
+//                        }
+//                    } catch (Exception e) {
+//                        Log.d("mytag", "Exception occured: " + e.getMessage());
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        Log.d("mytag", "Exception occured: " + exception.getMessage());
+//                    }
+//                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            //DATABASE LOADED SUCCESSFULLY
+//                        }
+//                    }
+//                });
+//
+//                Log.d("mytag", "Database task finished!");
+//            }
+//        }.start();
     }
 
     private void loadFoods() {
         //LOAD FOODS
         new Thread() {
+            private final CollectionReference collectionReference = db.collection("Foods");
+
             @Override
             public void run() {
                 super.run();
-
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                StorageReference filepath = storageReference.child("foods_db.csv");
-
-                File localFile = null;
-                try {
-                    localFile = File.createTempFile("foods_db", "csv");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                File finalLocalFile = localFile;
-                Log.d("mytag", finalLocalFile.toString());
-                filepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        try {
-                            Log.d("mytag", "Started loading database!");
-                            Log.d("mytag", finalLocalFile.toString());
-                            BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
-                            bufferedReader.readLine();
-                            String line;
-                            while ((line = bufferedReader.readLine()) != null) {
-                                String[] items = line.split(",");
-                                Food food = new Food();
-                                food.setName(items[0]);
-                                food.setCalories(Integer.parseInt(items[1]));
-                                food.setProteins(Integer.parseInt(items[2]));
-                                food.setLipids(Integer.parseInt(items[3]));
-                                food.setCarbs(Integer.parseInt(items[4]));
-                                food.setFibers(Integer.parseInt(items[5]));
-                                food.setUserId(items[6]);
-                                food.setFoodId(items[7]);
-
-                                foods.add(food);
-                                //Log.d("mytag", food.toString());
+                collectionReference.get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (QueryDocumentSnapshot foodSnapshot : queryDocumentSnapshots) {
+                                    Food food = foodSnapshot.toObject(Food.class);
+                                    foods.add(food);
+                                }
                             }
-                            bufferedReader.close();
-                            if (foods.size() > 0) {
-                                Log.d("mytag", "Successfully loaded database!");
-                                Toast.makeText(MainActivity.this, "FoodDB Loaded!", Toast.LENGTH_SHORT);
-                            } else {
-                                Log.d("mytag", "There've been an error loading the database!");
-                            }
-                        } catch (Exception e) {
-                            Log.d("mytag", "Exception occured: " + e.getMessage());
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d("mytag", "Exception occured: " + exception.getMessage());
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            //DATABASE LOADED SUCCESSFULLY
-                        }
-                    }
-                });
-
-                Log.d("mytag", "Database task finished!");
+                        })
+                        .addOnFailureListener(e -> Log.d("db_threads", "Error loading foods"));
             }
         }.start();
+
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//
+//                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+//                StorageReference filepath = storageReference.child("foods_db.csv");
+//
+//                File localFile = null;
+//                try {
+//                    localFile = File.createTempFile("foods_db", "csv");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                File finalLocalFile = localFile;
+//                Log.d("mytag", finalLocalFile.toString());
+//                filepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        try {
+//                            Log.d("mytag", "Started loading database!");
+//                            Log.d("mytag", finalLocalFile.toString());
+//                            BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
+//                            bufferedReader.readLine();
+//                            String line;
+//                            while ((line = bufferedReader.readLine()) != null) {
+//                                String[] items = line.split(",");
+//                                Food food = new Food();
+//                                food.setName(items[0]);
+//                                food.setCalories(Integer.parseInt(items[1]));
+//                                food.setProteins(Integer.parseInt(items[2]));
+//                                food.setLipids(Integer.parseInt(items[3]));
+//                                food.setCarbs(Integer.parseInt(items[4]));
+//                                food.setFibers(Integer.parseInt(items[5]));
+//                                food.setUserId(items[6]);
+//                                food.setFoodId(items[7]);
+//
+//                                foods.add(food);
+//                                //Log.d("mytag", food.toString());
+//                            }
+//                            bufferedReader.close();
+//                            if (foods.size() > 0) {
+//                                Log.d("mytag", "Successfully loaded database!");
+//                                Toast.makeText(MainActivity.this, "FoodDB Loaded!", Toast.LENGTH_SHORT);
+//                            } else {
+//                                Log.d("mytag", "There've been an error loading the database!");
+//                            }
+//                        } catch (Exception e) {
+//                            Log.d("mytag", "Exception occured: " + e.getMessage());
+//                        }
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        Log.d("mytag", "Exception occured: " + exception.getMessage());
+//                    }
+//                }).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            //DATABASE LOADED SUCCESSFULLY
+//                        }
+//                    }
+//                });
+//
+//                Log.d("mytag", "Database task finished!");
+//            }
+//        }.start();
     }
 
     private void loadUserFoodDrinkRecords() {

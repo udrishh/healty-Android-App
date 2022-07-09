@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FoodsDownloadThread extends Thread{
+public class FoodsDownloadThread extends Thread {
     private CollectionReference collectionReference;
     private SharedPreferences sharedPreferences;
-    private List<Food> foodsList= new ArrayList<>();
+    private List<Food> foodsList = new ArrayList<>();
 
     public FoodsDownloadThread(FirebaseFirestore db, SharedPreferences sharedPreferences) {
         collectionReference = db.collection("Foods");
@@ -42,37 +42,29 @@ public class FoodsDownloadThread extends Thread{
         Log.d("mytag", "task started");
         //READ
         try {
-        boolean isAvailable = sharedPreferences.getBoolean("databaseAvailable", false);
-        isAvailable = true;
-        if(isAvailable){
-            //GET
+            boolean isAvailable = sharedPreferences.getBoolean("databaseAvailable", false);
+            isAvailable = true;
+            if (isAvailable) {
+                //GET
 
-        } else {
-            //PUT
-        }
+            } else {
+                //PUT
+            }
 
             final int[] count = {0};
             collectionReference.get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
 
-                            if(!queryDocumentSnapshots.isEmpty()){
-                                for(QueryDocumentSnapshot foods : queryDocumentSnapshots){
-                                    Food food = foods.toObject(Food.class);
-                                    foodsList.add(food);
-                                    count[0]++;
-                                }
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot foods : queryDocumentSnapshots) {
+                                Food food = foods.toObject(Food.class);
+                                foodsList.add(food);
+                                count[0]++;
                             }
-                            Log.d("mytag", "DOWNLOAD " + count[0] + " out of " + "10814 SUCCESS");
                         }
+                        Log.d("mytag", "DOWNLOAD " + count[0] + " out of " + "10814 SUCCESS");
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("mytag", "DOWNLOAD " + count[0] + " out of " + "10814 FAIL");
-                        }
-                    });
+                    .addOnFailureListener(e -> Log.d("mytag", "DOWNLOAD " + count[0] + " out of " + "10814 FAIL"));
 
             //WRITE ON SHARED PREFS
         } catch (Exception e) {
