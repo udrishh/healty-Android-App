@@ -148,18 +148,15 @@ public class SignupActivity extends AppCompatActivity {
         newUserObject = new User();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                currentUser = firebaseAuth.getCurrentUser();
-
-                if (currentUser != null) {
-                    //user is already logged in
-                } else {
-                    //no user yet
-                }
-            }
-        };
+//        authStateListener = firebaseAuth -> {
+//            currentUser = firebaseAuth.getCurrentUser();
+//
+//            if (currentUser != null) {
+//                //user is already logged in
+//            } else {
+//                //no user yet
+//            }
+//        };
 
         activityLevelInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -186,116 +183,107 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        continueBtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isValid = true;
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if (TextUtils.isEmpty(emailInput.getText().toString().trim())
-                        || !emailInput.getText().toString().trim().matches(emailPattern)) {
-                    emailInput.setError(getString(R.string.invalid_email_text));
-                    isValid = false;
-                }
-                if (TextUtils.isEmpty(passwordInput.getText().toString().trim())
-                        || passwordInput.getText().toString().trim().length() < 6) {
-                    passwordInput.setError(getString(R.string.invalid_password_signup_text));
-                    isValid = false;
-                }
-
-                if (!isValid) {
-                    return;
-                }
-                passwordInput.setError(null);
-                emailInput.setError(null);
-                firstCard.setVisibility(View.INVISIBLE);
-                secondCard.setVisibility(View.VISIBLE);
+        continueBtn1.setOnClickListener(v -> {
+            boolean isValid = true;
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+            if (TextUtils.isEmpty(emailInput.getText().toString().trim())
+                    || !emailInput.getText().toString().trim().matches(emailPattern)) {
+                emailInput.setError(getString(R.string.invalid_email_text));
+                isValid = false;
             }
+            if (TextUtils.isEmpty(passwordInput.getText().toString().trim())
+                    || passwordInput.getText().toString().trim().length() < 6) {
+                passwordInput.setError(getString(R.string.invalid_password_signup_text));
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+            passwordInput.setError(null);
+            emailInput.setError(null);
+            firstCard.setVisibility(View.INVISIBLE);
+            secondCard.setVisibility(View.VISIBLE);
         });
 
-        continueBtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isValid = true;
-                if (TextUtils.isEmpty(nameInput.getText().toString().trim())) {
-                    nameInput.setError(getString(R.string.invalid_username_text));
-                    isValid = false;
-                } else if (nameInput.getText().toString().trim().length() < 2) {
-                    nameInput.setError(getString(R.string.invalid_username_text));
-                    isValid = false;
-                }
-                if (TextUtils.isEmpty(heightInput.getText().toString().trim())) {
+        continueBtn2.setOnClickListener(v -> {
+            boolean isValid = true;
+            if (TextUtils.isEmpty(nameInput.getText().toString().trim())) {
+                nameInput.setError(getString(R.string.invalid_username_text));
+                isValid = false;
+            } else if (nameInput.getText().toString().trim().length() < 2) {
+                nameInput.setError(getString(R.string.invalid_username_text));
+                isValid = false;
+            }
+            if (TextUtils.isEmpty(heightInput.getText().toString().trim())) {
+                heightInput.setError(getString(R.string.invalid_height_text));
+                isValid = false;
+            }
+            if (!heightInput.getText().toString().trim().equals("")) {
+                if (Integer.parseInt(heightInput.getText().toString().trim()) < 50
+                        || Integer.parseInt(heightInput.getText().toString().trim()) > 230) {
                     heightInput.setError(getString(R.string.invalid_height_text));
                     isValid = false;
                 }
-                if (!heightInput.getText().toString().trim().equals("")) {
-                    if (Integer.parseInt(heightInput.getText().toString().trim()) < 50
-                            || Integer.parseInt(heightInput.getText().toString().trim()) > 230) {
-                        heightInput.setError(getString(R.string.invalid_height_text));
-                        isValid = false;
-                    }
-                }
-                if (TextUtils.isEmpty(weightInput.getText().toString().trim())) {
+            }
+            if (TextUtils.isEmpty(weightInput.getText().toString().trim())) {
+                weightInput.setError(getString(R.string.invalid_weight_text));
+                isValid = false;
+            }
+            if (!weightInput.getText().toString().trim().equals("")) {
+                if (Integer.parseInt(weightInput.getText().toString().trim()) < 40
+                        || Integer.parseInt(weightInput.getText().toString().trim()) > 300) {
                     weightInput.setError(getString(R.string.invalid_weight_text));
                     isValid = false;
                 }
-                if (!weightInput.getText().toString().trim().equals("")) {
-                    if (Integer.parseInt(weightInput.getText().toString().trim()) < 40
-                            || Integer.parseInt(weightInput.getText().toString().trim()) > 300) {
-                        weightInput.setError(getString(R.string.invalid_weight_text));
-                        isValid = false;
-                    }
-                }
-                if (TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+            }
+            if (TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+                birthdateInput.setError(getString(R.string.invalid_birthdate_text));
+                isValid = false;
+            }
+            if (!TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+                String[] date = birthdateInput.getText().toString().trim().split("/");
+                if ((Integer.parseInt(date[0]) < 1 && Integer.parseInt(date[0]) > 31)
+                        || (Integer.parseInt(date[1]) < 1 && Integer.parseInt(date[1]) > 12)
+                        || (Integer.parseInt(date[2]) < 1920 && Integer.parseInt(date[2]) > (new Date().getYear() - 14))) {
                     birthdateInput.setError(getString(R.string.invalid_birthdate_text));
                     isValid = false;
                 }
-                if (!TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
-                    String[] date = birthdateInput.getText().toString().trim().split("/");
-                    if ((Integer.parseInt(date[0]) < 1 && Integer.parseInt(date[0]) > 31)
-                            || (Integer.parseInt(date[1]) < 1 && Integer.parseInt(date[1]) > 12)
-                            || (Integer.parseInt(date[2]) < 1920 && Integer.parseInt(date[2]) > (new Date().getYear() - 14))) {
-                        birthdateInput.setError(getString(R.string.invalid_birthdate_text));
-                        isValid = false;
-                    }
-                }
-
-                if (!isValid) {
-                    return;
-                }
-                nameInput.setError(null);
-                heightInput.setError(null);
-                weightInput.setError(null);
-                birthdateInput.setError(null);
-
-                setPlanPreview();
-                isReady = true;
-                activityLevelInput.setSelection(0);
-                secondCard.setVisibility(View.INVISIBLE);
-                thirdCard.setVisibility(View.VISIBLE);
             }
+
+            if (!isValid) {
+                return;
+            }
+            nameInput.setError(null);
+            heightInput.setError(null);
+            weightInput.setError(null);
+            birthdateInput.setError(null);
+
+            setPlanPreview();
+            isReady = true;
+            activityLevelInput.setSelection(0);
+            secondCard.setVisibility(View.INVISIBLE);
+            thirdCard.setVisibility(View.VISIBLE);
         });
 
-        finishBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //create account from components
-                newUserObject.setName(nameInput.getText().toString().trim());
-                newUserObject.setHeight(Integer.parseInt(heightInput.getText().toString().trim()));
-                newUserObject.setWeight(Integer.parseInt(weightInput.getText().toString().trim()));
-                newUserObject.setBirthdate(birthdateInput.getText().toString().trim());
-                newUserObject.setSex(getSelectedSex());
-                ActivityLevel activityLevel = getSelectedActivityLevel();
-                GainLose gainLose = getSelectedGainLose();
-                int userAge = getAge(newUserObject.getBirthdate());
+        finishBtn.setOnClickListener(v -> {
+            //create account from components
+            newUserObject.setName(nameInput.getText().toString().trim());
+            newUserObject.setHeight(Integer.parseInt(heightInput.getText().toString().trim()));
+            newUserObject.setWeight(Integer.parseInt(weightInput.getText().toString().trim()));
+            newUserObject.setBirthdate(birthdateInput.getText().toString().trim());
+            newUserObject.setSex(getSelectedSex());
+            ActivityLevel activityLevel = getSelectedActivityLevel();
+            GainLose gainLose = getSelectedGainLose();
+            int userAge = getAge(newUserObject.getBirthdate());
 
-                newUserObject.setCaloriesPlan(Calculator.BMR(newUserObject.getWeight(),
-                        newUserObject.getHeight(), userAge, newUserObject.getSex(), activityLevel, gainLose));
+            newUserObject.setCaloriesPlan(Calculator.BMR(newUserObject.getWeight(),
+                    newUserObject.getHeight(), userAge, newUserObject.getSex(), activityLevel, gainLose));
 
-                String email = emailInput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
+            String email = emailInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
 
-                createUserEmailAccount(email, password, newUserObject);
-            }
+            createUserEmailAccount(email, password, newUserObject);
         });
     }
 
@@ -305,98 +293,81 @@ public class SignupActivity extends AppCompatActivity {
             loading.setVisibility(View.VISIBLE);
 
             firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(SignupActivity.this, R.string.user_created_text, Toast.LENGTH_LONG).show();
-                                //take user to the app main activity
-                                currentUser = firebaseAuth.getCurrentUser();
-                                assert currentUser != null;
-                                String currentUserId = currentUser.getUid();
-                                newUserObject.setUserId(currentUserId);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignupActivity.this, R.string.user_created_text, Toast.LENGTH_LONG).show();
+                            //take user to the app main activity
+                            currentUser = firebaseAuth.getCurrentUser();
+                            assert currentUser != null;
+                            String currentUserId = currentUser.getUid();
+                            newUserObject.setUserId(currentUserId);
 
-                                //create user map to create user in the user collection
-                                Map<String, Object> userFirebaseObject = new HashMap<>();
-                                userFirebaseObject.put("userId", currentUserId);
-                                userFirebaseObject.put("name", newUserObject.getName());
-                                userFirebaseObject.put("birthdate", newUserObject.getBirthdate());
-                                userFirebaseObject.put("height", newUserObject.getHeight());
-                                userFirebaseObject.put("weight", newUserObject.getWeight());
-                                userFirebaseObject.put("sex", newUserObject.getSex().toString());
-                                userFirebaseObject.put("caloriesPlan", newUserObject.getCaloriesPlan());
+                            //create user map to create user in the user collection
+                            Map<String, Object> userFirebaseObject = new HashMap<>();
+                            userFirebaseObject.put("userId", currentUserId);
+                            userFirebaseObject.put("name", newUserObject.getName());
+                            userFirebaseObject.put("birthdate", newUserObject.getBirthdate());
+                            userFirebaseObject.put("height", newUserObject.getHeight());
+                            userFirebaseObject.put("weight", newUserObject.getWeight());
+                            userFirebaseObject.put("sex", newUserObject.getSex().toString());
+                            userFirebaseObject.put("caloriesPlan", newUserObject.getCaloriesPlan());
 
-                                //save to firebase firestore
-                                collectionReference.document(currentUserId).set(userFirebaseObject)
-                                        .addOnSuccessListener(new OnSuccessListener() {
+                            //save to firebase firestore
+                            collectionReference.document(currentUserId).set(userFirebaseObject)
+                                    .addOnSuccessListener(new OnSuccessListener() {
 
-                                            @Override
-                                            public void onSuccess(Object o) {
-                                                MeasurementRecord heightRecord = new MeasurementRecord();
-                                                heightRecord.setMeasurementCategory(RecordType.HEIGHT);
-                                                heightRecord.setUserId(currentUser.getUid());
-                                                heightRecord.setName("Initial height");
-                                                heightRecord.setRecordId(UUID.randomUUID().toString());
-                                                heightRecord.setDate(DateConverter.fromLongDate(new Date()));
-                                                heightRecord.setValue(newUserObject.getHeight());
-                                                heightRecord.setInitial(true);
-                                                measurementRecordsReference.document(heightRecord.getRecordId()).set(heightRecord);
-                                                //weight
-                                                MeasurementRecord weightRecord = new MeasurementRecord();
-                                                weightRecord.setMeasurementCategory(RecordType.WEIGHT);
-                                                weightRecord.setUserId(currentUser.getUid());
-                                                weightRecord.setName("Initial weight");
-                                                weightRecord.setRecordId(UUID.randomUUID().toString());
-                                                weightRecord.setDate(DateConverter.fromLongDate(new Date()));
-                                                weightRecord.setValue(newUserObject.getWeight());
-                                                weightRecord.setInitial(true);
-                                                measurementRecordsReference.document(weightRecord.getRecordId()).set(weightRecord);
-                                                //start activity
-                                                loading.setVisibility(View.INVISIBLE);
-                                                Intent intent = new Intent(SignupActivity.this,
-                                                        MainActivity.class);
-                                                intent.putExtra("userObject", newUserObject);
-                                                startActivity(intent);
-                                            }
+                                        @Override
+                                        public void onSuccess(Object o) {
+                                            MeasurementRecord heightRecord = new MeasurementRecord();
+                                            heightRecord.setMeasurementCategory(RecordType.HEIGHT);
+                                            heightRecord.setUserId(currentUser.getUid());
+                                            heightRecord.setName("Initial height");
+                                            heightRecord.setRecordId(UUID.randomUUID().toString());
+                                            heightRecord.setDate(DateConverter.fromLongDate(new Date()));
+                                            heightRecord.setValue(newUserObject.getHeight());
+                                            heightRecord.setInitial(true);
+                                            measurementRecordsReference.document(heightRecord.getRecordId()).set(heightRecord);
+                                            //weight
+                                            MeasurementRecord weightRecord = new MeasurementRecord();
+                                            weightRecord.setMeasurementCategory(RecordType.WEIGHT);
+                                            weightRecord.setUserId(currentUser.getUid());
+                                            weightRecord.setName("Initial weight");
+                                            weightRecord.setRecordId(UUID.randomUUID().toString());
+                                            weightRecord.setDate(DateConverter.fromLongDate(new Date()));
+                                            weightRecord.setValue(newUserObject.getWeight());
+                                            weightRecord.setInitial(true);
+                                            measurementRecordsReference.document(weightRecord.getRecordId()).set(weightRecord);
+                                            //start activity
+                                            loading.setVisibility(View.INVISIBLE);
+                                            Intent intent = new Intent(SignupActivity.this,
+                                                    MainActivity.class);
+                                            intent.putExtra("userObject", newUserObject);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
 
-//                                            @Override
-//                                            public void onSuccess(DocumentReference documentReference) {
-//                                                documentReference.get()
-//                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                                            @Override
-//                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                                                if (task.getResult().exists()) {
-//                                                                    //upload first records
-//                                                                    //height
-//
-//                                                                } else {
-//                                                                    loading.setVisibility(View.INVISIBLE);
-//                                                                }
-//                                                            }
-//                                                        });
-//                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                                    });
 
-                                            }
-                                        });
-
-                            } else {
-                                //something went wrong
-                            }
+                        } else {
+                            Toast.makeText(SignupActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_LONG).show();
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //Toast.makeText(SignupActivity.this, "Error creating user!", Toast.LENGTH_LONG).show();
-                            Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    .addOnFailureListener(e -> {
+                        if (e.getMessage() != null) {
+                            if (e.getMessage().contains("already")) {
+                                Toast.makeText(SignupActivity.this, R.string.already_used_email_error_text, Toast.LENGTH_LONG).show();
+                            } else if (e.getMessage().contains("network")) {
+                                Toast.makeText(SignupActivity.this, R.string.no_internet_error_text, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(SignupActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(SignupActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
-            Toast.makeText(SignupActivity.this, "Bad user data!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignupActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_LONG).show();
         }
     }
 

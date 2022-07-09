@@ -218,4 +218,6 @@
     <string name="or_text">sau</string>
     <string name="search_bd_text">Caută în baza de date</string>
     <string name="add_manually_text">Adaugă manual</string>
+    <string name="no_internet_error_text">Nu există conexiune la internet!</string>
+    <string name="already_used_email_error_text">Adresa de email este utilizata de un alt utilizator!</string>
 </resources>
