@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -81,8 +80,6 @@ public class RecordDetailsFragment extends Fragment {
                     ((PhysicalActivityRecord) selectedRecord).setName(recordName.getText().toString().trim());
                     ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
                 }
-
-                Toast.makeText(getContext(), getString(R.string.record_edited_message), Toast.LENGTH_LONG).show();
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new ProfileFragment())
@@ -100,8 +97,6 @@ public class RecordDetailsFragment extends Fragment {
             } else if (recordType == RecordType.PHYSICAL_ACTIVITY) {
                 ((MainActivity) requireActivity()).deletePhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
             }
-
-            Toast.makeText(getContext(), getString(R.string.record_deleted_message), Toast.LENGTH_LONG).show();
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new ProfileFragment())

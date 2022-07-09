@@ -76,20 +76,18 @@ public class AddDrinkManuallyDetailsFragment extends Fragment /*implements IOnBa
         view = inflater.inflate(R.layout.fragment_add_drink_manually_details, container, false);
         user = ((MainActivity) this.requireActivity()).getUserObject();
 
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_BACK:
-                    {
-                        Toast.makeText(getContext(),"works",Toast.LENGTH_SHORT).show();
-
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
+//        view.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                switch (keyCode) {
+//                    case KeyEvent.KEYCODE_BACK:
+//                    {
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//        });
 
 
 

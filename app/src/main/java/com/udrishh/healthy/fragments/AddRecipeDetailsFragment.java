@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -138,8 +137,6 @@ public class AddRecipeDetailsFragment extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new ProfileFragment())
                     .commit();
-
-            Toast.makeText(getContext(), R.string.record_added_text, Toast.LENGTH_SHORT).show();
         });
     }
 

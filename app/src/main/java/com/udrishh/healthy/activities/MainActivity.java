@@ -94,23 +94,11 @@ public class MainActivity extends AppCompatActivity {
         if (foodDrinkRecord != null) {
             records.add(foodDrinkRecord);
             foodDrinkRecords.add(foodDrinkRecord);
-            Log.d("mytag", foodDrinkRecord.toString());
-            Log.d("mytag", "Record added succesfully");
-
-            //add to firebase
             foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId()).set(foodDrinkRecord)
-                    .addOnSuccessListener(new OnSuccessListener() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            Log.d("mytag", "Record was added to firebase successfully!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("mytag", "Error occurred while adding record to firebase!");
-                        }
-                    });
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(MainActivity.this, getText(R.string.record_added_text), Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -118,13 +106,11 @@ public class MainActivity extends AppCompatActivity {
         if (physicalActivityRecord != null) {
             records.add(physicalActivityRecord);
             physicalActivityRecords.add(physicalActivityRecord);
-            Log.d("mytag", physicalActivityRecord.toString());
-            Log.d("mytag", "Record added succesfully");
-
-            //add to firebase
             physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).set(physicalActivityRecord)
-                    .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
-                    .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -132,15 +118,14 @@ public class MainActivity extends AppCompatActivity {
         if (measurementRecord != null) {
             records.add(measurementRecord);
             measurementRecords.add(measurementRecord);
-            Log.d("mytag", measurementRecord.toString());
-            Log.d("mytag", "Record added succesfully");
-
-            //add to firebase
             measurementRecordsReference.document(measurementRecord.getRecordId()).set(measurementRecord)
-                    .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
-                    .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(MainActivity.this, getText(R.string.record_added_text), Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         }
         //update user height or weight
+        assert measurementRecord != null;
         if (measurementRecord.getMeasurementCategory() == RecordType.HEIGHT) {
             usersReference.document(user.getUserId())
                     .update("height", measurementRecord.getValue());
@@ -154,13 +139,11 @@ public class MainActivity extends AppCompatActivity {
         if (recipeRecord != null) {
             records.add(recipeRecord);
             recipeRecords.add(recipeRecord);
-            Log.d("mytag", recipeRecord.toString());
-            Log.d("mytag", "Record added succesfully");
-
-            //add to firebase
             recipeRecordsReference.document(recipeRecord.getRecordId()).set(recipeRecord)
-                    .addOnSuccessListener(documentReference -> Log.d("mytag", "Record was added to firebase successfully!"))
-                    .addOnFailureListener(e -> Log.d("mytag", "Error occurred while adding record to firebase!"));
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(MainActivity.this, getText(R.string.record_added_text), Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -306,7 +289,9 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
-//                        setProfileFragment();
+                        if(isNetworkAvailable()){
+                            setProfileFragment();
+                        }
                     }
                 });
     }
@@ -346,7 +331,9 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
                         }
-//                        setProfileFragment();
+                        if(isNetworkAvailable()){
+                            setProfileFragment();
+                        }
                     }
                 });
     }
@@ -380,7 +367,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-//                            setProfileFragment();
+                            if(isNetworkAvailable()){
+                                setProfileFragment();
+                            }
                         }
                     }
                 });
@@ -847,31 +836,56 @@ public class MainActivity extends AppCompatActivity {
 
     public void editFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId())
-                .update("name", foodDrinkRecord.getName());
+                .update("name", foodDrinkRecord.getName())
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void editMeasurementRecord(MeasurementRecord measurementRecord) {
         measurementRecordsReference.document(measurementRecord.getRecordId())
-                .update("name", measurementRecord.getName());
+                .update("name", measurementRecord.getName())
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void editRecipeRecord(RecipeRecord recipeRecord) {
         recipeRecordsReference.document(recipeRecord.getRecordId())
-                .update("name", recipeRecord.getName());
+                .update("name", recipeRecord.getName())
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void editPhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
-        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).delete();
+        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId())
+                .update("name", physicalActivityRecord.getName())
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void deleteFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
-        foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId()).delete();
+        foodDrinkRecordsReference.document(foodDrinkRecord.getRecordId()).delete()
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_deleted_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         records.remove(foodDrinkRecord);
         foodDrinkRecords.remove(foodDrinkRecord);
     }
 
     public void deleteMeasurementRecord(MeasurementRecord measurementRecord, RecordType recordType) {
-        measurementRecordsReference.document(measurementRecord.getRecordId()).delete();
+        measurementRecordsReference.document(measurementRecord.getRecordId()).delete()
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_deleted_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         records.remove(measurementRecord);
         measurementRecords.remove(measurementRecord);
         //update user data with last record available
@@ -893,13 +907,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteRecipeRecord(RecipeRecord recipeRecord) {
-        recipeRecordsReference.document(recipeRecord.getRecordId()).delete();
+        recipeRecordsReference.document(recipeRecord.getRecordId())
+                .delete()
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_deleted_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         records.remove(recipeRecord);
         recipeRecords.remove(recipeRecord);
     }
 
     public void deletePhysicalActivityRecord(PhysicalActivityRecord physicalActivityRecord) {
-        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).delete();
+        physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId())
+                .delete()
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.record_deleted_message), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         records.remove(physicalActivityRecord);
         physicalActivityRecords.remove(physicalActivityRecord);
     }
@@ -908,18 +932,10 @@ public class MainActivity extends AppCompatActivity {
         this.user = user;
         usersReference.document(user.getUserId())
                 .update("caloriesPlan", user.getCaloriesPlan())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(MainActivity.this, getText(R.string.user_calories_plan_edited_text), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("mytagg", "fail");
-                    }
-                });
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.user_calories_plan_edited_text), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void editUserData(User user) {
@@ -927,18 +943,10 @@ public class MainActivity extends AppCompatActivity {
         usersReference.document(user.getUserId())
                 .update("name", user.getName(),
                         "sex", user.getSex(), "birthdate", user.getBirthdate())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(MainActivity.this, getText(R.string.user_data_edited_text), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("mytagg", "fail");
-                    }
-                });
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(MainActivity.this, getText(R.string.user_data_edited_text), Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
     }
 
     public void setEatenCalories(int value) {

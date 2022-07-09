@@ -96,8 +96,6 @@ public class AddWaterFragment extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new ProfileFragment())
                     .commit();
-
-            Toast.makeText(getContext(), R.string.record_added_text, Toast.LENGTH_SHORT).show();
         });
     }
 }
