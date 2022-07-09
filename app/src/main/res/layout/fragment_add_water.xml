@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="32dp"
                 android:text="@string/add_water_title"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -40,11 +41,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:hint="@string/add_water_name_hint" >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/water_name_input"
                     android:layout_width="match_parent"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -58,12 +61,14 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:hint="@string/add_water_quantity_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/water_quantity_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>

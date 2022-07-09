@@ -89,12 +89,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_calories_plan_calories"
+                android:textColorHint="@color/black"
                 android:enabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_calories_plan_calories_input"
                     android:enabled="false"
                     android:inputType="number"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

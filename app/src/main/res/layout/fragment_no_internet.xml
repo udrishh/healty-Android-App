@@ -25,16 +25,16 @@
             android:textColor="@color/white"
             android:layout_margin="16dp"
             android:textAlignment="center"
-            android:textSize="22dp"
-            android:text="@string/nicio_conexiune_la_internet"/>
+            android:textSize="22sp"
+            android:text="@string/no_internet_text"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginHorizontal="16dp"
             android:textAlignment="center"
-            android:textSize="16dp"
-            android:text="@string/utilizarea_acestei_aplica_ii_necesit_o_conexiune_stabil_la_internet"/>
+            android:textSize="16sp"
+            android:text="@string/connection_info_text"/>
 
     </LinearLayout>
 

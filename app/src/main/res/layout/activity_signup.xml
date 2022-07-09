@@ -28,6 +28,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -36,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/email_hint"
+                    android:textColor="@color/black"
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp" />
 
@@ -44,6 +46,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -52,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/password_hint"
+                    android:textColor="@color/black"
                     android:inputType="textPassword"
                     android:minHeight="48dp" />
 
@@ -92,6 +96,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -100,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/signup_user_data_name_input_hint"
+                    android:textColor="@color/black"
                     android:inputType="text"
                     android:minHeight="48dp" />
 
@@ -108,6 +114,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -116,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/signup_user_data_height_input_hint"
+                    android:textColor="@color/black"
                     android:inputType="number"
                     android:minHeight="48dp" />
 
@@ -124,6 +132,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -132,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:hint="@string/signup_user_data_weight_input_hint"
+                    android:textColor="@color/black"
                     android:inputType="number"
                     android:minHeight="48dp" />
 
@@ -141,11 +151,13 @@
                 android:id="@+id/signup_user_data_birthdate_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/signup_user_data_birthdate_title" />
+                android:text="@string/signup_user_data_birthdate_title"
+                android:textColor="@color/black"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -154,6 +166,7 @@
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
                     android:hint="dd/mm/yyyy"
+                    android:textColor="@color/black"
                     android:inputType="date"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -163,7 +176,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
-                android:text="@string/signup_user_data_sex_title" />
+                android:text="@string/signup_user_data_sex_title"
+                android:textColor="@color/black"/>
 
             <RadioGroup
                 android:id="@+id/signup_user_data_sex_radio_group"
@@ -179,7 +193,8 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:buttonTint="@color/black"
-                    android:text="@string/signup_user_data_sex_m_text" />
+                    android:text="@string/signup_user_data_sex_m_text"
+                    android:textColor="@color/black"/>
 
                 <RadioButton
                     android:id="@+id/signup_user_data_sex_f"
@@ -187,7 +202,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/black"
-                    android:text="@string/signup_user_data_sex_f_text" />
+                    android:text="@string/signup_user_data_sex_f_text"
+                    android:textColor="@color/black"/>
 
             </RadioGroup>
 
@@ -226,27 +242,32 @@
             <TextView
                 android:id="@+id/signup_user_data_gain_lose_titlle"
                 android:text="@string/signup_user_data_gain_lose_titlle"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <Spinner
                 android:id="@+id/signup_user_data_gain_lose"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:text="@string/signup_user_data_activity_level_titlle"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <Spinner
                 android:id="@+id/signup_user_data_activity_level"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/signup_user_calories"
                 android:text="@string/signup_plan_calories_text"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textAlignment="center"
                 android:layout_marginVertical="64dp"

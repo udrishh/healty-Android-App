@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="32dp"
                 android:text="@string/add_drink_db_drink_title"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -38,6 +39,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -55,6 +57,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:textColorHint="@color/black"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_food_db_per100_title"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
 
             <LinearLayout
@@ -90,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_per100_calories"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -98,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_per100_proteins"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -106,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_per100_lipids"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -114,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_per100_carbs"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -122,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_per100_fibers"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -136,6 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_food_db_total_title"
+                android:textColor="@color/black"
                 android:textAlignment="center" />
 
             <LinearLayout
@@ -150,6 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_total_calories"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -158,6 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_total_proteins"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -166,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_total_lipids"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -174,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_total_carbs"
+                    android:textColor="@color/black"
                     android:textAlignment="center" />
 
                 <TextView
@@ -182,6 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/add_food_db_total_fibers"
+                    android:textColor="@color/black"
                     android:textAlignment="center"
                     />
 

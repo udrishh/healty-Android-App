@@ -18,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/recipe_image"
-                android:background="#aaaaaa"
+                android:background="#fff"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
@@ -32,6 +32,7 @@
                 android:layout_width="247dp"
                 android:layout_height="98dp"
                 android:text="@string/recipe_title"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@id/recipe_divider"
@@ -55,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/recipe_calories"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/recipe_flags"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

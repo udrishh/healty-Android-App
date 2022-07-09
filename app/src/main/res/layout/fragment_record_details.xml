@@ -39,6 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
                         android:text="@string/record_type_title"
+                        android:textColor="@color/black"
                         android:textAlignment="center"
                         android:textSize="20sp" />
 
@@ -60,12 +61,14 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColorHint="@color/black"
                         android:layout_marginBottom="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/record_details_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:hint="@string/record_name_hint" />
 
                     </com.google.android.material.textfield.TextInputLayout>

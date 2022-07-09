@@ -43,6 +43,7 @@
                     android:layout_weight="2"
                     android:layout_gravity="center"
                     android:text="@string/user_greeting_text"
+                    android:textColor="@color/black"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -78,7 +79,8 @@
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
                     android:layout_gravity="center"
-                    android:text="@string/user_profile_name" />
+                    android:text="@string/user_profile_name"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -105,7 +107,8 @@
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
                     android:layout_gravity="center"
-                    android:text="@string/user_profile_age" />
+                    android:text="@string/user_profile_age"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -133,7 +136,8 @@
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
                     android:layout_gravity="center"
-                    android:text="@string/user_profile_sex" />
+                    android:text="@string/user_profile_sex"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -161,7 +165,8 @@
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
                     android:layout_gravity="center"
-                    android:text="@string/user_profile_height" />
+                    android:text="@string/user_profile_height"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -189,7 +194,8 @@
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
                     android:layout_gravity="center"
-                    android:text="@string/user_profile_weight" />
+                    android:text="@string/user_profile_weight"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -216,7 +222,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:layout_weight="7"
-                    android:text="@string/user_profile_calories" />
+                    android:text="@string/user_profile_calories"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 

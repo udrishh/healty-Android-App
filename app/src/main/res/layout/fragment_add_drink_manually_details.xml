@@ -38,6 +38,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="32dp"
                         android:text="@string/add_drink_db_drink_title"
+                        android:textColor="@color/black"
                         android:textAlignment="center"
                         android:textSize="20sp" />
 
@@ -49,13 +50,15 @@
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
+                        android:textColorHint="@color/black"
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/drink_m_name_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/add_food_db_name_hint" />
+                            android:hint="@string/add_food_db_name_hint"
+                            android:textColor="@color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +70,7 @@
                         android:id="@+id/drink_m_quantity_label"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
+                        android:textColorHint="@color/black"
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -74,6 +78,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/add_drink_db_quantity_hint"
+                            android:textColor="@color/black"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -89,6 +94,7 @@
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:buttonTint="@color/black"
+                            android:textColor="@color/black"
                             android:text="@string/add_known100_drink_text" />
 
                         <RadioButton
@@ -96,6 +102,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/black"
+                            android:textColor="@color/black"
                             android:text="@string/add_unknown100_drink_text" />
 
                     </RadioGroup>
@@ -117,6 +124,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/add_food_db_per100_title"
+                            android:textColor="@color/black"
                             android:textAlignment="center" />
 
                         <LinearLayout
@@ -131,6 +139,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColorHint="@color/black"
                                 android:padding="4dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -139,6 +148,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:hint="@string/add_food_m_calories_hint"
+                                    android:textColor="@color/black"
                                     android:inputType="number" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -148,6 +158,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:textColorHint="@color/black"
                                 android:padding="4dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -156,6 +167,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:hint="@string/add_food_m_proteins_hint"
+                                    android:textColor="@color/black"
                                     android:inputType="number" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -165,6 +177,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColorHint="@color/black"
                                 android:padding="4dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -173,6 +186,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:hint="@string/add_food_m_lipids_hint"
+                                    android:textColor="@color/black"
                                     android:inputType="number" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -191,6 +205,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColorHint="@color/black"
                                 android:padding="4dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -199,6 +214,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:hint="@string/add_food_m_carbs_hint"
+                                    android:textColor="@color/black"
                                     android:inputType="number" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -208,6 +224,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColorHint="@color/black"
                                 android:padding="4dp">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -215,6 +232,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/add_food_m_fibers_hint"
+                                    android:textColor="@color/black"
                                     android:inputType="number" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -361,6 +379,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/add_food_db_total_title"
+                            android:textColor="@color/black"
                             android:textAlignment="center" />
 
                         <LinearLayout
@@ -375,6 +394,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/add_food_db_total_calories"
+                                android:textColor="@color/black"
                                 android:textAlignment="center" />
 
                             <TextView
@@ -383,6 +403,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/add_food_db_total_proteins"
+                                android:textColor="@color/black"
                                 android:textAlignment="center" />
 
                             <TextView
@@ -391,6 +412,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/add_food_db_total_lipids"
+                                android:textColor="@color/black"
                                 android:textAlignment="center" />
 
                             <TextView
@@ -399,6 +421,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/add_food_db_total_carbs"
+                                android:textColor="@color/black"
                                 android:textAlignment="center" />
 
                             <TextView
@@ -407,6 +430,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/add_food_db_total_fibers"
+                                android:textColor="@color/black"
                                 android:textAlignment="center" />
 
                         </LinearLayout>

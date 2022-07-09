@@ -213,6 +213,9 @@
     <string name="edit_calories_plan_calories">Necesarul caloric:</string>
     <string name="edit_calories_plan_manually_check">Doresc să îmi setez manual necesarul caloric</string>
     <string name="user_calories_plan_edited_text">Planul caloric a fost actualizat!</string>
-    <string name="nicio_conexiune_la_internet"><b>Nicio conexiune la internet!</b></string>
-    <string name="utilizarea_acestei_aplica_ii_necesit_o_conexiune_stabil_la_internet">Utilizarea acestei aplicații necesită o conexiune stabilă la internet.</string>
+    <string name="no_internet_text"><b>Nicio conexiune la internet!</b></string>
+    <string name="connection_info_text">Utilizarea acestei aplicații necesită o conexiune stabilă la internet.</string>
+    <string name="or_text">sau</string>
+    <string name="search_bd_text">Caută în baza de date</string>
+    <string name="add_manually_text">Adaugă manual</string>
 </resources>
