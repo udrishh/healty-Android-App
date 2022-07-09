@@ -6,9 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +47,7 @@ import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
+import com.udrishh.healthy.fragments.NoInternetFragment;
 import com.udrishh.healthy.fragments.SettingsFragment;
 import com.udrishh.healthy.fragments.AddFragment;
 import com.udrishh.healthy.fragments.ProfileFragment;
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference recipeRecordsReference = db.collection("RecipeRecords");
 
     private int eatenCalories;
+    private boolean connectionAvailable;
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -207,6 +216,12 @@ public class MainActivity extends AppCompatActivity {
         return firebaseAuth;
     }
 
+    private void setNoInternetFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_frame_layout, new NoInternetFragment())
+                .commit();
+    }
+
     private void setProfileFragment() {
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new ProfileFragment())
@@ -291,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
-                        setProfileFragment();
+//                        setProfileFragment();
                     }
                 });
     }
@@ -331,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
                         }
-                        setProfileFragment();
+//                        setProfileFragment();
                     }
                 });
     }
@@ -365,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-                            setProfileFragment();
+//                            setProfileFragment();
                         }
                     }
                 });
@@ -375,6 +390,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        NetworkRequest networkRequest = new NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .build();
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(ConnectivityManager.class);
+        connectivityManager.requestNetwork(networkRequest, networkCallback);
 
         //firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -384,32 +410,56 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         fragmentManager = getSupportFragmentManager();
 
-        setProfileFragment();
+        if(isNetworkAvailable()){
+            setProfileFragment();
+        } else {
+            setNoInternetFragment();
+        }
         initialiseComponents();
     }
 
+    private ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+        @Override
+        public void onAvailable(@NonNull Network network) {
+            super.onAvailable(network);
+            setProfileFragment();
+            connectionAvailable = true;bottomNavigation.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onLost(@NonNull Network network) {
+            super.onLost(network);
+            setNoInternetFragment();
+            connectionAvailable = false;
+        }
+    };
+
     @SuppressLint("NonConstantResourceId")
     private void initialiseComponents() {
-        bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_item_profile:
-                    setProfileFragment();
-                    break;
-                case R.id.menu_item_recipes:
-                    setRecipesFragment();
-                    break;
-                case R.id.menu_item_add:
-                    setAddFragment();
-                    break;
-                case R.id.menu_item_statistics:
-                    setStatisticsFragment();
-                    break;
-                case R.id.menu_item_settings:
-                    setSettingsFragment();
-                    break;
+            if (connectionAvailable) {
+                switch (item.getItemId()) {
+                    case R.id.menu_item_profile:
+                        setProfileFragment();
+                        break;
+                    case R.id.menu_item_recipes:
+                        setRecipesFragment();
+                        break;
+                    case R.id.menu_item_add:
+                        setAddFragment();
+                        break;
+                    case R.id.menu_item_statistics:
+                        setStatisticsFragment();
+                        break;
+                    case R.id.menu_item_settings:
+                        setSettingsFragment();
+                        break;
+                }
+                return true;
+            } else {
+                return false;
             }
-            return true;
+
         });
     }
 
@@ -623,40 +673,37 @@ public class MainActivity extends AppCompatActivity {
 
                 File finalLocalFile = localFile;
                 Log.d("mytag", finalLocalFile.toString());
-                filepath.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        try {
-                            Log.d("mytag", "Started loading database!");
-                            Log.d("mytag", finalLocalFile.toString());
-                            BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
-                            bufferedReader.readLine();
-                            String line;
-                            while ((line = bufferedReader.readLine()) != null) {
-                                String[] items = line.split(",");
-                                Drink drink = new Drink();
-                                drink.setName(items[0]);
-                                drink.setCalories(Integer.parseInt(items[1]));
-                                drink.setProteins(Integer.parseInt(items[2]));
-                                drink.setLipids(Integer.parseInt(items[3]));
-                                drink.setCarbs(Integer.parseInt(items[4]));
-                                drink.setFibers(Integer.parseInt(items[5]));
-                                drink.setUserId(items[6]);
-                                drink.setDrinkId(items[7]);
+                filepath.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+                    try {
+                        Log.d("mytag", "Started loading database!");
+                        Log.d("mytag", finalLocalFile.toString());
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(finalLocalFile));
+                        bufferedReader.readLine();
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            String[] items = line.split(",");
+                            Drink drink = new Drink();
+                            drink.setName(items[0]);
+                            drink.setCalories(Integer.parseInt(items[1]));
+                            drink.setProteins(Integer.parseInt(items[2]));
+                            drink.setLipids(Integer.parseInt(items[3]));
+                            drink.setCarbs(Integer.parseInt(items[4]));
+                            drink.setFibers(Integer.parseInt(items[5]));
+                            drink.setUserId(items[6]);
+                            drink.setDrinkId(items[7]);
 
-                                drinks.add(drink);
-                                //Log.d("mytag", food.toString());
-                            }
-                            bufferedReader.close();
-                            if (drinks.size() > 0) {
-                                Log.d("mytag", "Successfully loaded database!");
-                                Toast.makeText(MainActivity.this, "DrinkDB Loaded!", Toast.LENGTH_SHORT);
-                            } else {
-                                Log.d("mytag", "There've been an error loading the database!");
-                            }
-                        } catch (Exception e) {
-                            Log.d("mytag", "Exception occured: " + e.getMessage());
+                            drinks.add(drink);
+                            //Log.d("mytag", food.toString());
                         }
+                        bufferedReader.close();
+                        if (drinks.size() > 0) {
+                            Log.d("mytag", "Successfully loaded database!");
+                            Toast.makeText(MainActivity.this, "DrinkDB Loaded!", Toast.LENGTH_SHORT);
+                        } else {
+                            Log.d("mytag", "There've been an error loading the database!");
+                        }
+                    } catch (Exception e) {
+                        Log.d("mytag", "Exception occured: " + e.getMessage());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -791,7 +838,7 @@ public class MainActivity extends AppCompatActivity {
                                 records.add(foodDrinkRecord);
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-                            setProfileFragment();
+//                            setProfileFragment();
                         }
                     }
                 });
@@ -857,7 +904,7 @@ public class MainActivity extends AppCompatActivity {
         physicalActivityRecords.remove(physicalActivityRecord);
     }
 
-    public void editUserCaloriesPlan(User user){
+    public void editUserCaloriesPlan(User user) {
         this.user = user;
         usersReference.document(user.getUserId())
                 .update("caloriesPlan", user.getCaloriesPlan())
@@ -870,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("mytagg","fail");
+                        Log.d("mytagg", "fail");
                     }
                 });
     }
@@ -880,25 +927,32 @@ public class MainActivity extends AppCompatActivity {
         usersReference.document(user.getUserId())
                 .update("name", user.getName(),
                         "sex", user.getSex(), "birthdate", user.getBirthdate())
-        .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(MainActivity.this, getText(R.string.user_data_edited_text), Toast.LENGTH_SHORT).show();
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("mytagg","fail");
-            }
-        });
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MainActivity.this, getText(R.string.user_data_edited_text), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("mytagg", "fail");
+                    }
+                });
     }
 
-    public void setEatenCalories(int value){
+    public void setEatenCalories(int value) {
         eatenCalories = value;
     }
 
     public int getEatenCalories() {
         return eatenCalories;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
