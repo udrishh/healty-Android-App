@@ -1,5 +1,6 @@
 package com.udrishh.healthy.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,10 +25,13 @@ import com.udrishh.healthy.adapters.RecipeDropdownItemAdapter;
 import com.udrishh.healthy.adapters.RecipeItemAdapter;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.Recipe;
+import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class RecipesFragment extends Fragment {
@@ -39,6 +43,8 @@ public class RecipesFragment extends Fragment {
     private AutoCompleteTextView recipeSearch;
     private TextView noRecipesText;
 
+    private User user;
+
     public RecipesFragment() {
     }
 
@@ -47,7 +53,7 @@ public class RecipesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_recipes, container, false);
-
+        user = ((MainActivity) this.requireActivity()).getUserObject();
         allRecipes = ((MainActivity) this.requireActivity()).getRecipes();
         selectedRecipes = new ArrayList<>();
 
@@ -55,6 +61,7 @@ public class RecipesFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void initialiseComponents() {
         categories = view.findViewById(R.id.recipes_categories);
         recipesList = view.findViewById(R.id.recipes_list);
@@ -83,6 +90,12 @@ public class RecipesFragment extends Fragment {
 
         categories.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
+                case R.id.recipes_category_recommended:
+                    selectedRecipes.clear();
+                    selectedRecipes = getRecommendations();
+                    recipesList.setAdapter(new RecipeItemAdapter(getContext(), selectedRecipes));
+                    noRecipesText.setVisibility(View.GONE);
+                    break;
                 case R.id.recipes_category_all:
                     recipesList.setAdapter(new RecipeItemAdapter(getContext(), allRecipes));
                     noRecipesText.setVisibility(View.GONE);
@@ -93,9 +106,6 @@ public class RecipesFragment extends Fragment {
                         if (recipe.isInCategory(RecipeCategory.BREAKFAST)) {
                             selectedRecipes.add(recipe);
                         }
-                    }
-                    if(selectedRecipes.isEmpty()){
-
                     }
                     recipesList.setAdapter(new RecipeItemAdapter(getContext(), selectedRecipes));
                     noRecipesText.setVisibility(View.GONE);
@@ -167,5 +177,63 @@ public class RecipesFragment extends Fragment {
                     break;
             }
         });
+    }
+
+    private ArrayList<Recipe> getRecommendations() {
+        selectedRecipes = new ArrayList<>();
+        RecipeCategory timeFlag;
+        Calendar time = new GregorianCalendar();
+        int hour = time.get(Calendar.HOUR_OF_DAY);
+        // day moment
+        if (hour <= 11) {
+            timeFlag = RecipeCategory.BREAKFAST;
+        } else if (hour <= 18) {
+            timeFlag = RecipeCategory.LUNCH;
+        } else {
+            timeFlag = RecipeCategory.DINNER;
+        }
+        // calories needed
+        int eatenCalories = ((MainActivity) this.requireActivity()).getEatenCalories();
+        int remainingCalories = user.getCaloriesPlan() - eatenCalories;
+        remainingCalories = Math.max(remainingCalories, 0);
+        // getting recipes
+        for (Recipe recipe : allRecipes) {
+            switch (timeFlag) {
+                case BREAKFAST:
+                    if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
+                        selectedRecipes.add(recipe);
+                    } else if (remainingCalories == 0) {
+                        if (recipe.getCategories().contains(RecipeCategory.LOW_CALORIES)) {
+                            selectedRecipes.add(recipe);
+                        }
+                    }
+                    break;
+                case LUNCH:
+                    if (!recipe.getCategories().contains(RecipeCategory.BREAKFAST)) {
+                        if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
+                            selectedRecipes.add(recipe);
+                        } else if (remainingCalories == 0) {
+                            if (recipe.getCategories().contains(RecipeCategory.LOW_CALORIES)) {
+                                selectedRecipes.add(recipe);
+                            }
+                        }
+                    }
+                    break;
+                case DINNER:
+                    if (!recipe.getCategories().contains(RecipeCategory.BREAKFAST) ||
+                            !recipe.getCategories().contains(RecipeCategory.LUNCH)) {
+                        if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
+                            selectedRecipes.add(recipe);
+                        } else if (remainingCalories == 0) {
+                            if (recipe.getCategories().contains(RecipeCategory.LOW_CALORIES)) {
+                                selectedRecipes.add(recipe);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        return selectedRecipes;
     }
 }

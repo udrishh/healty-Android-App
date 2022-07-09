@@ -46,11 +46,11 @@
 
                 <com.google.android.material.chip.Chip
                     android:checkable="true"
-                    android:id="@+id/recipes_category_recomanded"
+                    android:id="@+id/recipes_category_recommended"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/gold"
-                    android:text="@string/recipe_category_recomanded" />
+                    android:text="@string/recipe_category_recomanded"/>
 
                 <com.google.android.material.chip.Chip
                     android:checkable="true"

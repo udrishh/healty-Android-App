@@ -123,6 +123,8 @@ public class ProfileFragment extends Fragment {
         loadFoodDrinkRecordsProgress();
         loadRecipeRecordsProgress();
         showGradient();
+
+        ((MainActivity) this.requireActivity()).setEatenCalories(caloriesEaten);
     }
 
     private void loadFoodDrinkRecordsProgress() {

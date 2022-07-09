@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAnalytics firebaseAnalytics;
 
     private CollectionReference usersReference = db.collection("Users");
 
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference physicalActivityRecordsReference = db.collection("PhysicalActivityRecords");
     private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
     private CollectionReference recipeRecordsReference = db.collection("RecipeRecords");
+
+    private int eatenCalories;
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -206,35 +208,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfileFragment() {
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_profile);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new ProfileFragment())
                 .commit();
     }
 
     private void setRecipesFragment() {
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_recipes);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new RecipesFragment())
                 .commit();
     }
 
     private void setAddFragment() {
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_add);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new AddFragment())
                 .commit();
     }
 
     private void setStatisticsFragment() {
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_statistics);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new StatisticsFragment())
                 .commit();
     }
 
     private void setSettingsFragment() {
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.menu_settings);
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new SettingsFragment())
                 .commit();
@@ -248,8 +245,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d("mytag", "MainActivity onStart");
         loadDatabase();
         loadRecords();
     }
@@ -393,6 +388,7 @@ public class MainActivity extends AppCompatActivity {
         initialiseComponents();
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void initialiseComponents() {
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnItemSelectedListener(item -> {
@@ -896,5 +892,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("mytagg","fail");
             }
         });
+    }
+
+    public void setEatenCalories(int value){
+        eatenCalories = value;
+    }
+
+    public int getEatenCalories() {
+        return eatenCalories;
     }
 }
