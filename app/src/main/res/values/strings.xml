@@ -220,4 +220,5 @@
     <string name="add_manually_text">Adaugă manual</string>
     <string name="no_internet_error_text">Nu există conexiune la internet!</string>
     <string name="already_used_email_error_text">Adresa de email este utilizata de un alt utilizator!</string>
+    <string name="progress_data_waiting_text">Datele se încarcă...</string>
 </resources>

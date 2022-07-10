@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private int eatenCalories;
     private boolean connectionAvailable;
     private boolean uiReady = false;
+    private int tasksReady = 0;
 
     public void addFoodDrinkRecord(FoodDrinkRecord foodDrinkRecord) {
         if (foodDrinkRecord != null) {
@@ -155,6 +156,10 @@ public class MainActivity extends AppCompatActivity {
 
     public String getJoinDate() {
         return joinDate;
+    }
+
+    public int getTasksReady() {
+        return tasksReady;
     }
 
     public User getUserObject() {
@@ -291,9 +296,6 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d("mytag", "Record was retrieved from firebase successfully!");
                         }
-                        if (isNetworkAvailable() && uiReady) {
-                            setProfileFragment();
-                        }
                     }
                 });
     }
@@ -333,9 +335,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
                         }
-                        if (isNetworkAvailable() && uiReady) {
-                            setProfileFragment();
-                        }
                     }
                 });
     }
@@ -369,12 +368,16 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-                            if (isNetworkAvailable() && uiReady) {
-                                setProfileFragment();
-                            }
                         }
                     }
                 });
+    }
+
+    private void setProfileProgress() {
+        Log.d("tasks_waiting", String.valueOf(tasksReady));
+        if (tasksReady >= 2) {
+            bottomNavigation.setSelectedItemId(R.id.menu_item_profile);
+        }
     }
 
     @Override
@@ -402,6 +405,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         uiReady = true;
 
+//        while(tasksReady!=3){
+        Log.d("tasks_waiting", String.valueOf(tasksReady));
+//        }
+
         if (isNetworkAvailable()) {
             setProfileFragment();
         } else {
@@ -414,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onAvailable(@NonNull Network network) {
             super.onAvailable(network);
-            if(uiReady){
+            if (uiReady) {
                 setProfileFragment();
             }
             connectionAvailable = true;
@@ -470,9 +477,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (recipes.isEmpty()) {
             loadRecipes();
-        }
-        if (uiReady && isNetworkAvailable()) {
-            setProfileFragment();
         }
     }
 
@@ -668,6 +672,8 @@ public class MainActivity extends AppCompatActivity {
                                     drinks.add(drink);
                                 }
                             }
+                            tasksReady++;
+                            setProfileProgress();
                         })
                         .addOnFailureListener(e -> Log.d("db_threads", "Error loading drinks"));
             }
@@ -756,6 +762,8 @@ public class MainActivity extends AppCompatActivity {
                                     foods.add(food);
                                 }
                             }
+                            tasksReady++;
+                            setProfileProgress();
                         })
                         .addOnFailureListener(e -> Log.d("db_threads", "Error loading foods"));
             }
@@ -873,7 +881,6 @@ public class MainActivity extends AppCompatActivity {
                                 records.add(foodDrinkRecord);
                                 Log.d("mytag", "Record was retrieved from firebase successfully!");
                             }
-//                            setProfileFragment();
                         }
                     }
                 });

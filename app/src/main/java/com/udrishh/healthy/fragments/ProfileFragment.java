@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,6 +62,8 @@ public class ProfileFragment extends Fragment {
     private TextView carbsText;
     private TextView fibersText;
     private ImageView expandBtn;
+    private ProgressBar loadingData;
+    private TextView loadingDataText;
 
     private ConstraintLayout cardLayout;
 
@@ -299,5 +303,12 @@ public class ProfileFragment extends Fragment {
             planIcon.setVisibility(visibility);
             isExpanded = !isExpanded;
         });
+
+        loadingData=view.findViewById(R.id.progress_loading);
+        loadingDataText=view.findViewById(R.id.progress_loading_text);
+        if(((MainActivity) this.requireActivity()).getTasksReady()==2){
+            loadingData.setVisibility(View.GONE);
+            loadingDataText.setVisibility(View.GONE);
+        }
     }
 }
