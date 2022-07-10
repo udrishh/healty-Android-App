@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -90,10 +91,9 @@ public class EditCaloriesPlanFragment extends Fragment {
                 caloriesInput.setError(null);
                 ((MainActivity) requireActivity()).editUserCaloriesPlan(user);
 
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, new ProfileFragment())
-                        .commit();
+                BottomNavigationView bottomNavigationView =
+                        ((MainActivity) requireActivity()).getBottomNavigation();
+                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
             }
         });
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
@@ -80,10 +81,9 @@ public class RecordDetailsFragment extends Fragment {
                     ((PhysicalActivityRecord) selectedRecord).setName(recordName.getText().toString().trim());
                     ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
                 }
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, new ProfileFragment())
-                        .commit();
+                BottomNavigationView bottomNavigationView =
+                        ((MainActivity) requireActivity()).getBottomNavigation();
+                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
             }
         });
 
@@ -97,10 +97,9 @@ public class RecordDetailsFragment extends Fragment {
             } else if (recordType == RecordType.PHYSICAL_ACTIVITY) {
                 ((MainActivity) requireActivity()).deletePhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
             }
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_frame_layout, new ProfileFragment())
-                    .commit();
+            BottomNavigationView bottomNavigationView =
+                    ((MainActivity) requireActivity()).getBottomNavigation();
+            bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
         });
     }
 

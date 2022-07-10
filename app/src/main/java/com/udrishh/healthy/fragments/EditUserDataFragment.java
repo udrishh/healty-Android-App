@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
@@ -74,10 +75,9 @@ public class EditUserDataFragment extends Fragment {
 
                 ((MainActivity) requireActivity()).editUserData(user);
 
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, new ProfileFragment())
-                        .commit();
+                BottomNavigationView bottomNavigationView =
+                        ((MainActivity) requireActivity()).getBottomNavigation();
+                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
             } else {
                 nameInput.setError(getText(R.string.invalid_username_text));
             }

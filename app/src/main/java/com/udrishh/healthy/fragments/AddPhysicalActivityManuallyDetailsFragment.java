@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
@@ -106,10 +107,9 @@ public class AddPhysicalActivityManuallyDetailsFragment extends Fragment {
 
                 ((MainActivity) requireActivity()).addPhysicalActivityRecord(physicalActivityRecord);
 
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, new ProfileFragment())
-                        .commit();
+                BottomNavigationView bottomNavigationView =
+                        ((MainActivity) requireActivity()).getBottomNavigation();
+                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
             }
         });
     }

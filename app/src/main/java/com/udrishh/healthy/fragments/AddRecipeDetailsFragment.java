@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
@@ -133,10 +134,9 @@ public class AddRecipeDetailsFragment extends Fragment {
 
             ((MainActivity) requireActivity()).addRecipeRecord(recipeRecord);
 
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_frame_layout, new ProfileFragment())
-                    .commit();
+            BottomNavigationView bottomNavigationView =
+                    ((MainActivity) requireActivity()).getBottomNavigation();
+            bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
         });
     }
 
