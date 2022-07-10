@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment {
     private View view;
@@ -66,6 +70,7 @@ public class ProfileFragment extends Fragment {
     private TextView loadingDataText;
 
     private ConstraintLayout cardLayout;
+    private LinearLayout userDetailsLayout;
 
     private User user;
     private ArrayList<FoodDrinkRecord> foodDrinkRecords;
@@ -240,6 +245,7 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint("StringFormatMatches")
     private void initialiseProfileCardComponents() {
+        userDetailsLayout = view.findViewById(R.id.user_details_layout);
         greetingText = view.findViewById(R.id.user_greeting_textview);
         int currHour = new Date().getHours();
         if (currHour >= 7 && currHour < 11) {
@@ -289,18 +295,33 @@ public class ProfileFragment extends Fragment {
                 visibility = View.VISIBLE;
                 expandBtn.setImageResource(R.drawable.collapse_icon);
             }
-            nameText.setVisibility(visibility);
-            ageText.setVisibility(visibility);
-            sexText.setVisibility(visibility);
-            heightText.setVisibility(visibility);
-            weightText.setVisibility(visibility);
-            planText.setVisibility(visibility);
-            nameIcon.setVisibility(visibility);
-            ageIcon.setVisibility(visibility);
-            sexIcon.setVisibility(visibility);
-            heightIcon.setVisibility(visibility);
-            weightIcon.setVisibility(visibility);
-            planIcon.setVisibility(visibility);
+            Animation slideInAnimation;
+            slideInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in);
+            Animation slideOutAnimation;
+            slideOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out);
+            slideOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    userDetailsLayout.setVisibility(visibility);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            if(visibility == View.GONE){
+                userDetailsLayout.startAnimation(slideOutAnimation);
+            } else {
+                userDetailsLayout.startAnimation(slideInAnimation);
+                userDetailsLayout.setVisibility(visibility);
+            }
+            userDetailsLayout.animate();
             isExpanded = !isExpanded;
         });
 
