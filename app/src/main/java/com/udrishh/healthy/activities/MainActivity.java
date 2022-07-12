@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
     private void setProfileFragment() {
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.main_frame_layout, new ProfileFragment())
                 .commit();
     }
@@ -226,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
     private void setRecipesFragment() {
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.main_frame_layout, new RecipesFragment())
                 .commit();
     }
@@ -233,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
     private void setAddFragment() {
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.main_frame_layout, new AddFragment())
                 .commit();
     }
@@ -240,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
     private void setStatisticsFragment() {
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.main_frame_layout, new StatisticsFragment())
                 .commit();
     }
@@ -247,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
     private void setSettingsFragment() {
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.main_frame_layout, new SettingsFragment())
                 .commit();
     }

@@ -39,6 +39,7 @@ public class AddMeasurementChooseFragment extends Fragment {
        weightBtn.setOnClickListener(view -> {
            FragmentManager fragmentManager = getParentFragmentManager();
            fragmentManager.beginTransaction()
+                   .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                    .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.WEIGHT))
                    .addToBackStack(null)
                    .commit();
@@ -47,6 +48,7 @@ public class AddMeasurementChooseFragment extends Fragment {
         heightBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.HEIGHT))
                     .addToBackStack(null)
                     .commit();

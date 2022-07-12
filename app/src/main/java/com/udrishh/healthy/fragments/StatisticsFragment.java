@@ -116,6 +116,7 @@ public class StatisticsFragment extends Fragment {
         viewAllRecordsBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
                     .addToBackStack(null)
                     .commit();
@@ -124,6 +125,7 @@ public class StatisticsFragment extends Fragment {
         viewPieChartBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new PieChartFragment())
                     .addToBackStack(null)
                     .commit();
@@ -132,6 +134,7 @@ public class StatisticsFragment extends Fragment {
         viewLineChartBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new LineChartFragment())
                     .addToBackStack(null)
                     .commit();
@@ -141,6 +144,7 @@ public class StatisticsFragment extends Fragment {
             Record selectedRecord = (Record) parent.getItemAtPosition(position);
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
                     .addToBackStack(null)
                     .commit();

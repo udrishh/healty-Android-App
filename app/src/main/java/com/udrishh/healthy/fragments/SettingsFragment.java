@@ -63,6 +63,7 @@ public class SettingsFragment extends Fragment {
         editUserDataBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new EditUserDataFragment())
                     .addToBackStack(null)
                     .commit();
@@ -72,6 +73,7 @@ public class SettingsFragment extends Fragment {
         editCaloriesPlanBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new EditCaloriesPlanFragment())
                     .addToBackStack(null)
                     .commit();

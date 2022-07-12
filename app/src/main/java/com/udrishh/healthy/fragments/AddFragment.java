@@ -46,6 +46,7 @@ public class AddFragment extends Fragment {
         addFoodBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddFoodsSearchFragment())
                     .addToBackStack(null)
                     .commit();
@@ -54,6 +55,7 @@ public class AddFragment extends Fragment {
         addDrinkBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddDrinksSearchFragment())
                     .addToBackStack(null)
                     .commit();
@@ -62,6 +64,7 @@ public class AddFragment extends Fragment {
         addWaterBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddWaterFragment())
                     .addToBackStack(null)
                     .commit();
@@ -70,6 +73,7 @@ public class AddFragment extends Fragment {
         addPhysicalActivityBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddPhysicalActivitySearchFragment())
                     .addToBackStack(null)
                     .commit();
@@ -78,6 +82,7 @@ public class AddFragment extends Fragment {
         addMeasurementBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
                     .replace(R.id.main_frame_layout, new AddMeasurementChooseFragment())
                     .addToBackStack(null)
                     .commit();
