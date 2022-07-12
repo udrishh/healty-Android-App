@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             physicalActivityRecords.add(physicalActivityRecord);
             physicalActivityRecordsReference.document(physicalActivityRecord.getRecordId()).set(physicalActivityRecord)
                     .addOnSuccessListener(unused ->
-                            Toast.makeText(MainActivity.this, getText(R.string.record_edited_message), Toast.LENGTH_SHORT).show())
+                            Toast.makeText(MainActivity.this, getText(R.string.record_added_text), Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e ->
                             Toast.makeText(MainActivity.this, getText(R.string.try_again_error_text), Toast.LENGTH_SHORT).show());
         }
