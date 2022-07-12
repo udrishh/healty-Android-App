@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -41,6 +42,7 @@ import com.udrishh.healthy.utilities.DateConverter;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -59,7 +61,7 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText nameInput;
     private TextInputEditText heightInput;
     private TextInputEditText weightInput;
-    private TextInputEditText birthdateInput;
+    private DatePicker birthdateInput;
     private RadioGroup sexInput;
     private Spinner activityLevelInput;
     private Spinner gainLoseInput;
@@ -76,7 +78,7 @@ public class SignupActivity extends AppCompatActivity {
     private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
 
     private int getAge(String birthdate) {
-        return Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(birthdateInput.getText().toString().trim().split("/")[2]);
+        return Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(birthdate.split("/")[2]);
     }
 
     private ActivityLevel getSelectedActivityLevel() {
@@ -134,7 +136,7 @@ public class SignupActivity extends AppCompatActivity {
         planPreview.setText(getString(R.string.signup_plan_calories_text,
                 Calculator.BMR(Integer.parseInt(weightInput.getText().toString().trim()),
                         Integer.parseInt(heightInput.getText().toString().trim()),
-                        getAge(birthdateInput.getText().toString().trim()),
+                        getAge(getSelectedDate()),
                         getSelectedSex(), getSelectedActivityLevel(), getSelectedGainLose())));
     }
 
@@ -237,19 +239,19 @@ public class SignupActivity extends AppCompatActivity {
                     isValid = false;
                 }
             }
-            if (TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
-                birthdateInput.setError(getString(R.string.invalid_birthdate_text));
-                isValid = false;
-            }
-            if (!TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
-                String[] date = birthdateInput.getText().toString().trim().split("/");
-                if ((Integer.parseInt(date[0]) < 1 && Integer.parseInt(date[0]) > 31)
-                        || (Integer.parseInt(date[1]) < 1 && Integer.parseInt(date[1]) > 12)
-                        || (Integer.parseInt(date[2]) < 1920 && Integer.parseInt(date[2]) > (new Date().getYear() - 14))) {
-                    birthdateInput.setError(getString(R.string.invalid_birthdate_text));
-                    isValid = false;
-                }
-            }
+//            if (TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+//                birthdateInput.setError(getString(R.string.invalid_birthdate_text));
+//                isValid = false;
+//            }
+//            if (!TextUtils.isEmpty(birthdateInput.getText().toString().trim())) {
+//                String[] date = birthdateInput.getText().toString().trim().split("/");
+//                if ((Integer.parseInt(date[0]) < 1 && Integer.parseInt(date[0]) > 31)
+//                        || (Integer.parseInt(date[1]) < 1 && Integer.parseInt(date[1]) > 12)
+//                        || (Integer.parseInt(date[2]) < 1920 && Integer.parseInt(date[2]) > (new Date().getYear() - 14))) {
+//                    birthdateInput.setError(getString(R.string.invalid_birthdate_text));
+//                    isValid = false;
+//                }
+//            }
 
             if (!isValid) {
                 return;
@@ -257,7 +259,7 @@ public class SignupActivity extends AppCompatActivity {
             nameInput.setError(null);
             heightInput.setError(null);
             weightInput.setError(null);
-            birthdateInput.setError(null);
+            //birthdateInput.setError(null);
 
             setPlanPreview();
             isReady = true;
@@ -271,7 +273,8 @@ public class SignupActivity extends AppCompatActivity {
             newUserObject.setName(nameInput.getText().toString().trim());
             newUserObject.setHeight(Integer.parseInt(heightInput.getText().toString().trim()));
             newUserObject.setWeight(Integer.parseInt(weightInput.getText().toString().trim()));
-            newUserObject.setBirthdate(birthdateInput.getText().toString().trim());
+
+            newUserObject.setBirthdate(getSelectedDate());
             newUserObject.setSex(getSelectedSex());
             ActivityLevel activityLevel = getSelectedActivityLevel();
             GainLose gainLose = getSelectedGainLose();
@@ -285,6 +288,12 @@ public class SignupActivity extends AppCompatActivity {
 
             createUserEmailAccount(email, password, newUserObject);
         });
+    }
+
+    private String getSelectedDate() {
+        String selectedDate = birthdateInput.getDayOfMonth() + "/"
+                + (birthdateInput.getMonth() + 1) + "/" + birthdateInput.getYear();
+        return selectedDate;
     }
 
     private void createUserEmailAccount(String email, String password, User newUserObject) {
@@ -398,12 +407,24 @@ public class SignupActivity extends AppCompatActivity {
         heightInput = findViewById(R.id.signup_user_data_height_input);
         weightInput = findViewById(R.id.signup_user_data_weight_input);
         birthdateInput = findViewById(R.id.signup_user_data_birthdate_input);
+        initialiseDatePicker();
         sexInput = findViewById(R.id.signup_user_data_sex_radio_group);
         activityLevelInput = findViewById(R.id.signup_user_data_activity_level);
         activityLevelInput.setAdapter(ArrayAdapter.createFromResource(this, R.array.activity_levels, R.layout.support_simple_spinner_dropdown_item));
         gainLoseInput = findViewById(R.id.signup_user_data_gain_lose);
         gainLoseInput.setAdapter(ArrayAdapter.createFromResource(this, R.array.gain_lose, R.layout.support_simple_spinner_dropdown_item));
         planPreview = findViewById(R.id.signup_user_calories);
+    }
+
+    private void initialiseDatePicker() {
+        Calendar calendar = new GregorianCalendar();
+        birthdateInput.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        Calendar test = new GregorianCalendar();
+        //ms in a month * 12 months in a year * nb of years
+        birthdateInput.setMaxDate(test.getTimeInMillis() - 26298L * 100000 * 12 * 10);
+        birthdateInput.setMinDate(test.getTimeInMillis() - 26298L * 100000 * 12 * 100);
+
     }
 
 }
