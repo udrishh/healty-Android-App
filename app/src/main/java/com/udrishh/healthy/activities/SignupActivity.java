@@ -148,15 +148,15 @@ public class SignupActivity extends AppCompatActivity {
         newUserObject = new User();
 
         firebaseAuth = FirebaseAuth.getInstance();
-//        authStateListener = firebaseAuth -> {
-//            currentUser = firebaseAuth.getCurrentUser();
-//
-//            if (currentUser != null) {
-//                //user is already logged in
-//            } else {
-//                //no user yet
-//            }
-//        };
+        authStateListener = firebaseAuth -> {
+            currentUser = firebaseAuth.getCurrentUser();
+
+            if (currentUser != null) {
+                //user is already logged in
+            } else {
+                //no user yet
+            }
+        };
 
         activityLevelInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
