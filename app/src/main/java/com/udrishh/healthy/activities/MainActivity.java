@@ -212,31 +212,40 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private void clearFragmentBackStack() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
     private void setProfileFragment() {
+        clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new ProfileFragment())
                 .commit();
     }
 
     private void setRecipesFragment() {
+        clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new RecipesFragment())
                 .commit();
     }
 
     private void setAddFragment() {
+        clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new AddFragment())
                 .commit();
     }
 
     private void setStatisticsFragment() {
+        clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new StatisticsFragment())
                 .commit();
     }
 
     private void setSettingsFragment() {
+        clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, new SettingsFragment())
                 .commit();
@@ -244,7 +253,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            moveTaskToBack(true);
+        }
     }
 
     @Override

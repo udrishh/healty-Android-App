@@ -117,6 +117,7 @@ public class StatisticsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -124,6 +125,7 @@ public class StatisticsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new PieChartFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -131,6 +133,7 @@ public class StatisticsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new LineChartFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -139,6 +142,7 @@ public class StatisticsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
+                    .addToBackStack(null)
                     .commit();
         });
     }

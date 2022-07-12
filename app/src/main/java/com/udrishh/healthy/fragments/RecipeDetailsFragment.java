@@ -100,6 +100,7 @@ public class RecipeDetailsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddRecipeDetailsFragment(selectedRecipe))
+                    .addToBackStack(null)
                     .commit();
         });
     }

@@ -40,6 +40,7 @@ public class AddMeasurementChooseFragment extends Fragment {
            FragmentManager fragmentManager = getParentFragmentManager();
            fragmentManager.beginTransaction()
                    .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.WEIGHT))
+                   .addToBackStack(null)
                    .commit();
        });
 
@@ -47,6 +48,7 @@ public class AddMeasurementChooseFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.HEIGHT))
+                    .addToBackStack(null)
                     .commit();
         });
     }

@@ -28,7 +28,7 @@ public class AddFoodsSearchFragment extends Fragment {
     private MaterialButton continueBtn;
     private MaterialAutoCompleteTextView searchTv;
     private ArrayList<Food> foods = new ArrayList<>();
-    private Food selectedFood = new Food();
+    private Food selectedFood = null;
 
     public AddFoodsSearchFragment() {
     }
@@ -47,6 +47,10 @@ public class AddFoodsSearchFragment extends Fragment {
         continueBtn = view.findViewById(R.id.add_food_continue);
         searchTv = view.findViewById(R.id.add_food_search);
         foods = ((MainActivity) this.requireActivity()).getFoods();
+
+        if(selectedFood ==null){
+            continueBtn.setVisibility(View.INVISIBLE);
+        }
 
         searchTv.setAdapter(new FoodsAdapter(requireContext(), R.layout.food_drink_item, (List<Food>) foods.clone()));
         searchTv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,6 +71,7 @@ public class AddFoodsSearchFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new AddFoodDbDetailsFragment(selectedFood))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -77,6 +82,7 @@ public class AddFoodsSearchFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new AddFoodManuallyDetailsFragment())
+                        .addToBackStack(null)
                         .commit();
             }
         });

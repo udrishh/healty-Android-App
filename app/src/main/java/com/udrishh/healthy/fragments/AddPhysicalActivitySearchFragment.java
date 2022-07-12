@@ -28,7 +28,7 @@ public class AddPhysicalActivitySearchFragment extends Fragment {
     private MaterialButton continueBtn;
     private MaterialAutoCompleteTextView searchTv;
     private ArrayList<PhysicalActivity> physicalActivities = new ArrayList<>();
-    private PhysicalActivity selectedPhysicalActivity = new PhysicalActivity();
+    private PhysicalActivity selectedPhysicalActivity = null;
 
     public AddPhysicalActivitySearchFragment() {
     }
@@ -47,6 +47,10 @@ public class AddPhysicalActivitySearchFragment extends Fragment {
         continueBtn = view.findViewById(R.id.add_activity_continue);
         searchTv = view.findViewById(R.id.add_activity_search);
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
+
+        if(selectedPhysicalActivity == null){
+            continueBtn.setVisibility(View.INVISIBLE);
+        }
 
         searchTv.setAdapter(new PhysicalActivityAdapter(requireContext(), R.layout.physical_activity_item,
                 (List<PhysicalActivity>) physicalActivities.clone()));
@@ -67,7 +71,8 @@ public class AddPhysicalActivitySearchFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, new com.udrishh.healthy.fragments.AddPhysicalActivityDbDetailsFragment(selectedPhysicalActivity))
+                        .replace(R.id.main_frame_layout, new AddPhysicalActivityDbDetailsFragment(selectedPhysicalActivity))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -78,6 +83,7 @@ public class AddPhysicalActivitySearchFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new AddPhysicalActivityManuallyDetailsFragment())
+                        .addToBackStack(null)
                         .commit();
             }
         });

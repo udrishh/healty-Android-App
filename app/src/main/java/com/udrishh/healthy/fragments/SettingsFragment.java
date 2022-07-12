@@ -64,6 +64,7 @@ public class SettingsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new EditUserDataFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -72,6 +73,7 @@ public class SettingsFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new EditCaloriesPlanFragment())
+                    .addToBackStack(null)
                     .commit();
         });
     }

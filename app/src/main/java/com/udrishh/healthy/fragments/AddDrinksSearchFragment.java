@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ public class AddDrinksSearchFragment extends Fragment {
     private MaterialButton continueBtn;
     private MaterialAutoCompleteTextView searchTv;
     private ArrayList<Drink> drinks = new ArrayList<>();
-    private Drink selectedDrink = new Drink();
+    private Drink selectedDrink = null;
 
     public AddDrinksSearchFragment() {
     }
@@ -47,6 +49,10 @@ public class AddDrinksSearchFragment extends Fragment {
         continueBtn = view.findViewById(R.id.add_drink_continue);
         searchTv = view.findViewById(R.id.add_drink_search);
         drinks = ((MainActivity) this.requireActivity()).getDrinks();
+
+        if(selectedDrink == null){
+            continueBtn.setVisibility(View.INVISIBLE);
+        }
 
         searchTv.setAdapter(new DrinksAdapter(requireContext(), R.layout.food_drink_item, (List<Drink>) drinks.clone()));
         searchTv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,6 +73,7 @@ public class AddDrinksSearchFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new AddDrinkDbDetailsFragment(selectedDrink))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -77,6 +84,7 @@ public class AddDrinksSearchFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame_layout, new AddDrinkManuallyDetailsFragment())
+                        .addToBackStack(null)
                         .commit();
             }
         });

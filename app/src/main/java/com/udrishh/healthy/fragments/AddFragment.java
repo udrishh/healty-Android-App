@@ -47,6 +47,7 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddFoodsSearchFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -54,6 +55,7 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddDrinksSearchFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -61,6 +63,7 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddWaterFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -68,6 +71,7 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddPhysicalActivitySearchFragment())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -75,6 +79,7 @@ public class AddFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new AddMeasurementChooseFragment())
+                    .addToBackStack(null)
                     .commit();
         });
     }

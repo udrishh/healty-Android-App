@@ -66,6 +66,7 @@ public class ViewHistoryFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
+                    .addToBackStack(null)
                     .commit();
         });
 

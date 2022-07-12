@@ -76,6 +76,7 @@ public class RecipesFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new RecipeDetailsFragment(selectedRecipe))
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -84,6 +85,7 @@ public class RecipesFragment extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame_layout, new RecipeDetailsFragment(selectedRecipe))
+                    .addToBackStack(null)
                     .commit();
         });
 
