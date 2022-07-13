@@ -123,10 +123,7 @@ public class AddPhysicalActivityDbDetailsFragment extends Fragment {
                 physicalActivityRecord.setUserId(user.getUserId());
                 physicalActivityRecord.setItemId(selectedActivity.getPhysicalActivityId());
                 physicalActivityRecord.setName(nameInput.getText().toString().trim());
-                physicalActivityRecord.setCalories(selectedActivity.getCalories());
-                physicalActivityRecord.setDuration(Integer.parseInt(quantityInput.getText().toString().trim()));
-                physicalActivityRecord.setTotalCalories(Math.round(Float.parseFloat(quantityInput.getText().toString().trim()) / 60
-                        * selectedActivity.getCalories() * user.getWeight()));
+                physicalActivityRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
 
                 ((MainActivity) requireActivity()).addPhysicalActivityRecord(physicalActivityRecord);
 

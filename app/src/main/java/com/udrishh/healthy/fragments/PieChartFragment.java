@@ -31,10 +31,13 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
+import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
+import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.utilities.Finder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +49,7 @@ public class PieChartFragment extends Fragment {
     private CalendarView calendarView;
     private ArrayList<Record> eatenRecords;
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
+    private ArrayList<PhysicalActivity> physicalActivities;
     private TextView noStatsText;
     private TextView highlightedDetails;
     private ArrayList<Record> showingEatenRecords;
@@ -53,6 +57,8 @@ public class PieChartFragment extends Fragment {
     private RadioGroup radioGroup;
     private boolean isEatenSelected;
     private String selectedDate;
+
+    private User user;
 
     public PieChartFragment() {
     }
@@ -67,6 +73,9 @@ public class PieChartFragment extends Fragment {
 
         Log.d("mytagg",String.valueOf(eatenRecords.size()));
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
+        physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
+
+        user = ((MainActivity) this.requireActivity()).getUserObject();
         initialiseComponents();
         return view;
     }
@@ -139,9 +148,14 @@ public class PieChartFragment extends Fragment {
                     }
 
                 } else {
+                    PhysicalActivity physicalActivity =
+                            Finder.physicalActivity(physicalActivities, showingPhysicalActivityRecords.get((int) h.getX()).getItemId());
+                    assert physicalActivity != null;
+                    int recordCalories = Math.round((float)showingPhysicalActivityRecords.get((int) h.getX()).getQuantity() / 60
+                            * physicalActivity.getCalories() * user.getWeight());
                     highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                             showingPhysicalActivityRecords.get((int) h.getX()).getName(),
-                            (int) showingPhysicalActivityRecords.get((int) h.getX()).getTotalCalories()));
+                            recordCalories));
                 }
                 highlightedDetails.setVisibility(View.VISIBLE);
             }
@@ -192,18 +206,28 @@ public class PieChartFragment extends Fragment {
                 }
             }
         } else {
-            for (PhysicalActivityRecord record : physicalActivityRecords) {
-                if (record.getDate().contains(selectedDate)) {
-                    totalCalories += record.getTotalCalories();
+            for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
+                if (physicalActivityRecord.getDate().contains(selectedDate)) {
+                    PhysicalActivity physicalActivity =
+                            Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
+                    assert physicalActivity != null;
+                    int recordCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                            * physicalActivity.getCalories() * user.getWeight());
+                    totalCalories += recordCalories;
                 }
             }
             showingPhysicalActivityRecords = new ArrayList<>();
-            for (PhysicalActivityRecord record : physicalActivityRecords) {
-                if (record.getDate().contains(selectedDate)) {
-                    float percent = (record.getTotalCalories() * 100) / (float) totalCalories;
+            for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
+                if (physicalActivityRecord.getDate().contains(selectedDate)) {
+                    PhysicalActivity physicalActivity =
+                            Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
+                    assert physicalActivity != null;
+                    int recordCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                            * physicalActivity.getCalories() * user.getWeight());
+                    float percent = (recordCalories * 100) / (float) totalCalories;
                     if (percent >= 1) {
-                        entries.add(new PieEntry(percent, record.getName().split(" ")[0]));
-                        showingPhysicalActivityRecords.add(record);
+                        entries.add(new PieEntry(percent, physicalActivityRecord.getName().split(" ")[0]));
+                        showingPhysicalActivityRecords.add(physicalActivityRecord);
                     }
                 }
             }

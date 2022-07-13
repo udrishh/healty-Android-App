@@ -1,16 +1,21 @@
 package com.udrishh.healthy.classes;
 
-public class PhysicalActivityRecord extends Record{
+import com.udrishh.healthy.utilities.Finder;
+
+public class PhysicalActivityRecord extends Record {
     private String recordId;
     private String userId;
     private String itemId;
     private String name;
-    private float calories;
-    private int duration;
-    private float totalCalories;
+    private int quantity;
 
     public PhysicalActivityRecord() {
         super();
+        recordId = "N/A";
+        userId = "N/A";
+        itemId = "N/A";
+        name = "N/A";
+        quantity = 0;
     }
 
     public String getRecordId() {
@@ -45,28 +50,12 @@ public class PhysicalActivityRecord extends Record{
         this.name = name;
     }
 
-    public float getCalories() {
-        return calories;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCalories(float calories) {
-        this.calories = calories;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public float getTotalCalories() {
-        return totalCalories;
-    }
-
-    public void setTotalCalories(int totalCalories) {
-        this.totalCalories = totalCalories;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getDate() {
@@ -76,4 +65,5 @@ public class PhysicalActivityRecord extends Record{
     public void setDate(String date) {
         super.setDate(date);
     }
+
 }

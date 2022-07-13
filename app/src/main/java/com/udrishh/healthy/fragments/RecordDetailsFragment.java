@@ -3,9 +3,7 @@ package com.udrishh.healthy.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +19,14 @@ import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
-import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
+import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
+import com.udrishh.healthy.utilities.Finder;
+
+import java.util.ArrayList;
 
 
 public class RecordDetailsFragment extends Fragment {
@@ -42,6 +43,9 @@ public class RecordDetailsFragment extends Fragment {
     private MaterialButton editBtn;
     private boolean isRecipe = false;
 
+    private User user;
+    private ArrayList<PhysicalActivity> physicalActivities;
+
     public RecordDetailsFragment() {
     }
 
@@ -52,6 +56,10 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_record_details, container, false);
+
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+        physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
+
         initialiseComponents();
         determineRecordType();
         addBtnEvents();
@@ -121,7 +129,7 @@ public class RecordDetailsFragment extends Fragment {
             initialiseFoodRecord();
         } else if (selectedRecord instanceof PhysicalActivityRecord) {
             recordType = RecordType.PHYSICAL_ACTIVITY;
-            initialisePhisicalActivityRecord();
+            initialisePhysicalActivityRecord();
         } else {
             if (((MeasurementRecord) selectedRecord).getMeasurementCategory() == RecordType.HEIGHT) {
                 recordType = RecordType.HEIGHT;
@@ -195,16 +203,22 @@ public class RecordDetailsFragment extends Fragment {
         recordValue.setVisibility(View.VISIBLE);
     }
 
-    private void initialisePhisicalActivityRecord() {
+    private void initialisePhysicalActivityRecord() {
         recordImage.setImageResource(R.drawable.activity_icon);
         recordCategory.setText(getString(R.string.add_physical_activity_title));
         recordName.setText(((PhysicalActivityRecord) selectedRecord).getName());
         recordQuantity = view.findViewById(R.id.record_details_duration);
         recordQuantity.setText(getString(R.string.record_details_duration_text,
-                (int) ((PhysicalActivityRecord) selectedRecord).getDuration()));
+                (int) ((PhysicalActivityRecord) selectedRecord).getQuantity()));
         recordValue = view.findViewById(R.id.record_details_burned_calories);
+
+        PhysicalActivity physicalActivity =
+                Finder.physicalActivity(physicalActivities, ((PhysicalActivityRecord) selectedRecord).getItemId());
+        int totalCalories = Math.round((float)((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
+                * physicalActivity.getCalories() * user.getWeight());
+
         recordValue.setText(getString(R.string.record_details_burned_calories_text,
-                (int) ((PhysicalActivityRecord) selectedRecord).getCalories()));
+                totalCalories));
 
         recordQuantity.setVisibility(View.VISIBLE);
         recordValue.setVisibility(View.VISIBLE);

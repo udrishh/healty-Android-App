@@ -101,10 +101,16 @@ public class AddPhysicalActivityManuallyDetailsFragment extends Fragment {
                 physicalActivityRecord.setUserId(user.getUserId());
                 physicalActivityRecord.setItemId(UUID.randomUUID().toString());
                 physicalActivityRecord.setName(nameInput.getText().toString().trim());
-                physicalActivityRecord.setCalories(-1);
-                physicalActivityRecord.setDuration(Integer.parseInt(quantityInput.getText().toString().trim()));
-                physicalActivityRecord.setTotalCalories(Integer.parseInt(caloriesInput.getText().toString().trim()));
+                physicalActivityRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
 
+                PhysicalActivity physicalActivity = new PhysicalActivity();
+                physicalActivity.setPhysicalActivityId(physicalActivityRecord.getItemId());
+                physicalActivity.setUserId(user.getUserId());
+                physicalActivity.setName(nameInput.getText().toString().trim());
+                physicalActivity.setCalories((float) Integer.parseInt(caloriesInput.getText().toString()) /
+                        ((float)Integer.parseInt(quantityInput.getText().toString()) / 60 * user.getWeight()));
+
+                ((MainActivity) requireActivity()).addPhysicalActivity(physicalActivity);
                 ((MainActivity) requireActivity()).addPhysicalActivityRecord(physicalActivityRecord);
 
                 BottomNavigationView bottomNavigationView =

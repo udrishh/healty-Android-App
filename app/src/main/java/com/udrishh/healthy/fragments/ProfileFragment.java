@@ -25,6 +25,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
+import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
@@ -32,6 +33,7 @@ import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.enums.Sex;
 import com.udrishh.healthy.utilities.DateConverter;
+import com.udrishh.healthy.utilities.Finder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,6 +78,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<FoodDrinkRecord> foodDrinkRecords;
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
     private ArrayList<RecipeRecord> recipeRecords;
+    private ArrayList<PhysicalActivity> physicalActivities;
 
     private int caloriesProgress = 0;
     private int caloriesEaten = 0;
@@ -99,6 +102,7 @@ public class ProfileFragment extends Fragment {
         foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         recipeRecords = ((MainActivity) this.requireActivity()).getRecipeRecords();
+        physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -121,8 +125,14 @@ public class ProfileFragment extends Fragment {
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
-                caloriesBurned += physicalActivityRecord.getTotalCalories();
-                burnedText.setText(getString(R.string.calories_burned_counter, caloriesBurned));
+                PhysicalActivity physicalActivity =
+                        Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
+                if(physicalActivity!=null){
+                    int totalCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                            * physicalActivity.getCalories() * user.getWeight());
+                    caloriesBurned += totalCalories;
+                    burnedText.setText(getString(R.string.calories_burned_counter, caloriesBurned));
+                }
             }
         }
     }

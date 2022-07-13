@@ -375,14 +375,13 @@ public class MainActivity extends AppCompatActivity {
                         if (!queryDocumentSnapshots.isEmpty() && physicalActivityRecords.isEmpty()) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                                 PhysicalActivityRecord physicalActivityRecord = new PhysicalActivityRecord();
-                                physicalActivityRecord.setCalories(snapshot.get("calories", Float.class));
-                                physicalActivityRecord.setDate(snapshot.getString("date"));
-                                physicalActivityRecord.setDuration(snapshot.get("duration", Integer.class));
+                                physicalActivityRecord.setRecordId(snapshot.getString("recordId"));
+                                physicalActivityRecord.setUserId(snapshot.getString("userId"));
                                 physicalActivityRecord.setItemId(snapshot.getString("itemId"));
                                 physicalActivityRecord.setName(snapshot.getString("name"));
-                                physicalActivityRecord.setRecordId(snapshot.getString("recordId"));
-                                physicalActivityRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
-                                physicalActivityRecord.setUserId(snapshot.getString("userId"));
+                                physicalActivityRecord.setQuantity(snapshot.get("quantity", Integer.class));
+                                physicalActivityRecord.setDate(snapshot.getString("date"));
+
                                 physicalActivityRecords.add(physicalActivityRecord);
                                 records.add(physicalActivityRecord);
 

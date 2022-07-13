@@ -18,6 +18,7 @@ public class Record {
     }
 
     public Record() {
+        date = "N/A";
     }
 
 //    public boolean isBefore(Calendar referenceDate) {

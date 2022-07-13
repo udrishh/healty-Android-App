@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
-    Context context;
     ArrayList<PhysicalActivity> physicalActivities;
     ArrayList<PhysicalActivity> filteredPhysicalActivities;
 
@@ -79,6 +78,8 @@ public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
             physicalActivityName.setText(physicalActivity.getName());
             if(physicalActivity.getUserId().equals("admin")){
                 starIcon.setVisibility(View.INVISIBLE);
+            } else {
+                starIcon.setVisibility(View.VISIBLE);
             }
         }
 
