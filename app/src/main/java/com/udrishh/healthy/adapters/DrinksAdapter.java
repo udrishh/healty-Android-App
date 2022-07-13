@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,8 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Drink drink : drinks) {
-                    if (drink.getName().toLowerCase().contains(filterPattern)) {
+                    if (drink.getName().toLowerCase().contains(filterPattern) &&
+                            !drink.getDrinkId().contains("x")) {
                         filteredDrinksList.add(drink);
                     }
                 }
@@ -72,11 +74,17 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
 
         TextView drinkName = convertView.findViewById(R.id.food_drink_item_name);
         TextView drinkCalories = convertView.findViewById(R.id.food_drink_item_calories);
+        ImageView starIcon = convertView.findViewById(R.id.food_drink_star_icon);
 
         Drink drink = getItem(position);
-        if(drink!=null){
+        if (drink != null) {
             drinkName.setText(drink.getName());
-            drinkCalories.setText(String.valueOf(drink.getCalories())+"\nkcal/100g");
+            drinkCalories.setText(String.valueOf(drink.getCalories()) + "\nkcal/100g");
+            if (drink.getUserId().equals("admin")) {
+                starIcon.setVisibility(View.INVISIBLE);
+            } else {
+                starIcon.setVisibility(View.VISIBLE);
+            }
         }
 
         return convertView;

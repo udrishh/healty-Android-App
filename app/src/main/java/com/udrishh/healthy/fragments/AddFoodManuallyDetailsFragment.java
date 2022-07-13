@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
+import com.udrishh.healthy.classes.Drink;
 import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.User;
@@ -258,30 +259,26 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if (per100InputsValid()) {
                     //ADD
+                    Food food = new Food();
+                    food.setUserId(user.getUserId());
+                    food.setFoodId(UUID.randomUUID().toString());
+                    food.setName(nameInput.getText().toString().trim());
+                    food.setCalories(Integer.parseInt(calories100Input.getText().toString().trim()));
+                    food.setProteins(Integer.parseInt(proteins100Input.getText().toString().trim()));
+                    food.setLipids(Integer.parseInt(lipids100Input.getText().toString().trim()));
+                    food.setCarbs(Integer.parseInt(carbs100Input.getText().toString().trim()));
+                    food.setFibers(Integer.parseInt(fibers100Input.getText().toString().trim()));
+
                     FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
                     foodDrinkRecord.setName(nameInput.getText().toString().trim());
                     foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
                     foodDrinkRecord.setUserId(user.getUserId());
-                    foodDrinkRecord.setCalories(Integer.parseInt(calories100Input.getText().toString().trim()));
-                    foodDrinkRecord.setProteins(Integer.parseInt(proteins100Input.getText().toString().trim()));
-                    foodDrinkRecord.setCarbs(Integer.parseInt(carbs100Input.getText().toString().trim()));
-                    foodDrinkRecord.setLipids(Integer.parseInt(lipids100Input.getText().toString().trim()));
-                    foodDrinkRecord.setFibers(Integer.parseInt(fibers100Input.getText().toString().trim()));
+                    foodDrinkRecord.setItemId(food.getFoodId());
                     foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
-                    foodDrinkRecord.setCategory(RecordType.FOOD);
-                    foodDrinkRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
-                    foodDrinkRecord.setTotalCalories(Integer.parseInt(quantityInput.getText().toString().trim()) *
-                            Integer.parseInt(Objects.requireNonNull(calories100Input.getText()).toString().trim()) / 100);
-                    foodDrinkRecord.setTotalProteins(Integer.parseInt(quantityInput.getText().toString().trim()) *
-                            Integer.parseInt(Objects.requireNonNull(proteins100Input.getText()).toString().trim()) / 100);
-                    foodDrinkRecord.setTotalLipids(Integer.parseInt(quantityInput.getText().toString().trim()) *
-                            Integer.parseInt(Objects.requireNonNull(lipids100Input.getText()).toString().trim()) / 100);
-                    foodDrinkRecord.setTotalCarbs(Integer.parseInt(quantityInput.getText().toString().trim()) *
-                            Integer.parseInt(Objects.requireNonNull(carbs100Input.getText()).toString().trim()) / 100);
-                    foodDrinkRecord.setTotalFibers(Integer.parseInt(quantityInput.getText().toString().trim()) *
-                            Integer.parseInt(Objects.requireNonNull(fibers100Input.getText()).toString().trim()) / 100);
+                    foodDrinkRecord.setRecordType(RecordType.FOOD);
 
                     ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
+                    ((MainActivity) requireActivity()).addFood(food);
 
                     BottomNavigationView bottomNavigationView =
                             ((MainActivity) requireActivity()).getBottomNavigation();
@@ -573,25 +570,26 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if (totalInputsValid()) {
                     //ADD
+                    Food food = new Food();
+                    food.setUserId(user.getUserId());
+                    food.setFoodId("x" + UUID.randomUUID().toString());
+                    food.setName(nameInput.getText().toString().trim());
+                    food.setCalories(Integer.parseInt(calories100Input.getText().toString().trim()));
+                    food.setProteins(Integer.parseInt(proteins100Input.getText().toString().trim()));
+                    food.setLipids(Integer.parseInt(lipids100Input.getText().toString().trim()));
+                    food.setCarbs(Integer.parseInt(carbs100Input.getText().toString().trim()));
+                    food.setFibers(Integer.parseInt(fibers100Input.getText().toString().trim()));
+
                     FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
                     foodDrinkRecord.setName(nameInput.getText().toString().trim());
                     foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
                     foodDrinkRecord.setUserId(user.getUserId());
-                    foodDrinkRecord.setCalories(-1);
-                    foodDrinkRecord.setProteins(-1);
-                    foodDrinkRecord.setCarbs(-1);
-                    foodDrinkRecord.setLipids(-1);
-                    foodDrinkRecord.setFibers(-1);
+                    foodDrinkRecord.setItemId(food.getFoodId());
                     foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
-                    foodDrinkRecord.setCategory(RecordType.FOOD);
-                    foodDrinkRecord.setQuantity(-1);
-                    foodDrinkRecord.setTotalCalories(Integer.parseInt(caloriesTotalInput.getText().toString().trim()));
-                    foodDrinkRecord.setTotalProteins(Integer.parseInt(proteinsTotalInput.getText().toString().trim()));
-                    foodDrinkRecord.setTotalLipids(Integer.parseInt(lipidsTotalInput.getText().toString().trim()));
-                    foodDrinkRecord.setTotalCarbs(Integer.parseInt(carbsTotalInput.getText().toString().trim()));
-                    foodDrinkRecord.setTotalFibers(Integer.parseInt(fibersTotalInput.getText().toString().trim()));
+                    foodDrinkRecord.setRecordType(RecordType.FOOD);
 
                     ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
+                    ((MainActivity) requireActivity()).addFood(food);
 
                     BottomNavigationView bottomNavigationView =
                             ((MainActivity) requireActivity()).getBottomNavigation();

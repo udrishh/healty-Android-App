@@ -176,7 +176,7 @@ public class ViewHistoryFragment extends Fragment {
             case FOOD:
                 for (Record record : records) {
                     if (record instanceof FoodDrinkRecord) {
-                        if (((FoodDrinkRecord) record).getCategory() == RecordType.FOOD) {
+                        if (((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD) {
                             selectedRecords.add(record);
                         }
                     }
@@ -185,7 +185,7 @@ public class ViewHistoryFragment extends Fragment {
             case DRINK:
                 for (Record record : records) {
                     if (record instanceof FoodDrinkRecord) {
-                        if (((FoodDrinkRecord) record).getCategory() == RecordType.DRINK) {
+                        if (((FoodDrinkRecord) record).getRecordType() == RecordType.DRINK) {
                             selectedRecords.add(record);
                         }
                     }

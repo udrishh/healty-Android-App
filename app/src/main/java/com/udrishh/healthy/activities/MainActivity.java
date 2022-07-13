@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference usersReference = db.collection("Users");
 
     private CollectionReference foodDrinkRecordsReference = db.collection("FoodDrinkRecords");
+    private CollectionReference drinkReference = db.collection("Drinks");
+    private CollectionReference foodReference = db.collection("Foods");
     private CollectionReference physicalActivityReference = db.collection("PhysicalActivities");
     private CollectionReference physicalActivityRecordsReference = db.collection("PhysicalActivityRecords");
     private CollectionReference measurementRecordsReference = db.collection("MeasurementRecords");
@@ -516,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot recipeSnapshot : queryDocumentSnapshots) {
                                     Recipe recipe = recipeSnapshot.toObject(Recipe.class);
                                     recipes.add(recipe);
-                                    Log.d("task_db_load","LOADED R: "+ recipe.getName());
+                                    Log.d("task_db_load", "LOADED R: " + recipe.getName());
                                 }
                             }
                             tasksReady++;
@@ -647,7 +649,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (physicalActivity.getUserId().equals("admin") ||
                                             physicalActivity.getUserId().equals(user.getUserId())) {
                                         physicalActivities.add(physicalActivity);
-                                        Log.d("task_db_load","LOADED P: "+ physicalActivity.getName());
+                                        Log.d("task_db_load", "LOADED P: " + physicalActivity.getName());
                                     }
                                 }
                             }
@@ -741,7 +743,7 @@ public class MainActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot drinkSnapshot : queryDocumentSnapshots) {
                                     Drink drink = drinkSnapshot.toObject(Drink.class);
                                     drinks.add(drink);
-                                    Log.d("task_db_load","LOADED D: "+ drink.getName());
+                                    Log.d("task_db_load", "LOADED D: " + drink.getName());
                                 }
                             }
                             tasksReady++;
@@ -832,7 +834,7 @@ public class MainActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot foodSnapshot : queryDocumentSnapshots) {
                                     Food food = foodSnapshot.toObject(Food.class);
                                     foods.add(food);
-                                    Log.d("task_db_load","LOADED F: "+ food.getName());
+                                    Log.d("task_db_load", "LOADED F: " + food.getName());
                                 }
                             }
                             tasksReady++;
@@ -934,20 +936,11 @@ public class MainActivity extends AppCompatActivity {
                                 foodDrinkRecord.setItemId(snapshot.getString("itemId"));
                                 foodDrinkRecord.setDate(snapshot.getString("date"));
                                 foodDrinkRecord.setName(snapshot.getString("name"));
-                                foodDrinkRecord.setProteins(snapshot.get("proteins", Integer.class));
-                                foodDrinkRecord.setLipids(snapshot.get("lipids", Integer.class));
-                                foodDrinkRecord.setCarbs(snapshot.get("carbs", Integer.class));
-                                foodDrinkRecord.setFibers(snapshot.get("fibers", Integer.class));
                                 foodDrinkRecord.setQuantity(snapshot.get("quantity", Integer.class));
-                                foodDrinkRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
-                                foodDrinkRecord.setTotalProteins(snapshot.get("totalProteins", Integer.class));
-                                foodDrinkRecord.setTotalFibers(snapshot.get("totalFibers", Integer.class));
-                                foodDrinkRecord.setTotalCarbs(snapshot.get("totalCarbs", Integer.class));
-                                foodDrinkRecord.setTotalLipids(snapshot.get("totalLipids", Integer.class));
-                                if (snapshot.getString("category").equals("FOOD")) {
-                                    foodDrinkRecord.setCategory(RecordType.FOOD);
+                                if (snapshot.getString("recordType").equals("FOOD")) {
+                                    foodDrinkRecord.setRecordType(RecordType.FOOD);
                                 } else {
-                                    foodDrinkRecord.setCategory(RecordType.DRINK);
+                                    foodDrinkRecord.setRecordType(RecordType.DRINK);
                                 }
 
                                 foodDrinkRecords.add(foodDrinkRecord);
@@ -1094,6 +1087,20 @@ public class MainActivity extends AppCompatActivity {
         if (physicalActivity != null) {
             physicalActivities.add(physicalActivity);
             physicalActivityReference.document(physicalActivity.getPhysicalActivityId()).set(physicalActivity);
+        }
+    }
+
+    public void addDrink(Drink drink) {
+        if (drink != null) {
+            drinks.add(drink);
+            drinkReference.document(drink.getDrinkId()).set(drink);
+        }
+    }
+
+    public void addFood(Food food) {
+        if (food != null) {
+            foods.add(food);
+            foodReference.document(food.getFoodId()).set(food);
         }
     }
 }

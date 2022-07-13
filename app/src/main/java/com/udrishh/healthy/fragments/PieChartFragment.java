@@ -30,6 +30,8 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
+import com.udrishh.healthy.classes.Drink;
+import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
@@ -37,6 +39,7 @@ import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.Finder;
 
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class PieChartFragment extends Fragment {
 
     private User user;
     private ArrayList<Recipe> recipes;
+    private ArrayList<Food> foods;
+    private ArrayList<Drink> drinks;
 
     public PieChartFragment() {
     }
@@ -71,11 +76,11 @@ public class PieChartFragment extends Fragment {
         eatenRecords = new ArrayList<>();
         eatenRecords.addAll(((MainActivity) this.requireActivity()).getFoodDrinkRecords());
         eatenRecords.addAll(((MainActivity) this.requireActivity()).getRecipeRecords());
-
-        Log.d("mytagg", String.valueOf(eatenRecords.size()));
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
         recipes = ((MainActivity) this.requireActivity()).getRecipes();
+        foods = ((MainActivity) this.requireActivity()).getFoods();
+        drinks = ((MainActivity) this.requireActivity()).getDrinks();
 
         user = ((MainActivity) this.requireActivity()).getUserObject();
         initialiseComponents();
@@ -150,9 +155,21 @@ public class PieChartFragment extends Fragment {
                                 ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getName(),
                                 calories));
                     } else {
+                        int calories = 0;
+                        if(((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getRecordType() == RecordType.FOOD){
+                            Food food = Finder.food(foods, ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getItemId());
+                            if(food!=null){
+                                calories = (food.getCalories() * ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity());
+                            }
+                        }else {
+                            Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getItemId());
+                            if(drink!=null){
+                                calories = (drink.getCalories() * ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity());
+                            }
+                        }
                         highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                                 ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getName(),
-                                ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getTotalCalories()));
+                                calories));
                     }
 
                 } else {
@@ -194,7 +211,17 @@ public class PieChartFragment extends Fragment {
                             totalCalories += recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity();
                         }
                     } else {
-                        totalCalories += ((FoodDrinkRecord) record).getTotalCalories();
+                        if(((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD){
+                            Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
+                            if(food!=null){
+                                totalCalories += food.getCalories() * ((FoodDrinkRecord) record).getQuantity();
+                            }
+                        }else {
+                            Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
+                            if(drink!=null){
+                                totalCalories += drink.getCalories() * ((FoodDrinkRecord) record).getQuantity();
+                            }
+                        }
                     }
                 }
             }
@@ -213,7 +240,18 @@ public class PieChartFragment extends Fragment {
                             showingEatenRecords.add(record);
                         }
                     } else {
-                        float percent = (((FoodDrinkRecord) record).getTotalCalories() * 100) / (float) totalCalories;
+                        float percent = 0;
+                        if(((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD){
+                            Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
+                            if(food!=null){
+                                percent = ((food.getCalories() * ((FoodDrinkRecord) record).getQuantity()) * 100) / (float) totalCalories;
+                            }
+                        }else {
+                            Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
+                            if(drink!=null){
+                                percent = ((drink.getCalories() * ((FoodDrinkRecord) record).getQuantity()) * 100) / (float) totalCalories;
+                            }
+                        }
                         if (percent >= 1) {
                             entries.add(new PieEntry(percent, ((FoodDrinkRecord) record).getName().split(" ")[0]));
                             showingEatenRecords.add(record);

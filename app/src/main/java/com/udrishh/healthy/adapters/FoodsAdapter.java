@@ -1,5 +1,6 @@
 package com.udrishh.healthy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodsAdapter extends ArrayAdapter<Food> {
-    Context context;
     ArrayList<Food> foods;
     ArrayList<Food> filteredFoodsList;
 
@@ -39,7 +40,8 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Food food : foods) {
-                    if (food.getName().toLowerCase().contains(filterPattern)) {
+                    if (food.getName().toLowerCase().contains(filterPattern) &&
+                            !food.getFoodId().contains("x")) {
                         filteredFoodsList.add(food);
                     }
                 }
@@ -64,6 +66,7 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -72,11 +75,17 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
 
         TextView foodName = convertView.findViewById(R.id.food_drink_item_name);
         TextView foodCalories = convertView.findViewById(R.id.food_drink_item_calories);
+        ImageView starIcon = convertView.findViewById(R.id.food_drink_star_icon);
 
         Food food = getItem(position);
-        if(food!=null){
+        if (food != null) {
             foodName.setText(food.getName());
-            foodCalories.setText(String.valueOf(food.getCalories())+"\nkcal/100g");
+            foodCalories.setText(food.getCalories() + "\nkcal/100g");
+            if (food.getUserId().equals("admin")) {
+                starIcon.setVisibility(View.INVISIBLE);
+            } else {
+                starIcon.setVisibility(View.VISIBLE);
+            }
         }
 
         return convertView;

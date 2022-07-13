@@ -20,11 +20,14 @@ import com.google.android.material.button.MaterialButton;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.adapters.RecordAdapter;
+import com.udrishh.healthy.classes.Drink;
+import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
+import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.DateConverter;
 import com.udrishh.healthy.utilities.Finder;
 import com.udrishh.healthy.utilities.RecordDateComparator;
@@ -51,6 +54,8 @@ public class StatisticsFragment extends Fragment {
     private String joinDate;
 
     private ArrayList<Recipe> recipes;
+    private ArrayList<Food> foods;
+    private ArrayList<Drink> drinks;
 
     public StatisticsFragment() {
     }
@@ -60,6 +65,8 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_statistics, container, false);
         recipes = ((MainActivity) this.requireActivity()).getRecipes();
+        foods = ((MainActivity) this.requireActivity()).getFoods();
+        drinks = ((MainActivity) this.requireActivity()).getDrinks();
         getRecords();
         initialiseComponents();
         return view;
@@ -165,6 +172,9 @@ public class StatisticsFragment extends Fragment {
 
     private int getStreak() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if(joinDate==""){
+            joinDate = DateConverter.fromDate(new Date());
+        }
         LocalDate date1 = LocalDate.parse(joinDate, dtf);
         LocalDate date2 = LocalDate.parse(DateConverter.fromDate(new Date()), dtf);
         int streak = 0;
@@ -174,7 +184,17 @@ public class StatisticsFragment extends Fragment {
                 LocalDate recordDate = LocalDate.parse(record.getDate().split(" ")[0], dtf);
                 if (recordDate.isEqual(date)) {
                     if (record instanceof FoodDrinkRecord) {
-                        dateCalories += ((FoodDrinkRecord) record).getTotalCalories();
+                        if(((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD){
+                            Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
+                            if(food!=null){
+                                dateCalories += food.getCalories() * ((FoodDrinkRecord) record).getQuantity();
+                            }
+                        }else {
+                            Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
+                            if(drink!=null){
+                                dateCalories += drink.getCalories() * ((FoodDrinkRecord) record).getQuantity();
+                            }
+                        }
                     } else if (record instanceof RecipeRecord) {
                         Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
                         int calories = 0;

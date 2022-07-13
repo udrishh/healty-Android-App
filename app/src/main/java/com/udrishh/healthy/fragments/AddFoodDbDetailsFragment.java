@@ -158,20 +158,10 @@ public class AddFoodDbDetailsFragment extends Fragment {
                 foodDrinkRecord.setUserId(user.getUserId());
                 foodDrinkRecord.setItemId(selectedFood.getFoodId());
                 foodDrinkRecord.setName(Objects.requireNonNull(nameInput.getText()).toString().trim());
-                foodDrinkRecord.setCalories(selectedFood.getCalories());
-                foodDrinkRecord.setLipids(selectedFood.getLipids());
-                foodDrinkRecord.setCarbs(selectedFood.getCarbs());
-                foodDrinkRecord.setFibers(selectedFood.getFibers());
-                foodDrinkRecord.setProteins(selectedFood.getProteins());
                 foodDrinkRecord.setQuantity(Integer.parseInt(Objects.
                         requireNonNull(quantityInput.getText()).toString().trim()));
-                foodDrinkRecord.setCategory(RecordType.FOOD);
+                foodDrinkRecord.setRecordType(RecordType.FOOD);
                 foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
-                foodDrinkRecord.setTotalCalories(foodDrinkRecord.getQuantity() * foodDrinkRecord.getCalories() / 100);
-                foodDrinkRecord.setTotalLipids(foodDrinkRecord.getQuantity() * foodDrinkRecord.getLipids() / 100);
-                foodDrinkRecord.setTotalCarbs(foodDrinkRecord.getQuantity() * foodDrinkRecord.getCarbs() / 100);
-                foodDrinkRecord.setTotalFibers(foodDrinkRecord.getQuantity() * foodDrinkRecord.getFibers() / 100);
-                foodDrinkRecord.setTotalProteins(foodDrinkRecord.getQuantity() * foodDrinkRecord.getProteins() / 100);
 
                 ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
 

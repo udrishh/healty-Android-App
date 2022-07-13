@@ -24,6 +24,8 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
+import com.udrishh.healthy.classes.Drink;
+import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
@@ -80,6 +82,8 @@ public class ProfileFragment extends Fragment {
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
     private ArrayList<RecipeRecord> recipeRecords;
     private ArrayList<Recipe> recipes;
+    private ArrayList<Food> foods;
+    private ArrayList<Drink> drinks;
     private ArrayList<PhysicalActivity> physicalActivities;
 
     private int caloriesProgress = 0;
@@ -105,6 +109,8 @@ public class ProfileFragment extends Fragment {
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         recipeRecords = ((MainActivity) this.requireActivity()).getRecipeRecords();
         recipes = ((MainActivity) this.requireActivity()).getRecipes();
+        foods = ((MainActivity) this.requireActivity()).getFoods();
+        drinks = ((MainActivity) this.requireActivity()).getDrinks();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -157,12 +163,27 @@ public class ProfileFragment extends Fragment {
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
-                caloriesProgress += foodDrinkRecord.getTotalCalories();
-                caloriesEaten += foodDrinkRecord.getTotalCalories();
-                proteins += foodDrinkRecord.getTotalProteins();
-                lipids += foodDrinkRecord.getTotalLipids();
-                carbs += foodDrinkRecord.getTotalCarbs();
-                fibers += foodDrinkRecord.getTotalFibers();
+                if (foodDrinkRecord.getRecordType() == RecordType.FOOD) {
+                    Food food = Finder.food(foods, foodDrinkRecord.getItemId());
+                    if (food != null) {
+                        caloriesProgress += food.getCalories();
+                        caloriesEaten += food.getCalories();
+                        proteins += food.getProteins();
+                        lipids += food.getLipids();
+                        carbs += food.getCarbs();
+                        fibers += food.getFibers();
+                    }
+                } else {
+                    Drink drink = Finder.drink(drinks, foodDrinkRecord.getItemId());
+                    if (drink != null) {
+                        caloriesProgress += drink.getCalories();
+                        caloriesEaten += drink.getCalories();
+                        proteins += drink.getProteins();
+                        lipids += drink.getLipids();
+                        carbs += drink.getCarbs();
+                        fibers += drink.getFibers();
+                    }
+                }
 
                 caloriesProgressText.setText(getString(R.string.calories_progress_counter,
                         caloriesProgress, user.getCaloriesPlan()));
@@ -174,7 +195,7 @@ public class ProfileFragment extends Fragment {
 
                 caloriesProgressIndicator.setProgress(caloriesProgress, true);
 
-                if (foodDrinkRecord.getCategory() == RecordType.DRINK) {
+                if (foodDrinkRecord.getRecordType() == RecordType.DRINK) {
                     liquids += foodDrinkRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
                     liquidsProgressIndicator.setProgress(liquids, true);

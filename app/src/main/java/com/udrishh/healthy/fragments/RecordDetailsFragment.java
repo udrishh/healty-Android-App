@@ -15,6 +15,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
+import com.udrishh.healthy.classes.Drink;
+import com.udrishh.healthy.classes.Food;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
@@ -47,6 +49,8 @@ public class RecordDetailsFragment extends Fragment {
     private User user;
     private ArrayList<PhysicalActivity> physicalActivities;
     private ArrayList<Recipe> recipes;
+    private ArrayList<Food> foods;
+    private ArrayList<Drink> drinks;
 
     public RecordDetailsFragment() {
     }
@@ -62,6 +66,8 @@ public class RecordDetailsFragment extends Fragment {
         user = ((MainActivity) this.requireActivity()).getUserObject();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
         recipes = ((MainActivity) this.requireActivity()).getRecipes();
+        foods = ((MainActivity) this.requireActivity()).getFoods();
+        drinks = ((MainActivity) this.requireActivity()).getDrinks();
 
         initialiseComponents();
         determineRecordType();
@@ -116,7 +122,7 @@ public class RecordDetailsFragment extends Fragment {
 
     private void determineRecordType() {
         if (selectedRecord instanceof FoodDrinkRecord) {
-            if (((FoodDrinkRecord) selectedRecord).getCategory() == RecordType.DRINK) {
+            if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.DRINK) {
                 recordType = RecordType.DRINK;
                 initialiseDrinkRecord();
             } else {
@@ -180,8 +186,19 @@ public class RecordDetailsFragment extends Fragment {
             recordQuantity.setText(getString(R.string.record_details_food_quantity_text,
                     ((FoodDrinkRecord) selectedRecord).getQuantity()));
             recordValue = view.findViewById(R.id.record_details_total_calories);
-            recordValue.setText(getString(R.string.record_details_total_calories_text,
-                    ((FoodDrinkRecord) selectedRecord).getTotalCalories()));
+            int calories = 0;
+            if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
+                Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
+                if (food != null) {
+                    calories = (food.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity());
+                }
+            } else {
+                Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());
+                if (drink != null) {
+                    calories = (drink.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity());
+                }
+            }
+            recordValue.setText(getString(R.string.record_details_total_calories_text,calories));
         }
         recordQuantity.setVisibility(View.VISIBLE);
         recordValue.setVisibility(View.VISIBLE);
@@ -210,8 +227,19 @@ public class RecordDetailsFragment extends Fragment {
             recordQuantity.setText(getString(R.string.record_details_drink_quantity_text,
                     ((FoodDrinkRecord) selectedRecord).getQuantity()));
             recordValue = view.findViewById(R.id.record_details_total_calories);
-            recordValue.setText(getString(R.string.record_details_total_calories_text,
-                    ((FoodDrinkRecord) selectedRecord).getTotalCalories()));
+            int calories = 0;
+            if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
+                Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
+                if (food != null) {
+                    calories = (food.getCalories()  * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                }
+            } else {
+                Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());
+                if (drink != null) {
+                    calories = (drink.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                }
+            }
+            recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         }
         recordQuantity.setVisibility(View.VISIBLE);
         recordValue.setVisibility(View.VISIBLE);
@@ -228,8 +256,11 @@ public class RecordDetailsFragment extends Fragment {
 
         PhysicalActivity physicalActivity =
                 Finder.physicalActivity(physicalActivities, ((PhysicalActivityRecord) selectedRecord).getItemId());
-        int totalCalories = Math.round((float) ((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
-                * physicalActivity.getCalories() * user.getWeight());
+        int totalCalories = 0;
+        if (physicalActivity != null) {
+            totalCalories = Math.round((float) ((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
+                    * physicalActivity.getCalories() * user.getWeight());
+        }
 
         recordValue.setText(getString(R.string.record_details_burned_calories_text,
                 totalCalories));

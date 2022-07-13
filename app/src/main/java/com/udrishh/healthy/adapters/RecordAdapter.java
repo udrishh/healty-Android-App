@@ -59,7 +59,7 @@ public class RecordAdapter extends BaseAdapter {
         if (records.get(position) instanceof FoodDrinkRecord) {
             //FOOD OR DRINK RECORD
             FoodDrinkRecord foodDrinkRecord = (FoodDrinkRecord) records.get(position);
-            if (foodDrinkRecord.getCategory() == RecordType.DRINK) {
+            if (foodDrinkRecord.getRecordType() == RecordType.DRINK) {
                 icon.setImageResource(R.drawable.glass_icon);
             } else {
                 icon.setImageResource(R.drawable.food_icon);

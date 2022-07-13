@@ -77,19 +77,10 @@ public class AddWaterFragment extends Fragment {
             foodDrinkRecord.setName(nameInput.getText().toString().trim());
             foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
             foodDrinkRecord.setUserId(user.getUserId());
-            foodDrinkRecord.setCalories(0);
-            foodDrinkRecord.setProteins(0);
-            foodDrinkRecord.setCarbs(0);
-            foodDrinkRecord.setLipids(0);
-            foodDrinkRecord.setFibers(0);
             foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
-            foodDrinkRecord.setCategory(RecordType.DRINK);
+            foodDrinkRecord.setRecordType(RecordType.DRINK);
             foodDrinkRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
-            foodDrinkRecord.setTotalCalories(0);
-            foodDrinkRecord.setTotalProteins(0);
-            foodDrinkRecord.setTotalLipids(0);
-            foodDrinkRecord.setTotalCarbs(0);
-            foodDrinkRecord.setTotalFibers(0);
+            foodDrinkRecord.setItemId("water-water-water");//water id in db
 
             ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
 
