@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int eatenCalories;
     private boolean connectionAvailable;
+    private boolean profileFragmentSet = false;
     private boolean uiReady = false;
     private int tasksReady = 0;
 
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProfileFragment() {
+        profileFragmentSet = true;
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
@@ -229,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecipesFragment() {
+        profileFragmentSet = false;
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
@@ -237,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAddFragment() {
+        profileFragmentSet = false;
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
@@ -245,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setStatisticsFragment() {
+        profileFragmentSet = false;
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
@@ -253,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setSettingsFragment() {
+        profileFragmentSet = false;
         clearFragmentBackStack();
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
@@ -394,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setProfileProgress() {
         Log.d("tasks_waiting", String.valueOf(tasksReady));
-        if (tasksReady >= 2) {
+        if (tasksReady >= 2 && profileFragmentSet) {
             bottomNavigation.setSelectedItemId(R.id.menu_item_profile);
         }
     }
