@@ -315,7 +315,7 @@ public class ProfileFragment extends Fragment {
 
                 }
             });
-            if(visibility == View.GONE){
+            if (visibility == View.GONE) {
                 userDetailsLayout.startAnimation(slideOutAnimation);
             } else {
                 userDetailsLayout.startAnimation(slideInAnimation);
@@ -325,9 +325,9 @@ public class ProfileFragment extends Fragment {
             isExpanded = !isExpanded;
         });
 
-        loadingData=view.findViewById(R.id.progress_loading);
-        loadingDataText=view.findViewById(R.id.progress_loading_text);
-        if(((MainActivity) this.requireActivity()).getTasksReady()==2){
+        loadingData = view.findViewById(R.id.progress_loading);
+        loadingDataText = view.findViewById(R.id.progress_loading_text);
+        if (((MainActivity) this.requireActivity()).getTasksReady() >= 4) {
             loadingData.setVisibility(View.GONE);
             loadingDataText.setVisibility(View.GONE);
         }

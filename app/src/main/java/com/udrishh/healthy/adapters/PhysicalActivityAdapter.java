@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,10 +72,14 @@ public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
         }
 
         TextView physicalActivityName = convertView.findViewById(R.id.physical_activity_item_name);
+        ImageView starIcon = convertView.findViewById(R.id.physical_activity_star_icon);
 
         PhysicalActivity physicalActivity = getItem(position);
         if(physicalActivity!=null){
             physicalActivityName.setText(physicalActivity.getName());
+            if(physicalActivity.getUserId().equals("admin")){
+                starIcon.setVisibility(View.INVISIBLE);
+            }
         }
 
         return convertView;

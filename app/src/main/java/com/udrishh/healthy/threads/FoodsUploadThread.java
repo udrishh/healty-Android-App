@@ -50,24 +50,15 @@ public class FoodsUploadThread extends Thread {
                 food.setFibers(Integer.parseInt(items[5]));
                 food.setUserId(items[6]);
                 food.setFoodId(UUID.randomUUID().toString());
-                //Log.d("food_upload", "Read " + count + " out of " + "10814 : SUCCESS");
                 Log.d("food_upload", "Read " + count + " out of " + "10814 : " + food.toString());
 
                 //UPLOAD
                 int finalCount = count;
-                collectionReference.add(food)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
-                            }
-                        });
+                collectionReference.document(food.getFoodId()).set(food)
+                        .addOnSuccessListener(documentReference ->
+                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS"))
+                        .addOnFailureListener(e ->
+                                Log.d("food_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL"));
             }
             Log.d("food_upload", "FINISHED");
             bufferedReader.close();

@@ -37,6 +37,8 @@
         <entry key="app/src/main/res/drawable/profile_icon.xml" value="0.34102564102564104" />
         <entry key="app/src/main/res/drawable/recipes_icon.xml" value="0.1695" />
         <entry key="app/src/main/res/drawable/search_icon.xml" value="0.1695" />
+        <entry key="app/src/main/res/drawable/star-48px.xml" value="0.203" />
+        <entry key="app/src/main/res/drawable/star_icon.xml" value="0.203" />
         <entry key="app/src/main/res/drawable/transition_0_25.xml" value="0.2111111111111111" />
         <entry key="app/src/main/res/layout-v28/fragment_pie_chart.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.256640625" />

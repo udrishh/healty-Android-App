@@ -53,19 +53,11 @@ public class DrinksUploadThread extends Thread{
 
                 //UPLOAD
                 int finalCount = count;
-                collectionReference.add(drink)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("drink_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL");
-                            }
-                        });
+                collectionReference.document(drink.getDrinkId()).set(drink)
+                        .addOnSuccessListener(documentReference ->
+                                Log.d("drinks_upload", "UPLOAD " + finalCount + " out of " + "10814 SUCCESS"))
+                        .addOnFailureListener(e ->
+                                Log.d("drinks_upload", "UPLOAD " + finalCount + " out of " + "10814 FAIL"));
             }
             Log.d("drink_upload", "FINISHED");
             bufferedReader.close();
