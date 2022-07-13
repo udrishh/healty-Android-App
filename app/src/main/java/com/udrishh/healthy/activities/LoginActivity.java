@@ -12,7 +12,9 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText passwordInput;
     private ProgressBar loading;
     private ProgressBar loadingBig;
+    private ImageView loadingBigText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                 currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
                     loadingBig.setVisibility(View.VISIBLE);
+                    loadingBigText.setVisibility(View.VISIBLE);
                     loginCard.setVisibility(View.INVISIBLE);
                     currentUser = firebaseAuth.getCurrentUser();
                     final String currentUserId = currentUser.getUid();
@@ -405,6 +409,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.login_password_input);
         loading = findViewById(R.id.login_loading);
         loadingBig = findViewById(R.id.login_loadingBig);
+        loadingBigText = findViewById(R.id.login_loadingBigText);
         loginCard = findViewById(R.id.login_card);
     }
 
