@@ -1,27 +1,19 @@
 package com.udrishh.healthy.classes;
 
-import com.udrishh.healthy.enums.RecipeCategory;
-
 public class RecipeRecord extends Record{
     private String recordId;
     private String userId;
     private String itemId;
     private String name;
-    private int calories;
     private int quantity;
-    private int totalCalories;
-    private RecipeCategory recipeCategory;
 
     public RecipeRecord() {
         super();
-    }
-
-    public RecipeCategory getRecipeCategory() {
-        return recipeCategory;
-    }
-
-    public void setRecipeCategory(RecipeCategory recipeCategory) {
-        this.recipeCategory = recipeCategory;
+        recordId = "N/A";
+        userId = "N/A";
+        itemId = "N/A";
+        name = "N/A";
+        quantity = 0;
     }
 
     public String getRecordId() {
@@ -56,28 +48,12 @@ public class RecipeRecord extends Record{
         this.name = name;
     }
 
-    public int getCalories() {
-        return calories;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getTotalCalories() {
-        return totalCalories;
-    }
-
-    public void setTotalCalories(int totalCalories) {
-        this.totalCalories = totalCalories;
     }
 
     public String getDate() {

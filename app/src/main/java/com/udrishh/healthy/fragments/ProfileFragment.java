@@ -27,6 +27,7 @@ import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
+import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<FoodDrinkRecord> foodDrinkRecords;
     private ArrayList<PhysicalActivityRecord> physicalActivityRecords;
     private ArrayList<RecipeRecord> recipeRecords;
+    private ArrayList<Recipe> recipes;
     private ArrayList<PhysicalActivity> physicalActivities;
 
     private int caloriesProgress = 0;
@@ -102,6 +104,7 @@ public class ProfileFragment extends Fragment {
         foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         recipeRecords = ((MainActivity) this.requireActivity()).getRecipeRecords();
+        recipes = ((MainActivity) this.requireActivity()).getRecipes();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
 
         view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -188,23 +191,30 @@ public class ProfileFragment extends Fragment {
             if (todayDate.get(Calendar.DAY_OF_MONTH) == recordDate.get(Calendar.DAY_OF_MONTH)
                     && todayDate.get(Calendar.MONTH) == recordDate.get(Calendar.MONTH)
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
-                caloriesProgress += recipeRecord.getTotalCalories();
-                caloriesEaten += recipeRecord.getTotalCalories();
 
-                caloriesProgressText.setText(getString(R.string.calories_progress_counter,
-                        caloriesProgress, user.getCaloriesPlan()));
-                eatenText.setText(getString(R.string.calories_eaten_counter, caloriesEaten));
-                proteinsText.setText(getString(R.string.proteins_counter, proteins));
-                lipidsText.setText(getString(R.string.lipids_counter, lipids));
-                carbsText.setText(getString(R.string.carbs_counter, carbs));
-                fibersText.setText(getString(R.string.fibers_counter, fibers));
+                int calories = 0;
+                Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) recipeRecord).getItemId());
+                if (recipe != null) {
+                    calories += recipe.getCalories() * 100 / ((RecipeRecord) recipeRecord).getQuantity();
 
-                caloriesProgressIndicator.setProgress(caloriesProgress, true);
+                    caloriesProgress += calories;
+                    caloriesEaten += calories;
 
-                if (recipeRecord.getRecipeCategory() == RecipeCategory.DRINKS) {
-                    liquids += recipeRecord.getQuantity();
-                    liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
-                    liquidsProgressIndicator.setProgress(liquids, true);
+                    caloriesProgressText.setText(getString(R.string.calories_progress_counter,
+                            caloriesProgress, user.getCaloriesPlan()));
+                    eatenText.setText(getString(R.string.calories_eaten_counter, caloriesEaten));
+                    proteinsText.setText(getString(R.string.proteins_counter, proteins));
+                    lipidsText.setText(getString(R.string.lipids_counter, lipids));
+                    carbsText.setText(getString(R.string.carbs_counter, carbs));
+                    fibersText.setText(getString(R.string.fibers_counter, fibers));
+
+                    caloriesProgressIndicator.setProgress(caloriesProgress, true);
+
+                    if (recipe.getCategories().contains(RecipeCategory.DRINKS)) {
+                        liquids += recipeRecord.getQuantity();
+                        liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
+                        liquidsProgressIndicator.setProgress(liquids, true);
+                    }
                 }
             }
         }

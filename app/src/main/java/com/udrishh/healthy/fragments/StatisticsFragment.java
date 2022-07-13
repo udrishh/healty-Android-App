@@ -21,10 +21,12 @@ import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
 import com.udrishh.healthy.adapters.RecordAdapter;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
+import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.utilities.DateConverter;
+import com.udrishh.healthy.utilities.Finder;
 import com.udrishh.healthy.utilities.RecordDateComparator;
 
 import java.time.LocalDate;
@@ -48,6 +50,8 @@ public class StatisticsFragment extends Fragment {
     private User user;
     private String joinDate;
 
+    private ArrayList<Recipe> recipes;
+
     public StatisticsFragment() {
     }
 
@@ -55,6 +59,7 @@ public class StatisticsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        recipes = ((MainActivity) this.requireActivity()).getRecipes();
         getRecords();
         initialiseComponents();
         return view;
@@ -163,19 +168,24 @@ public class StatisticsFragment extends Fragment {
         LocalDate date1 = LocalDate.parse(joinDate, dtf);
         LocalDate date2 = LocalDate.parse(DateConverter.fromDate(new Date()), dtf);
         int streak = 0;
-        for(LocalDate date = date1; date.isBefore(date2.plusDays(1)); date = date.plusDays(1)){
+        for (LocalDate date = date1; date.isBefore(date2.plusDays(1)); date = date.plusDays(1)) {
             int dateCalories = 0;
-            for(Record record : records){
+            for (Record record : records) {
                 LocalDate recordDate = LocalDate.parse(record.getDate().split(" ")[0], dtf);
-                if (recordDate.isEqual(date)){
-                    if(record instanceof FoodDrinkRecord){
-                        dateCalories += ((FoodDrinkRecord)record).getTotalCalories();
-                    } else if(record instanceof RecipeRecord){
-                        dateCalories += ((RecipeRecord)record).getTotalCalories();
+                if (recordDate.isEqual(date)) {
+                    if (record instanceof FoodDrinkRecord) {
+                        dateCalories += ((FoodDrinkRecord) record).getTotalCalories();
+                    } else if (record instanceof RecipeRecord) {
+                        Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
+                        int calories = 0;
+                        if (recipe != null) {
+                            calories += recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity();
+                        }
+                        dateCalories += calories;
                     }
                 }
             }
-            if(dateCalories>= user.getCaloriesPlan()){
+            if (dateCalories >= user.getCaloriesPlan()) {
                 streak++;
             }
         }

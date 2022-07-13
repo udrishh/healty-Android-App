@@ -122,15 +122,7 @@ public class AddRecipeDetailsFragment extends Fragment {
             recipeRecord.setUserId(user.getUserId());
             recipeRecord.setItemId(selectedRecipe.getRecipeId());
             recipeRecord.setName(nameInput.getText().toString().trim());
-            recipeRecord.setCalories(selectedRecipe.getCalories() * 100 / selectedRecipe.getQuantity());
             recipeRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
-            recipeRecord.setTotalCalories(recipeRecord.getCalories() *
-                    Integer.parseInt(quantityInput.getText().toString().trim()) / 100);
-            if(selectedRecipe.isInCategory(RecipeCategory.DRINKS)){
-                recipeRecord.setRecipeCategory(RecipeCategory.DRINKS);
-            } else {
-                recipeRecord.setRecipeCategory(RecipeCategory.FOODS);
-            }
 
             ((MainActivity) requireActivity()).addRecipeRecord(recipeRecord);
 

@@ -59,6 +59,7 @@ public class PieChartFragment extends Fragment {
     private String selectedDate;
 
     private User user;
+    private ArrayList<Recipe> recipes;
 
     public PieChartFragment() {
     }
@@ -71,9 +72,10 @@ public class PieChartFragment extends Fragment {
         eatenRecords.addAll(((MainActivity) this.requireActivity()).getFoodDrinkRecords());
         eatenRecords.addAll(((MainActivity) this.requireActivity()).getRecipeRecords());
 
-        Log.d("mytagg",String.valueOf(eatenRecords.size()));
+        Log.d("mytagg", String.valueOf(eatenRecords.size()));
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
+        recipes = ((MainActivity) this.requireActivity()).getRecipes();
 
         user = ((MainActivity) this.requireActivity()).getUserObject();
         initialiseComponents();
@@ -138,9 +140,15 @@ public class PieChartFragment extends Fragment {
             public void onValueSelected(Entry e, Highlight h) {
                 if (isEatenSelected) {
                     if (showingEatenRecords.get((int) h.getX()) instanceof RecipeRecord) {
+                        Recipe recipe = Finder.recipe(recipes,
+                                ((RecipeRecord) ((RecipeRecord) showingEatenRecords.get((int) h.getX()))).getItemId());
+                        int calories = 0;
+                        if (recipe != null) {
+                            calories = recipe.getCalories() * 100 / ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getQuantity();
+                        }
                         highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                                 ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getName(),
-                                ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getTotalCalories()));
+                                calories));
                     } else {
                         highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                                 ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getName(),
@@ -151,7 +159,7 @@ public class PieChartFragment extends Fragment {
                     PhysicalActivity physicalActivity =
                             Finder.physicalActivity(physicalActivities, showingPhysicalActivityRecords.get((int) h.getX()).getItemId());
                     assert physicalActivity != null;
-                    int recordCalories = Math.round((float)showingPhysicalActivityRecords.get((int) h.getX()).getQuantity() / 60
+                    int recordCalories = Math.round((float) showingPhysicalActivityRecords.get((int) h.getX()).getQuantity() / 60
                             * physicalActivity.getCalories() * user.getWeight());
                     highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                             showingPhysicalActivityRecords.get((int) h.getX()).getName(),
@@ -181,7 +189,10 @@ public class PieChartFragment extends Fragment {
             for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     if (record instanceof RecipeRecord) {
-                        totalCalories += ((RecipeRecord) record).getTotalCalories();
+                        Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
+                        if (recipe != null) {
+                            totalCalories += recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity();
+                        }
                     } else {
                         totalCalories += ((FoodDrinkRecord) record).getTotalCalories();
                     }
@@ -191,15 +202,20 @@ public class PieChartFragment extends Fragment {
             for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     if (record instanceof RecipeRecord) {
-                        float percent = (((RecipeRecord)record).getTotalCalories() * 100) / (float) totalCalories;
+                        float percent = 0;
+                        Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
+                        if (recipe != null) {
+                            totalCalories += recipe.getCalories() * 100 / recipe.getQuantity();
+                            percent = ((float) recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity() * 100) / (float) totalCalories;
+                        }
                         if (percent >= 1) {
-                            entries.add(new PieEntry(percent, ((RecipeRecord)record).getName().split(" ")[0]));
+                            entries.add(new PieEntry(percent, ((RecipeRecord) record).getName().split(" ")[0]));
                             showingEatenRecords.add(record);
                         }
                     } else {
-                        float percent = (((FoodDrinkRecord)record).getTotalCalories() * 100) / (float) totalCalories;
+                        float percent = (((FoodDrinkRecord) record).getTotalCalories() * 100) / (float) totalCalories;
                         if (percent >= 1) {
-                            entries.add(new PieEntry(percent, ((FoodDrinkRecord)record).getName().split(" ")[0]));
+                            entries.add(new PieEntry(percent, ((FoodDrinkRecord) record).getName().split(" ")[0]));
                             showingEatenRecords.add(record);
                         }
                     }
@@ -211,7 +227,7 @@ public class PieChartFragment extends Fragment {
                     PhysicalActivity physicalActivity =
                             Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
                     assert physicalActivity != null;
-                    int recordCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                    int recordCalories = Math.round((float) physicalActivityRecord.getQuantity() / 60
                             * physicalActivity.getCalories() * user.getWeight());
                     totalCalories += recordCalories;
                 }
@@ -222,7 +238,7 @@ public class PieChartFragment extends Fragment {
                     PhysicalActivity physicalActivity =
                             Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
                     assert physicalActivity != null;
-                    int recordCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                    int recordCalories = Math.round((float) physicalActivityRecord.getQuantity() / 60
                             * physicalActivity.getCalories() * user.getWeight());
                     float percent = (recordCalories * 100) / (float) totalCalories;
                     if (percent >= 1) {

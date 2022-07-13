@@ -303,13 +303,11 @@ public class MainActivity extends AppCompatActivity {
                     if (!queryDocumentSnapshots.isEmpty() && recipeRecords.isEmpty()) {
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             RecipeRecord recipeRecord = new RecipeRecord();
-                            recipeRecord.setCalories(snapshot.get("calories", Integer.class));
                             recipeRecord.setDate(snapshot.getString("date"));
                             recipeRecord.setQuantity(snapshot.get("quantity", Integer.class));
                             recipeRecord.setItemId(snapshot.getString("itemId"));
                             recipeRecord.setName(snapshot.getString("name"));
                             recipeRecord.setRecordId(snapshot.getString("recordId"));
-                            recipeRecord.setTotalCalories(snapshot.get("totalCalories", Integer.class));
                             recipeRecord.setUserId(snapshot.getString("userId"));
                             recipeRecords.add(recipeRecord);
                             records.add(recipeRecord);

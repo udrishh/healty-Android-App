@@ -18,6 +18,13 @@ public class Recipe {
     public Recipe() {
         categories = new ArrayList<>();
         ingredients = new ArrayList<>();
+        recipeId = "N/A";
+        name = "N/A";
+        servings = 0;
+        quantity = 0;
+        calories = 0;
+        img = "N/A";
+        source = "N/A";
     }
 
     public int getQuantity() {

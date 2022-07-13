@@ -19,6 +19,7 @@ import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.MeasurementRecord;
 import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
+import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
 import com.udrishh.healthy.classes.User;
@@ -45,6 +46,7 @@ public class RecordDetailsFragment extends Fragment {
 
     private User user;
     private ArrayList<PhysicalActivity> physicalActivities;
+    private ArrayList<Recipe> recipes;
 
     public RecordDetailsFragment() {
     }
@@ -59,6 +61,7 @@ public class RecordDetailsFragment extends Fragment {
 
         user = ((MainActivity) this.requireActivity()).getUserObject();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
+        recipes = ((MainActivity) this.requireActivity()).getRecipes();
 
         initialiseComponents();
         determineRecordType();
@@ -122,9 +125,12 @@ public class RecordDetailsFragment extends Fragment {
             }
         } else if (selectedRecord instanceof RecipeRecord) {
             isRecipe = true;
-            if (((RecipeRecord) selectedRecord).getRecipeCategory() == RecipeCategory.DRINKS) {
-                recordType = RecordType.DRINK;
-                initialiseDrinkRecord();
+            Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) selectedRecord).getItemId());
+            if (recipe != null) {
+                if (recipe.getCategories().contains(RecipeCategory.DRINKS)) {
+                    recordType = RecordType.DRINK;
+                    initialiseDrinkRecord();
+                }
             }
             initialiseFoodRecord();
         } else if (selectedRecord instanceof PhysicalActivityRecord) {
@@ -160,8 +166,12 @@ public class RecordDetailsFragment extends Fragment {
             recordQuantity.setText(getString(R.string.record_details_food_quantity_text,
                     ((RecipeRecord) selectedRecord).getQuantity()));
             recordValue = view.findViewById(R.id.record_details_total_calories);
-            recordValue.setText(getString(R.string.record_details_total_calories_text,
-                    ((RecipeRecord) selectedRecord).getTotalCalories()));
+            int calories = 0;
+            Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) selectedRecord).getItemId());
+            if (recipe != null) {
+                calories += recipe.getCalories() * 100 / ((RecipeRecord) selectedRecord).getQuantity();
+            }
+            recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         } else {
             recordImage.setImageResource(R.drawable.food_icon);
             recordCategory.setText(getString(R.string.add_food_db_food_title));
@@ -186,8 +196,12 @@ public class RecordDetailsFragment extends Fragment {
             recordQuantity.setText(getString(R.string.record_details_drink_quantity_text,
                     ((RecipeRecord) selectedRecord).getQuantity()));
             recordValue = view.findViewById(R.id.record_details_total_calories);
-            recordValue.setText(getString(R.string.record_details_total_calories_text,
-                    ((RecipeRecord) selectedRecord).getTotalCalories()));
+            int calories = 0;
+            Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) selectedRecord).getItemId());
+            if (recipe != null) {
+                calories += recipe.getCalories() * 100 / ((RecipeRecord) selectedRecord).getQuantity();
+            }
+            recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         } else {
             recordImage.setImageResource(R.drawable.glass_icon);
             recordCategory.setText(getString(R.string.add_drink_db_drink_title));
@@ -214,7 +228,7 @@ public class RecordDetailsFragment extends Fragment {
 
         PhysicalActivity physicalActivity =
                 Finder.physicalActivity(physicalActivities, ((PhysicalActivityRecord) selectedRecord).getItemId());
-        int totalCalories = Math.round((float)((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
+        int totalCalories = Math.round((float) ((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
                 * physicalActivity.getCalories() * user.getWeight());
 
         recordValue.setText(getString(R.string.record_details_burned_calories_text,
