@@ -146,10 +146,10 @@ public class PieChartFragment extends Fragment {
                 if (isEatenSelected) {
                     if (showingEatenRecords.get((int) h.getX()) instanceof RecipeRecord) {
                         Recipe recipe = Finder.recipe(recipes,
-                                ((RecipeRecord) ((RecipeRecord) showingEatenRecords.get((int) h.getX()))).getItemId());
+                                ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getItemId());
                         int calories = 0;
                         if (recipe != null) {
-                            calories = recipe.getCalories() * 100 / ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getQuantity();
+                            calories = (int) ((((float) recipe.getCalories() / recipe.getQuantity() * 100f) / 100f) * ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getQuantity());
                         }
                         highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
                                 ((RecipeRecord) showingEatenRecords.get((int) h.getX())).getName(),
@@ -159,12 +159,21 @@ public class PieChartFragment extends Fragment {
                         if (((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getRecordType() == RecordType.FOOD) {
                             Food food = Finder.food(foods, ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getItemId());
                             if (food != null) {
-                                calories = (food.getCalories() * 100 / ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity());
+                                if (!food.getFoodId().contains("x")) {
+                                    calories = (int) (food.getCalories() * ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity() / 100f);
+                                } else {
+                                    calories = food.getCalories();
+                                }
+
                             }
                         } else {
                             Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getItemId());
                             if (drink != null) {
-                                calories = (drink.getCalories() * 100 / ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity());
+                                if (!drink.getDrinkId().contains("x")) {
+                                    calories = (int) (drink.getCalories() * ((FoodDrinkRecord) showingEatenRecords.get((int) h.getX())).getQuantity() / 100f);
+                                } else {
+                                    calories = drink.getCalories();
+                                }
                             }
                         }
                         highlightedDetails.setText(getString(R.string.statistics_highlighted_details_text,
@@ -200,35 +209,49 @@ public class PieChartFragment extends Fragment {
     }
 
     private void loadPieChartData(String selectedDate) {
+        int totalCaloriesShown = 0;
         ArrayList<PieEntry> entries = new ArrayList<>();
         int totalCalories = 0;
+        Log.d("bug_test", String.valueOf(totalCalories));
         if (isEatenSelected) {
             for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
                     if (record instanceof RecipeRecord) {
                         Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
                         if (recipe != null) {
-                            totalCalories += recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity();
+                            totalCalories += (int) ((((float) recipe.getCalories() / recipe.getQuantity() * 100f) / 100f) * ((RecipeRecord) record).getQuantity());
+                            Log.d("bug_test", String.valueOf(totalCalories));
                         }
                     } else {
                         if (((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD) {
                             Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
                             if (food != null) {
-                                if (food.getCalories() != 0 && ((FoodDrinkRecord) record).getQuantity() != 0){
-                                    totalCalories += food.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                if (food.getCalories() != 0 && ((FoodDrinkRecord) record).getQuantity() != 0) {
+                                    if (food.getFoodId().contains("x")) {
+                                        totalCalories += food.getCalories();
+                                    } else {
+                                        totalCalories += food.getCalories() * ((FoodDrinkRecord) record).getQuantity() / 100f;
+                                    }
+                                    Log.d("bug_test", String.valueOf(totalCalories));
                                 }
                             }
                         } else {
                             Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
                             if (drink != null) {
                                 if (drink.getCalories() != 0 && ((FoodDrinkRecord) record).getQuantity() != 0) {
-                                    totalCalories += drink.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                    if (drink.getDrinkId().contains("x")) {
+                                        totalCalories += drink.getCalories();
+                                    } else {
+                                        totalCalories += drink.getCalories() * ((FoodDrinkRecord) record).getQuantity() / 100f;
+                                    }
+                                    Log.d("bug_test", String.valueOf(totalCalories));
                                 }
                             }
                         }
                     }
                 }
             }
+            totalCaloriesShown = totalCalories;
             showingEatenRecords = new ArrayList<>();
             for (Record record : eatenRecords) {
                 if (record.getDate().contains(selectedDate)) {
@@ -236,8 +259,10 @@ public class PieChartFragment extends Fragment {
                     if (record instanceof RecipeRecord) {
                         Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) record).getItemId());
                         if (recipe != null) {
-                            totalCalories += recipe.getCalories() * 100 / recipe.getQuantity();
-                            percent = ((float) recipe.getCalories() * 100 / ((RecipeRecord) record).getQuantity() * 100) / (float) totalCalories;
+                            Log.d("bug_test", recipe.getName());
+                            totalCalories += recipe.getCalories() * recipe.getQuantity() / 100f;
+                            Log.d("bug_test", String.valueOf(totalCalories));
+                            percent = (((float) recipe.getCalories() * recipe.getQuantity() / 100) * 100) / (float) totalCalories;
                         }
                         if (percent >= 1) {
                             entries.add(new PieEntry(percent, ((RecipeRecord) record).getName().split(" ")[0]));
@@ -247,12 +272,23 @@ public class PieChartFragment extends Fragment {
                         if (((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD) {
                             Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
                             if (food != null) {
-                                percent = (((float) food.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity()) * 100) / (float) totalCalories;
+                                Log.d("bug_test", food.getName());
+                                if (food.getFoodId().contains("x")) {
+                                    percent = ((float) food.getCalories() * 100) / (float) totalCalories;
+                                } else {
+                                    percent = ((((float) food.getCalories() * ((FoodDrinkRecord) record).getQuantity()) / 100f) * 100) / (float) totalCalories;
+                                }
                             }
                         } else {
                             Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
                             if (drink != null) {
-                                percent = (((float) drink.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity()) * 100) / (float) totalCalories;
+                                Log.d("bug_test", drink.getName());
+                                if (drink.getDrinkId().contains("x")) {
+                                    percent = ((float) drink.getCalories() * 100) / (float) totalCalories;
+
+                                } else {
+                                    percent = ((((float) drink.getCalories() * ((FoodDrinkRecord) record).getQuantity()) / 100f) * 100) / (float) totalCalories;
+                                }
                             }
                         }
                         if (percent >= 1) {
@@ -263,6 +299,7 @@ public class PieChartFragment extends Fragment {
                 }
             }
         } else {
+            totalCaloriesShown = 0;
             for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
                 if (physicalActivityRecord.getDate().contains(selectedDate)) {
                     PhysicalActivity physicalActivity =
@@ -271,8 +308,10 @@ public class PieChartFragment extends Fragment {
                     int recordCalories = Math.round((float) physicalActivityRecord.getQuantity() / 60
                             * physicalActivity.getCalories() * user.getWeight());
                     totalCalories += recordCalories;
+                    Log.d("bug_test", "ph" + totalCalories);
                 }
             }
+            totalCaloriesShown = totalCalories;
             showingPhysicalActivityRecords = new ArrayList<>();
             for (PhysicalActivityRecord physicalActivityRecord : physicalActivityRecords) {
                 if (physicalActivityRecord.getDate().contains(selectedDate)) {
@@ -310,7 +349,7 @@ public class PieChartFragment extends Fragment {
             data.setValueTextSize(10f);
             data.setValueTextColor(Color.BLACK);
 
-            pieChart.setCenterText(selectedDate + "\n" + totalCalories + " kcal.");
+            pieChart.setCenterText(selectedDate + "\n" + totalCaloriesShown + " kcal.");
 
             pieChart.setData(data);
             pieChart.invalidate();
