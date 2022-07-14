@@ -190,15 +190,19 @@ public class RecordDetailsFragment extends Fragment {
             if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
                 Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
                 if (food != null) {
-                    calories = (food.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    if (food.getCalories() != 0 && ((FoodDrinkRecord) selectedRecord).getQuantity() != 0) {
+                        calories = (food.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    }
                 }
             } else {
                 Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());
                 if (drink != null) {
-                    calories = (drink.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    if (drink.getCalories() != 0 && ((FoodDrinkRecord) selectedRecord).getQuantity() != 0) {
+                        calories = (drink.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    }
                 }
             }
-            recordValue.setText(getString(R.string.record_details_total_calories_text,calories));
+            recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         }
         recordQuantity.setVisibility(View.VISIBLE);
         recordValue.setVisibility(View.VISIBLE);
@@ -231,7 +235,7 @@ public class RecordDetailsFragment extends Fragment {
             if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
                 Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
                 if (food != null) {
-                    calories = (food.getCalories()  * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    calories = (food.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
                 }
             } else {
                 Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());

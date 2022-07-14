@@ -214,12 +214,16 @@ public class PieChartFragment extends Fragment {
                         if (((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD) {
                             Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
                             if (food != null) {
-                                totalCalories += food.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                if (food.getCalories() != 0 && ((FoodDrinkRecord) record).getQuantity() != 0){
+                                    totalCalories += food.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                }
                             }
                         } else {
                             Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
                             if (drink != null) {
-                                totalCalories += drink.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                if (drink.getCalories() != 0 && ((FoodDrinkRecord) record).getQuantity() != 0) {
+                                    totalCalories += drink.getCalories() * 100 / ((FoodDrinkRecord) record).getQuantity();
+                                }
                             }
                         }
                     }
