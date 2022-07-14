@@ -516,11 +516,11 @@ public class AddDrinkManuallyDetailsFragment extends Fragment /*implements IOnBa
                     drink.setUserId(user.getUserId());
                     drink.setDrinkId("x" + UUID.randomUUID().toString());
                     drink.setName(nameInput.getText().toString().trim());
-                    drink.setCalories(Integer.parseInt(calories100Input.getText().toString().trim()));
-                    drink.setProteins(Integer.parseInt(proteins100Input.getText().toString().trim()));
-                    drink.setLipids(Integer.parseInt(lipids100Input.getText().toString().trim()));
-                    drink.setCarbs(Integer.parseInt(carbs100Input.getText().toString().trim()));
-                    drink.setFibers(Integer.parseInt(fibers100Input.getText().toString().trim()));
+                    drink.setCalories(Integer.parseInt(caloriesTotalInput.getText().toString().trim()));
+                    drink.setProteins(Integer.parseInt(proteinsTotalInput.getText().toString().trim()));
+                    drink.setLipids(Integer.parseInt(lipidsTotalInput.getText().toString().trim()));
+                    drink.setCarbs(Integer.parseInt(carbsTotalInput.getText().toString().trim()));
+                    drink.setFibers(Integer.parseInt(fibersTotalInput.getText().toString().trim()));
 
                     FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
                     foodDrinkRecord.setName(nameInput.getText().toString().trim());

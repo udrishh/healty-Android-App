@@ -559,8 +559,6 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
     }
 
     private void unknown() {
-        quantityInput.setVisibility(View.GONE);
-        quantityInputLabel.setVisibility(View.GONE);
         per100InputLayout.setVisibility(View.GONE);
         totalInputLayout.setVisibility(View.VISIBLE);
         totalViewLayout.setVisibility(View.GONE);
@@ -574,11 +572,11 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
                     food.setUserId(user.getUserId());
                     food.setFoodId("x" + UUID.randomUUID().toString());
                     food.setName(nameInput.getText().toString().trim());
-                    food.setCalories(Integer.parseInt(calories100Input.getText().toString().trim()));
-                    food.setProteins(Integer.parseInt(proteins100Input.getText().toString().trim()));
-                    food.setLipids(Integer.parseInt(lipids100Input.getText().toString().trim()));
-                    food.setCarbs(Integer.parseInt(carbs100Input.getText().toString().trim()));
-                    food.setFibers(Integer.parseInt(fibers100Input.getText().toString().trim()));
+                    food.setCalories(Integer.parseInt(caloriesTotalInput.getText().toString().trim()));
+                    food.setProteins(Integer.parseInt(proteinsTotalInput.getText().toString().trim()));
+                    food.setLipids(Integer.parseInt(lipidsTotalInput.getText().toString().trim()));
+                    food.setCarbs(Integer.parseInt(carbsTotalInput.getText().toString().trim()));
+                    food.setFibers(Integer.parseInt(fibersTotalInput.getText().toString().trim()));
 
                     FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
                     foodDrinkRecord.setName(nameInput.getText().toString().trim());
@@ -587,6 +585,7 @@ public class AddFoodManuallyDetailsFragment extends Fragment {
                     foodDrinkRecord.setItemId(food.getFoodId());
                     foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
                     foodDrinkRecord.setRecordType(RecordType.FOOD);
+                    foodDrinkRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
 
                     ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
                     ((MainActivity) requireActivity()).addFood(food);
