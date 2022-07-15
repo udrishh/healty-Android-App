@@ -16,8 +16,8 @@ import com.udrishh.healthy.enums.RecipeCategory;
 import java.util.ArrayList;
 
 public class RecipeItemAdapter extends BaseAdapter {
-    private Context context;
-    private ArrayList<Recipe> recipes;
+    private final Context context;
+    private final ArrayList<Recipe> recipes;
 
     public RecipeItemAdapter(Context context, ArrayList<Recipe> recipes) {
         this.context = context;

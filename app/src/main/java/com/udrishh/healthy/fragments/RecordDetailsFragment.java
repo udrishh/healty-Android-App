@@ -30,6 +30,7 @@ import com.udrishh.healthy.enums.RecordType;
 import com.udrishh.healthy.utilities.Finder;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class RecordDetailsFragment extends Fragment {
@@ -41,7 +42,6 @@ public class RecordDetailsFragment extends Fragment {
     private TextInputEditText recordName;
     private TextView recordQuantity;
     private TextView recordValue;
-    private TextView recordDate;
     private MaterialButton deleteBtn;
     private MaterialButton editBtn;
     private boolean isRecipe = false;
@@ -62,23 +62,25 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_record_details, container, false);
+        importObjects();
+        initialiseComponents();
+        determineRecordType();
+        setClickListeners();
+        return view;
+    }
 
+    private void importObjects() {
         user = ((MainActivity) this.requireActivity()).getUserObject();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
         recipes = ((MainActivity) this.requireActivity()).getRecipes();
         foods = ((MainActivity) this.requireActivity()).getFoods();
         drinks = ((MainActivity) this.requireActivity()).getDrinks();
-
-        initialiseComponents();
-        determineRecordType();
-        addBtnEvents();
-        return view;
     }
 
-    private void addBtnEvents() {
+    private void setClickListeners() {
         editBtn.setOnClickListener(v -> {
             boolean isValid = true;
-            if (recordName.getText().toString().trim().length() <= 1) {
+            if (Objects.requireNonNull(recordName.getText()).toString().trim().length() <= 1) {
                 recordName.setError(getString(R.string.invalid_name_text));
                 isValid = false;
             }
@@ -98,9 +100,7 @@ public class RecordDetailsFragment extends Fragment {
                     ((PhysicalActivityRecord) selectedRecord).setName(recordName.getText().toString().trim());
                     ((MainActivity) requireActivity()).editPhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
                 }
-                BottomNavigationView bottomNavigationView =
-                        ((MainActivity) requireActivity()).getBottomNavigation();
-                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
+                moveToProfileFragment();
             }
         });
 
@@ -114,10 +114,14 @@ public class RecordDetailsFragment extends Fragment {
             } else if (recordType == RecordType.PHYSICAL_ACTIVITY) {
                 ((MainActivity) requireActivity()).deletePhysicalActivityRecord((PhysicalActivityRecord) selectedRecord);
             }
-            BottomNavigationView bottomNavigationView =
-                    ((MainActivity) requireActivity()).getBottomNavigation();
-            bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
+            moveToProfileFragment();
         });
+    }
+
+    private void moveToProfileFragment() {
+        BottomNavigationView bottomNavigationView =
+                ((MainActivity) requireActivity()).getBottomNavigation();
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
     }
 
     private void determineRecordType() {
@@ -155,7 +159,7 @@ public class RecordDetailsFragment extends Fragment {
 
     private void initialiseComponents() {
         recordCategory = view.findViewById(R.id.record_type_title);
-        recordDate = view.findViewById(R.id.record_details_date);
+        TextView recordDate = view.findViewById(R.id.record_details_date);
         recordName = view.findViewById(R.id.record_details_name);
         recordImage = view.findViewById(R.id.record_details_image);
         deleteBtn = view.findViewById(R.id.record_details_delete);
@@ -175,7 +179,7 @@ public class RecordDetailsFragment extends Fragment {
             int calories = 0;
             Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) selectedRecord).getItemId());
             if (recipe != null) {
-                calories += recipe.getCalories() * 100 / ((RecipeRecord) selectedRecord).getQuantity();
+                calories = Math.round((float) ((recipe.getCalories() * 100 / recipe.getQuantity()) * ((RecipeRecord) selectedRecord).getQuantity()) / 100);
             }
             recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         } else {
@@ -190,15 +194,10 @@ public class RecordDetailsFragment extends Fragment {
             if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
                 Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
                 if (food != null) {
-                    if (food.getCalories() != 0 && ((FoodDrinkRecord) selectedRecord).getQuantity() != 0) {
-                        calories = (food.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
-                    }
-                }
-            } else {
-                Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());
-                if (drink != null) {
-                    if (drink.getCalories() != 0 && ((FoodDrinkRecord) selectedRecord).getQuantity() != 0) {
-                        calories = (drink.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    if (food.getFoodId().contains("x")) {
+                        calories = food.getCalories();
+                    } else {
+                        calories = Math.round((float) (food.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity()) / 100);
                     }
                 }
             }
@@ -220,7 +219,7 @@ public class RecordDetailsFragment extends Fragment {
             int calories = 0;
             Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) selectedRecord).getItemId());
             if (recipe != null) {
-                calories += recipe.getCalories() * 100 / ((RecipeRecord) selectedRecord).getQuantity();
+                calories = Math.round((float) ((recipe.getCalories() * 100 / recipe.getQuantity()) * ((RecipeRecord) selectedRecord).getQuantity()) / 100);
             }
             recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
         } else {
@@ -232,15 +231,14 @@ public class RecordDetailsFragment extends Fragment {
                     ((FoodDrinkRecord) selectedRecord).getQuantity()));
             recordValue = view.findViewById(R.id.record_details_total_calories);
             int calories = 0;
-            if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.FOOD) {
-                Food food = Finder.food(foods, ((FoodDrinkRecord) selectedRecord).getItemId());
-                if (food != null) {
-                    calories = (food.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
-                }
-            } else {
+            if (((FoodDrinkRecord) selectedRecord).getRecordType() == RecordType.DRINK) {
                 Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) selectedRecord).getItemId());
                 if (drink != null) {
-                    calories = (drink.getCalories() * 100 / ((FoodDrinkRecord) selectedRecord).getQuantity());
+                    if (drink.getDrinkId().contains("x")) {
+                        calories = drink.getCalories();
+                    } else {
+                        calories = Math.round((float) (drink.getCalories() * ((FoodDrinkRecord) selectedRecord).getQuantity()) / 100);
+                    }
                 }
             }
             recordValue.setText(getString(R.string.record_details_total_calories_text, calories));
@@ -255,9 +253,8 @@ public class RecordDetailsFragment extends Fragment {
         recordName.setText(((PhysicalActivityRecord) selectedRecord).getName());
         recordQuantity = view.findViewById(R.id.record_details_duration);
         recordQuantity.setText(getString(R.string.record_details_duration_text,
-                (int) ((PhysicalActivityRecord) selectedRecord).getQuantity()));
+                ((PhysicalActivityRecord) selectedRecord).getQuantity()));
         recordValue = view.findViewById(R.id.record_details_burned_calories);
-
         PhysicalActivity physicalActivity =
                 Finder.physicalActivity(physicalActivities, ((PhysicalActivityRecord) selectedRecord).getItemId());
         int totalCalories = 0;
@@ -265,10 +262,8 @@ public class RecordDetailsFragment extends Fragment {
             totalCalories = Math.round((float) ((PhysicalActivityRecord) selectedRecord).getQuantity() / 60
                     * physicalActivity.getCalories() * user.getWeight());
         }
-
         recordValue.setText(getString(R.string.record_details_burned_calories_text,
                 totalCalories));
-
         recordQuantity.setVisibility(View.VISIBLE);
         recordValue.setVisibility(View.VISIBLE);
     }
@@ -279,7 +274,7 @@ public class RecordDetailsFragment extends Fragment {
         recordName.setText(((MeasurementRecord) selectedRecord).getName());
         recordValue = view.findViewById(R.id.record_details_weight_value);
         recordValue.setText(getString(R.string.record_details_weight_value_text,
-                (int) ((MeasurementRecord) selectedRecord).getValue()));
+                ((MeasurementRecord) selectedRecord).getValue()));
         recordValue.setVisibility(View.VISIBLE);
     }
 
@@ -289,7 +284,7 @@ public class RecordDetailsFragment extends Fragment {
         recordName.setText(((MeasurementRecord) selectedRecord).getName());
         recordValue = view.findViewById(R.id.record_details_height_value);
         recordValue.setText(getString(R.string.record_details_height_value_text,
-                (int) ((MeasurementRecord) selectedRecord).getValue()));
+                ((MeasurementRecord) selectedRecord).getValue()));
         recordValue.setVisibility(View.VISIBLE);
     }
 }

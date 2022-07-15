@@ -38,9 +38,63 @@ public class AddWaterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_water, container, false);
-        user = ((MainActivity) this.requireActivity()).getUserObject();
+        importObjects();
         initialiseComponents();
+        setClickListener();
         return view;
+    }
+
+    private void setClickListener() {
+        addBtn.setOnClickListener(v -> {
+            boolean isValid = true;
+            if (Objects.requireNonNull(quantityInput.getText()).toString().trim().length() <= 0) {
+                quantityInput.setError(getString(R.string.invalid_quantity_text));
+                isValid = false;
+            }
+            if (quantityInput.getText().toString().trim().length() > 0) {
+
+                if (Integer.parseInt(quantityInput.getText().toString().trim()) < 50 ||
+                        Integer.parseInt(quantityInput.getText().toString().trim()) > 2000) {
+                    quantityInput.setError(getString(R.string.invalid_quantity_text));
+                    isValid = false;
+                }
+            }
+            if (Objects.requireNonNull(nameInput.getText()).toString().trim().length() <= 1) {
+                nameInput.setError(getString(R.string.invalid_name_text));
+            }
+            if (!isValid) {
+                return;
+            }
+            quantityInput.setError(null);
+            nameInput.setError(null);
+
+            createAndAddRecord();
+            moveToProfileFragment();
+        });
+    }
+
+    private void moveToProfileFragment() {
+        BottomNavigationView bottomNavigationView =
+                ((MainActivity) requireActivity()).getBottomNavigation();
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
+    }
+
+    private void createAndAddRecord() {
+        FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
+        foodDrinkRecord.setName(Objects.requireNonNull(nameInput.getText()).toString().trim());
+        foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
+        foodDrinkRecord.setUserId(user.getUserId());
+        foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
+        foodDrinkRecord.setRecordType(RecordType.DRINK);
+        foodDrinkRecord.setQuantity(Integer.parseInt(Objects.requireNonNull(quantityInput.getText()).toString().trim()));
+        foodDrinkRecord.setItemId("water-water-water");//water id in db
+
+        ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
+    }
+
+    private void importObjects() {
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+
     }
 
     private void initialiseComponents() {
@@ -48,45 +102,5 @@ public class AddWaterFragment extends Fragment {
         nameInput.setText(R.string.water);
         quantityInput = view.findViewById(R.id.water_quantity_input);
         addBtn = view.findViewById(R.id.add_water_finish);
-
-        addBtn.setOnClickListener(v -> {
-            boolean isValid = true;
-            if (quantityInput.getText().toString().trim().length() <= 0) {
-                quantityInput.setError(getString(R.string.invalid_quantity_text));
-                isValid = false;
-            }
-            if (quantityInput.getText().toString().trim().length() > 0) {
-
-                if (Integer.parseInt(quantityInput.getText().toString().trim()) <= 50) {
-                    quantityInput.setError(getString(R.string.invalid_quantity_text));
-                    isValid = false;
-                }
-
-            }
-            if (nameInput.getText().toString().trim().length() <= 1) {
-                nameInput.setError(getString(R.string.invalid_name_text));
-            }
-            if (!isValid) {
-                return;
-            }
-
-            quantityInput.setError(null);
-            nameInput.setError(null);
-
-            FoodDrinkRecord foodDrinkRecord = new FoodDrinkRecord();
-            foodDrinkRecord.setName(nameInput.getText().toString().trim());
-            foodDrinkRecord.setRecordId(UUID.randomUUID().toString());
-            foodDrinkRecord.setUserId(user.getUserId());
-            foodDrinkRecord.setDate(DateConverter.fromLongDate(new Date()));
-            foodDrinkRecord.setRecordType(RecordType.DRINK);
-            foodDrinkRecord.setQuantity(Integer.parseInt(quantityInput.getText().toString().trim()));
-            foodDrinkRecord.setItemId("water-water-water");//water id in db
-
-            ((MainActivity) requireActivity()).addFoodDrinkRecord(foodDrinkRecord);
-
-            BottomNavigationView bottomNavigationView =
-                    ((MainActivity) requireActivity()).getBottomNavigation();
-            bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
-        });
     }
 }

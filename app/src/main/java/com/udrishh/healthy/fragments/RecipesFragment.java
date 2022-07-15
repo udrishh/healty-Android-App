@@ -2,11 +2,9 @@ package com.udrishh.healthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,16 +17,13 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.chip.ChipGroup;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.activities.MainActivity;
-import com.udrishh.healthy.adapters.PhysicalActivityAdapter;
 import com.udrishh.healthy.adapters.RecipeDropdownItemAdapter;
 import com.udrishh.healthy.adapters.RecipeItemAdapter;
-import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.User;
 import com.udrishh.healthy.enums.RecipeCategory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -41,7 +36,6 @@ public class RecipesFragment extends Fragment {
     private ListView recipesList;
     private AutoCompleteTextView recipeSearch;
     private TextView noRecipesText;
-
     private User user;
 
     public RecipesFragment() {
@@ -50,47 +44,17 @@ public class RecipesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_recipes, container, false);
-        user = ((MainActivity) this.requireActivity()).getUserObject();
-        allRecipes = ((MainActivity) this.requireActivity()).getRecipes();
         selectedRecipes = new ArrayList<>();
-
+        importObjects();
         initialiseComponents();
+        setClickListeners();
+        setFilterCheckedListener();
         return view;
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void initialiseComponents() {
-        categories = view.findViewById(R.id.recipes_categories);
-        recipesList = view.findViewById(R.id.recipes_list);
-        recipesList.setAdapter(new RecipeItemAdapter(getContext(), allRecipes));
-        recipeSearch = view.findViewById(R.id.recipe_search);
-        noRecipesText = view.findViewById(R.id.recipes_nothing);
-
-        recipeSearch.setAdapter(new RecipeDropdownItemAdapter(requireContext(), R.layout.recipe_dropdown_item,
-                (List<Recipe>) allRecipes.clone()));
-
-        recipeSearch.setOnItemClickListener((parent, view, position, id) -> {
-            Recipe selectedRecipe = (Recipe) parent.getItemAtPosition(position);
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new RecipeDetailsFragment(selectedRecipe))
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        recipesList.setOnItemClickListener((parent, view, position, id) -> {
-            Recipe selectedRecipe = (Recipe) parent.getItemAtPosition(position);
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new RecipeDetailsFragment(selectedRecipe))
-                    .addToBackStack(null)
-                    .commit();
-        });
-
+    private void setFilterCheckedListener() {
         categories.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.recipes_category_recommended:
@@ -182,6 +146,43 @@ public class RecipesFragment extends Fragment {
         });
     }
 
+    private void setClickListeners() {
+        recipeSearch.setOnItemClickListener((parent, view, position, id) -> {
+            Recipe selectedRecipe = (Recipe) parent.getItemAtPosition(position);
+            moveToRecipeDetailsFragment(selectedRecipe);
+        });
+
+        recipesList.setOnItemClickListener((parent, view, position, id) -> {
+            Recipe selectedRecipe = (Recipe) parent.getItemAtPosition(position);
+            moveToRecipeDetailsFragment(selectedRecipe);
+        });
+    }
+
+    private void moveToRecipeDetailsFragment(Recipe selectedRecipe) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new RecipeDetailsFragment(selectedRecipe))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void importObjects() {
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+        allRecipes = ((MainActivity) this.requireActivity()).getRecipes();
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void initialiseComponents() {
+        categories = view.findViewById(R.id.recipes_categories);
+        recipesList = view.findViewById(R.id.recipes_list);
+        recipesList.setAdapter(new RecipeItemAdapter(getContext(), allRecipes));
+        recipeSearch = view.findViewById(R.id.recipe_search);
+        noRecipesText = view.findViewById(R.id.recipes_nothing);
+        recipeSearch.setAdapter(new RecipeDropdownItemAdapter(requireContext(), R.layout.recipe_dropdown_item,
+                (List<Recipe>) allRecipes.clone()));
+    }
+
     private ArrayList<Recipe> getRecommendations() {
         selectedRecipes = new ArrayList<>();
         RecipeCategory timeFlag;
@@ -190,7 +191,7 @@ public class RecipesFragment extends Fragment {
         // day moment
         if (hour <= 11) {
             timeFlag = RecipeCategory.BREAKFAST;
-        } else if (hour <= 18) {
+        } else if (hour <= 16) {
             timeFlag = RecipeCategory.LUNCH;
         } else {
             timeFlag = RecipeCategory.DINNER;
@@ -203,16 +204,18 @@ public class RecipesFragment extends Fragment {
         for (Recipe recipe : allRecipes) {
             switch (timeFlag) {
                 case BREAKFAST:
-                    if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
-                        selectedRecipes.add(recipe);
-                    } else if (remainingCalories == 0) {
-                        if (recipe.getCategories().contains(RecipeCategory.LOW_CALORIES)) {
+                    if (recipe.getCategories().contains(RecipeCategory.BREAKFAST)) {
+                        if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
                             selectedRecipes.add(recipe);
+                        } else if (remainingCalories == 0) {
+                            if (recipe.getCategories().contains(RecipeCategory.LOW_CALORIES)) {
+                                selectedRecipes.add(recipe);
+                            }
                         }
                     }
                     break;
                 case LUNCH:
-                    if (!recipe.getCategories().contains(RecipeCategory.BREAKFAST)) {
+                    if (recipe.getCategories().contains(RecipeCategory.LUNCH)) {
                         if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
                             selectedRecipes.add(recipe);
                         } else if (remainingCalories == 0) {
@@ -223,8 +226,7 @@ public class RecipesFragment extends Fragment {
                     }
                     break;
                 case DINNER:
-                    if (!recipe.getCategories().contains(RecipeCategory.BREAKFAST) ||
-                            !recipe.getCategories().contains(RecipeCategory.LUNCH)) {
+                    if (recipe.getCategories().contains(RecipeCategory.DINNER)) {
                         if (recipe.getCalories() * 100 / recipe.getQuantity() <= remainingCalories) {
                             selectedRecipes.add(recipe);
                         } else if (remainingCalories == 0) {
@@ -236,7 +238,6 @@ public class RecipesFragment extends Fragment {
                     break;
             }
         }
-
         return selectedRecipes;
     }
 }

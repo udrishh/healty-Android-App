@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 
 import com.squareup.picasso.Picasso;
 import com.udrishh.healthy.R;
-import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.Recipe;
 
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class RecipeDropdownItemAdapter extends ArrayAdapter<Recipe> {
         recipes = new ArrayList<>(objects);
     }
 
-    private Filter recipesFilter = new Filter() {
+    private final Filter recipesFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -47,10 +45,8 @@ public class RecipeDropdownItemAdapter extends ArrayAdapter<Recipe> {
                     }
                 }
             }
-
             results.values = filteredRecipes;
             results.count = filteredRecipes.size();
-
             return results;
         }
 
@@ -75,13 +71,11 @@ public class RecipeDropdownItemAdapter extends ArrayAdapter<Recipe> {
 
         ImageView recipeImg = convertView.findViewById(R.id.recipe_item_image);
         TextView recipeName = convertView.findViewById(R.id.recipe_item_name);
-
         Recipe recipe = getItem(position);
         if (recipe != null) {
             recipeName.setText(recipe.getName());
             Picasso.get().load(recipe.getImg()).into(recipeImg);
         }
-
         return convertView;
     }
 

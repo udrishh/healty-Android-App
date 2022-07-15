@@ -1,5 +1,7 @@
 package com.udrishh.healthy.classes;
 
+import androidx.annotation.NonNull;
+
 import com.udrishh.healthy.enums.RecordType;
 
 public class MeasurementRecord extends Record {
@@ -14,9 +16,10 @@ public class MeasurementRecord extends Record {
         super();
     }
 
+    @NonNull
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("MeasurementRecord{");
+        final StringBuilder sb = new StringBuilder("MeasurementRecord{");
         sb.append("recordId='").append(recordId).append('\'');
         sb.append(", userId='").append(userId).append('\'');
         sb.append(", name='").append(name).append('\'');

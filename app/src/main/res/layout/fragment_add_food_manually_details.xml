@@ -313,7 +313,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:hint="@string/add_food_m_lipids_hint" />
+                                    android:hint="@string/add_food_m_lipids_hint"
+                                    android:inputType="number"/>
 
                             </com.google.android.material.textfield.TextInputLayout>
 

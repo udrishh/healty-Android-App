@@ -80,6 +80,7 @@ public class Drink {
         this.userId = userId;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;

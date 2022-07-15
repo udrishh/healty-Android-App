@@ -3,9 +3,7 @@ package com.udrishh.healthy.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-
 public class EditUserDataFragment extends Fragment {
     private User user;
     private View view;
@@ -40,12 +37,39 @@ public class EditUserDataFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_user_data, container, false);
-        user = ((MainActivity) this.requireActivity()).getUserObject();
+        importObjects();
         initialiseComponents();
+        addClickListeners();
         return view;
+    }
+
+    private void importObjects() {
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+    }
+
+    private void addClickListeners() {
+        saveBtn.setOnClickListener(v -> {
+            boolean valid = false;
+            if (nameInput.getText() != null) {
+                if (nameInput.getText().toString().trim().length() > 2) {
+                    valid = true;
+                }
+            }
+            if (valid) {
+                editUserData();
+                moveToProfileFragment();
+            } else {
+                nameInput.setError(getText(R.string.invalid_username_text));
+            }
+        });
+    }
+
+    private void moveToProfileFragment() {
+        BottomNavigationView bottomNavigationView =
+                ((MainActivity) requireActivity()).getBottomNavigation();
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
     }
 
     private void initialiseComponents() {
@@ -60,31 +84,10 @@ public class EditUserDataFragment extends Fragment {
         } else {
             radioGroup.check(radioGroup.getChildAt(1).getId());
         }
-
         initialiseDatePicker();
-
-        saveBtn.setOnClickListener(v -> {
-            boolean valid = false;
-            if (nameInput.getText() != null) {
-                if (nameInput.getText().toString().trim().length() > 2) {
-                    valid = true;
-                }
-            }
-            if (valid) {
-                changeUserData();
-
-                ((MainActivity) requireActivity()).editUserData(user);
-
-                BottomNavigationView bottomNavigationView =
-                        ((MainActivity) requireActivity()).getBottomNavigation();
-                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
-            } else {
-                nameInput.setError(getText(R.string.invalid_username_text));
-            }
-        });
     }
 
-    private void changeUserData() {
+    private void editUserData() {
         nameInput.setError(null);
         user.setName(Objects.requireNonNull(nameInput.getText()).toString().trim());
         if (radioGroup.getCheckedRadioButtonId() == R.id.edit_user_data_sex_m) {
@@ -95,6 +98,7 @@ public class EditUserDataFragment extends Fragment {
         String selectedDate = birthdateInput.getDayOfMonth() + "/"
                 + (birthdateInput.getMonth() + 1) + "/" + birthdateInput.getYear();
         user.setBirthdate(selectedDate);
+        ((MainActivity) requireActivity()).editUserData(user);
     }
 
     private void initialiseDatePicker() {

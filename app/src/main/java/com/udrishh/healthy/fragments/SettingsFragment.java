@@ -28,7 +28,7 @@ public class SettingsFragment extends Fragment {
     private MaterialButton editUserDataBtn;
     private MaterialButton editCaloriesPlanBtn;
     private User user;
-
+    private FragmentManager fragmentManager;
 
     public SettingsFragment() {
     }
@@ -36,21 +36,14 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        user = ((MainActivity) this.requireActivity()).getUserObject();
-        firebaseAuth = ((MainActivity) this.requireActivity()).getFirebaseAuth();
-
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        if (user != null) {
-            initialiseComponents();
-        }
-
+        importObjects();
+        initialiseComponents();
+        setClickListeners();
         return view;
     }
 
-    private void initialiseComponents() {
-        logoutBtn = view.findViewById(R.id.logout_btn);
+    private void setClickListeners() {
         logoutBtn.setOnClickListener(v -> {
             if (user != null && firebaseAuth != null) {
                 firebaseAuth.signOut();
@@ -58,25 +51,36 @@ public class SettingsFragment extends Fragment {
                 requireActivity().finish();
             }
         });
+        editUserDataBtn.setOnClickListener(v -> moveToEditUserDataFragment());
+        editCaloriesPlanBtn.setOnClickListener(v -> moveToEditCaloriesPlanFragment());
+    }
 
+    private void moveToEditCaloriesPlanFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new EditCaloriesPlanFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToEditUserDataFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new EditUserDataFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void importObjects() {
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+        firebaseAuth = ((MainActivity) this.requireActivity()).getFirebaseAuth();
+    }
+
+    private void initialiseComponents() {
+        logoutBtn = view.findViewById(R.id.logout_btn);
         editUserDataBtn = view.findViewById(R.id.edit_user_data_btn);
-        editUserDataBtn.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new EditUserDataFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
         editCaloriesPlanBtn = view.findViewById(R.id.edit_calories_plan_btn);
-        editCaloriesPlanBtn.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new EditCaloriesPlanFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
     }
 }

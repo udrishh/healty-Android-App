@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
         physicalActivities = new ArrayList<>(objects);
     }
 
-    private Filter physicalActivitiesFilter = new Filter() {
+    private final Filter physicalActivitiesFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -44,10 +43,8 @@ public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
                     }
                 }
             }
-
             results.values = filteredPhysicalActivities;
             results.count = filteredPhysicalActivities.size();
-
             return results;
         }
 
@@ -82,7 +79,6 @@ public class PhysicalActivityAdapter extends ArrayAdapter<PhysicalActivity> {
                 starIcon.setVisibility(View.VISIBLE);
             }
         }
-
         return convertView;
     }
 

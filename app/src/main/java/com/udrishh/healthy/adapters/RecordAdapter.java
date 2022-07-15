@@ -8,23 +8,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.udrishh.healthy.R;
 import com.udrishh.healthy.classes.FoodDrinkRecord;
 import com.udrishh.healthy.classes.MeasurementRecord;
-import com.udrishh.healthy.classes.PhysicalActivity;
 import com.udrishh.healthy.classes.PhysicalActivityRecord;
-import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.classes.RecipeRecord;
 import com.udrishh.healthy.classes.Record;
-import com.udrishh.healthy.enums.RecipeCategory;
 import com.udrishh.healthy.enums.RecordType;
 
 import java.util.ArrayList;
 
 public class RecordAdapter extends BaseAdapter {
-    private Context context;
-    private ArrayList<Record> records;
+    private final Context context;
+    private final ArrayList<Record> records;
 
     public RecordAdapter(Context context, ArrayList<Record> records) {
         this.context = context;

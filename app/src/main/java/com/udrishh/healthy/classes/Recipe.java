@@ -1,5 +1,7 @@
 package com.udrishh.healthy.classes;
 
+import androidx.annotation.NonNull;
+
 import com.udrishh.healthy.enums.RecipeCategory;
 
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.ArrayList;
 public class Recipe {
     private String recipeId;
     private String name;
-    private ArrayList<String> ingredients;
-    private ArrayList<RecipeCategory> categories;
+    private final ArrayList<String> ingredients;
+    private final ArrayList<RecipeCategory> categories;
     private int servings;
     private int quantity;
     private int calories;
@@ -35,6 +37,7 @@ public class Recipe {
         this.quantity = quantity;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;
@@ -61,10 +64,6 @@ public class Recipe {
         return categories;
     }
 
-    public void setCategories(ArrayList<RecipeCategory> categories) {
-        this.categories = categories;
-    }
-
     public String getRecipeId() {
         return recipeId;
     }
@@ -83,10 +82,6 @@ public class Recipe {
 
     public ArrayList<String> getIngredients() {
         return ingredients;
-    }
-
-    public void setIngredients(ArrayList<String> ingredients) {
-        this.ingredients = ingredients;
     }
 
     public int getServings() {

@@ -3,7 +3,6 @@ package com.udrishh.healthy.fragments;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,26 +40,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment {
     private View view;
 
     private CircularProgressIndicator caloriesProgressIndicator;
     private LinearProgressIndicator liquidsProgressIndicator;
-    private TextView greetingText;
-    private TextView nameText;
-    private ImageView nameIcon;
-    private TextView ageText;
-    private ImageView ageIcon;
-    private TextView sexText;
-    private ImageView sexIcon;
-    private TextView heightText;
-    private ImageView heightIcon;
-    private TextView weightText;
-    private ImageView weightIcon;
-    private TextView planText;
-    private ImageView planIcon;
     private TextView caloriesProgressText;
     private TextView liquidsProgressText;
     private TextView burnedText;
@@ -71,8 +55,6 @@ public class ProfileFragment extends Fragment {
     private TextView carbsText;
     private TextView fibersText;
     private ImageView expandBtn;
-    private ProgressBar loadingData;
-    private TextView loadingDataText;
 
     private ConstraintLayout cardLayout;
     private LinearLayout userDetailsLayout;
@@ -103,7 +85,18 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        importObjects();
+        if (user != null) {
+            initialiseProfileCardComponents();
+            initialiseProgressCardComponents();
+            loadEatenCaloriesProgress();
+            loadBurnedCaloriesProgress();
+        }
+        return view;
+    }
 
+    private void importObjects() {
         user = ((MainActivity) this.requireActivity()).getUserObject();
         foodDrinkRecords = ((MainActivity) this.requireActivity()).getFoodDrinkRecords();
         physicalActivityRecords = ((MainActivity) this.requireActivity()).getPhysicalActivityRecords();
@@ -112,18 +105,6 @@ public class ProfileFragment extends Fragment {
         foods = ((MainActivity) this.requireActivity()).getFoods();
         drinks = ((MainActivity) this.requireActivity()).getDrinks();
         physicalActivities = ((MainActivity) this.requireActivity()).getPhysicalActivities();
-
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        if (user != null) {
-            initialiseProfileCardComponents();
-            initialiseProgressCardComponents();
-
-            loadEatenCaloriesProgress();
-            loadBurnedCaloriesProgress();
-        }
-
-        return view;
     }
 
     private void loadBurnedCaloriesProgress() {
@@ -136,8 +117,8 @@ public class ProfileFragment extends Fragment {
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
                 PhysicalActivity physicalActivity =
                         Finder.physicalActivity(physicalActivities, physicalActivityRecord.getItemId());
-                if(physicalActivity!=null){
-                    int totalCalories = Math.round((float)physicalActivityRecord.getQuantity() / 60
+                if (physicalActivity != null) {
+                    int totalCalories = Math.round((float) physicalActivityRecord.getQuantity() / 60
                             * physicalActivity.getCalories() * user.getWeight());
                     caloriesBurned += totalCalories;
                     burnedText.setText(getString(R.string.calories_burned_counter, caloriesBurned));
@@ -151,7 +132,6 @@ public class ProfileFragment extends Fragment {
         loadFoodDrinkRecordsProgress();
         loadRecipeRecordsProgress();
         showGradient();
-
         ((MainActivity) this.requireActivity()).setEatenCalories(caloriesEaten);
     }
 
@@ -166,8 +146,13 @@ public class ProfileFragment extends Fragment {
                 if (foodDrinkRecord.getRecordType() == RecordType.FOOD) {
                     Food food = Finder.food(foods, foodDrinkRecord.getItemId());
                     if (food != null) {
-                        caloriesProgress += food.getCalories();
-                        caloriesEaten += food.getCalories();
+                        if (food.getFoodId().contains("x")) {
+                            caloriesProgress += food.getCalories();
+                            caloriesEaten += food.getCalories();
+                        } else {
+                            caloriesProgress += (float)food.getCalories() / 100 * foodDrinkRecord.getQuantity();
+                            caloriesEaten += (float)food.getCalories() / 100 * foodDrinkRecord.getQuantity();
+                        }
                         proteins += food.getProteins();
                         lipids += food.getLipids();
                         carbs += food.getCarbs();
@@ -176,8 +161,13 @@ public class ProfileFragment extends Fragment {
                 } else {
                     Drink drink = Finder.drink(drinks, foodDrinkRecord.getItemId());
                     if (drink != null) {
-                        caloriesProgress += drink.getCalories();
-                        caloriesEaten += drink.getCalories();
+                        if (drink.getDrinkId().contains("x")) {
+                            caloriesProgress += drink.getCalories();
+                            caloriesEaten += drink.getCalories();
+                        } else {
+                            caloriesProgress += (float)drink.getCalories() / 100 * foodDrinkRecord.getQuantity();
+                            caloriesEaten += (float)drink.getCalories() / 100 * foodDrinkRecord.getQuantity();
+                        }
                         proteins += drink.getProteins();
                         lipids += drink.getLipids();
                         carbs += drink.getCarbs();
@@ -192,9 +182,7 @@ public class ProfileFragment extends Fragment {
                 lipidsText.setText(getString(R.string.lipids_counter, lipids));
                 carbsText.setText(getString(R.string.carbs_counter, carbs));
                 fibersText.setText(getString(R.string.fibers_counter, fibers));
-
                 caloriesProgressIndicator.setProgress(caloriesProgress, true);
-
                 if (foodDrinkRecord.getRecordType() == RecordType.DRINK) {
                     liquids += foodDrinkRecord.getQuantity();
                     liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
@@ -214,13 +202,11 @@ public class ProfileFragment extends Fragment {
                     && todayDate.get(Calendar.YEAR) == recordDate.get(Calendar.YEAR)) {
 
                 int calories = 0;
-                Recipe recipe = Finder.recipe(recipes, ((RecipeRecord) recipeRecord).getItemId());
+                Recipe recipe = Finder.recipe(recipes, (recipeRecord).getItemId());
                 if (recipe != null) {
-                    calories += recipe.getCalories() * 100 / ((RecipeRecord) recipeRecord).getQuantity();
-
+                    calories += (((float)recipe.getCalories() / recipe.getQuantity() * 100) /100) * (recipeRecord).getQuantity();
                     caloriesProgress += calories;
                     caloriesEaten += calories;
-
                     caloriesProgressText.setText(getString(R.string.calories_progress_counter,
                             caloriesProgress, user.getCaloriesPlan()));
                     eatenText.setText(getString(R.string.calories_eaten_counter, caloriesEaten));
@@ -228,9 +214,7 @@ public class ProfileFragment extends Fragment {
                     lipidsText.setText(getString(R.string.lipids_counter, lipids));
                     carbsText.setText(getString(R.string.carbs_counter, carbs));
                     fibersText.setText(getString(R.string.fibers_counter, fibers));
-
                     caloriesProgressIndicator.setProgress(caloriesProgress, true);
-
                     if (recipe.getCategories().contains(RecipeCategory.DRINKS)) {
                         liquids += recipeRecord.getQuantity();
                         liquidsProgressText.setText(getString(R.string.liquids_progress_counter, liquids, 2000));
@@ -280,14 +264,13 @@ public class ProfileFragment extends Fragment {
         carbsText.setText(getString(R.string.carbs_counter, 0));
         fibersText = view.findViewById(R.id.progress_card_fibers_counter);
         fibersText.setText(getString(R.string.fibers_counter, 0));
-
         cardLayout = view.findViewById(R.id.progress_card_layout);
     }
 
     @SuppressLint("StringFormatMatches")
     private void initialiseProfileCardComponents() {
         userDetailsLayout = view.findViewById(R.id.user_details_layout);
-        greetingText = view.findViewById(R.id.user_greeting_textview);
+        TextView greetingText = view.findViewById(R.id.user_greeting_textview);
         int currHour = new Date().getHours();
         if (currHour >= 7 && currHour < 11) {
             greetingText.setText(getString(R.string.user_greeting_text, getString(R.string.greeting_morning), user.getName()));
@@ -298,16 +281,14 @@ public class ProfileFragment extends Fragment {
 
         }
 
-        nameText = view.findViewById(R.id.user_name_textview);
+        TextView nameText = view.findViewById(R.id.user_name_textview);
         nameText.setText(getString(R.string.user_profile_name, user.getName()));
-        nameIcon = view.findViewById(R.id.user_name_icon);
-        ageText = view.findViewById(R.id.user_age_textview);
+        TextView ageText = view.findViewById(R.id.user_age_textview);
         ageText.setText(getString(R.string.user_profile_age,
                 Calendar.getInstance().get(Calendar.YEAR)
                         - Integer.parseInt(user.getBirthdate().split("/")[2])));
-        ageIcon = view.findViewById(R.id.user_age_icon);
-        sexText = view.findViewById(R.id.user_sex_textview);
-        sexIcon = view.findViewById(R.id.user_sex_icon);
+        TextView sexText = view.findViewById(R.id.user_sex_textview);
+        ImageView sexIcon = view.findViewById(R.id.user_sex_icon);
         if (user.getSex() == Sex.MALE) {
             sexText.setText(getString(R.string.user_profile_sex, getString(R.string.signup_user_data_sex_m_text)));
             sexIcon.setImageResource(R.drawable.male_gender_icon);
@@ -315,15 +296,12 @@ public class ProfileFragment extends Fragment {
             sexText.setText(getString(R.string.user_profile_sex, getString(R.string.signup_user_data_sex_f_text)));
             sexIcon.setImageResource(R.drawable.female_gender_icon);
         }
-        heightText = view.findViewById(R.id.user_height_textview);
+        TextView heightText = view.findViewById(R.id.user_height_textview);
         heightText.setText(getString(R.string.user_profile_height, user.getHeight()));
-        heightIcon = view.findViewById(R.id.user_height_icon);
-        weightText = view.findViewById(R.id.user_weight_textview);
+        TextView weightText = view.findViewById(R.id.user_weight_textview);
         weightText.setText(getString(R.string.user_profile_weight, user.getWeight()));
-        weightIcon = view.findViewById(R.id.user_weight_icon);
-        planText = view.findViewById(R.id.user_calories_textview);
+        TextView planText = view.findViewById(R.id.user_calories_textview);
         planText.setText(getString(R.string.user_profile_calories, user.getCaloriesPlan()));
-        planIcon = view.findViewById(R.id.user_calories_icon);
         cardLayout = view.findViewById(R.id.progress_card_layout);
 
         expandBtn = view.findViewById(R.id.user_collapse_icon);
@@ -366,8 +344,8 @@ public class ProfileFragment extends Fragment {
             isExpanded = !isExpanded;
         });
 
-        loadingData = view.findViewById(R.id.progress_loading);
-        loadingDataText = view.findViewById(R.id.progress_loading_text);
+        ProgressBar loadingData = view.findViewById(R.id.progress_loading);
+        TextView loadingDataText = view.findViewById(R.id.progress_loading_text);
         if (((MainActivity) this.requireActivity()).getTasksReady() >= 4) {
             loadingData.setVisibility(View.GONE);
             loadingDataText.setVisibility(View.GONE);

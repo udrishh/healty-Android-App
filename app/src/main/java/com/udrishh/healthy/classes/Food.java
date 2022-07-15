@@ -1,6 +1,5 @@
 package com.udrishh.healthy.classes;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -118,22 +117,7 @@ public class Food implements Serializable, Parcelable {
         this.userId = userId;
     }
 
-//    @Override
-//    public String toString() {
-//        final StringBuffer sb = new StringBuffer("Food{");
-//        sb.append("foodId='").append(foodId).append('\'');
-//        sb.append(", name='").append(name).append('\'');
-//        sb.append(", calories=").append(calories);
-//        sb.append(", proteins=").append(proteins);
-//        sb.append(", lipids=").append(lipids);
-//        sb.append(", carbs=").append(carbs);
-//        sb.append(", fibers=").append(fibers);
-//        sb.append(", userId='").append(userId).append('\'');
-//        sb.append('}');
-//        return sb.toString();
-//    }
-
-
+    @NonNull
     @Override
     public String toString() {
         return name;

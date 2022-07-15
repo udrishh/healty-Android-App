@@ -1,11 +1,11 @@
 package com.udrishh.healthy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrinksAdapter extends ArrayAdapter<Drink> {
-    Context context;
     ArrayList<Drink> drinks;
     ArrayList<Drink> filteredDrinksList;
 
@@ -28,7 +27,7 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
         drinks = new ArrayList<>(objects);
     }
 
-    private Filter drinksFilter = new Filter() {
+    private final Filter drinksFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -46,10 +45,8 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
                     }
                 }
             }
-
             results.values = filteredDrinksList;
             results.count = filteredDrinksList.size();
-
             return results;
         }
 
@@ -66,6 +63,7 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -79,14 +77,13 @@ public class DrinksAdapter extends ArrayAdapter<Drink> {
         Drink drink = getItem(position);
         if (drink != null) {
             drinkName.setText(drink.getName());
-            drinkCalories.setText(String.valueOf(drink.getCalories()) + "\nkcal/100g");
+            drinkCalories.setText(drink.getCalories() + "\nkcal/100g");
             if (drink.getUserId().equals("admin")) {
                 starIcon.setVisibility(View.INVISIBLE);
             } else {
                 starIcon.setVisibility(View.VISIBLE);
             }
         }
-
         return convertView;
     }
 

@@ -223,4 +223,10 @@
     <string name="progress_data_waiting_text">Datele se încarcă...</string>
     <string name="login_invalid_data_error_text">Datele de conectare sunt invalide!</string>
     <string name="login_no_data_error_text">Introduceti datele de conectare!</string>
+    <string name="records_history_measurements_category_text">Măsurători</string>
+    <string name="records_history_activities_category_text">Activități fizice</string>
+    <string name="records_history_recipes_category_text">Rețete</string>
+    <string name="records_history_drinks_category_text">Băuturi</string>
+    <string name="records_history_foods_category_text">Mâncăruri</string>
+    <string name="records_history_all_category_text">Toate</string>
 </resources>

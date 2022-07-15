@@ -8,7 +8,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,17 +32,16 @@ import com.udrishh.healthy.utilities.Finder;
 import com.udrishh.healthy.utilities.RecordDateComparator;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 public class StatisticsFragment extends Fragment {
     private View view;
     private TextView recordsTitle;
-    private TextView streakText;
     private ListView recordsList;
     private ArrayList<Record> records;
     private MaterialButton viewAllRecordsBtn;
@@ -52,10 +50,10 @@ public class StatisticsFragment extends Fragment {
     private CardView historyCard;
     private User user;
     private String joinDate;
-
     private ArrayList<Recipe> recipes;
     private ArrayList<Food> foods;
     private ArrayList<Drink> drinks;
+    private FragmentManager fragmentManager;
 
     public StatisticsFragment() {
     }
@@ -64,39 +62,90 @@ public class StatisticsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        recipes = ((MainActivity) this.requireActivity()).getRecipes();
-        foods = ((MainActivity) this.requireActivity()).getFoods();
-        drinks = ((MainActivity) this.requireActivity()).getDrinks();
-        getRecords();
+        importObjects();
         initialiseComponents();
+        setClickListeners();
         return view;
     }
 
-    private void getRecords() {
+    private void setClickListeners() {
+        viewAllRecordsBtn.setOnClickListener(v -> moveToViewHistoryFragment());
+
+        viewPieChartBtn.setOnClickListener(v -> moveToPieChartFragment());
+
+        viewLineChartBtn.setOnClickListener(v -> moveToLineChartFragment());
+
+        recordsList.setOnItemClickListener((parent, view, position, id) -> {
+            Record selectedRecord = (Record) parent.getItemAtPosition(position);
+            moveToRecordDetailsFragment(selectedRecord);
+        });
+    }
+
+    private void moveToRecordDetailsFragment(Record selectedRecord) {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToLineChartFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new LineChartFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToPieChartFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new PieChartFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToViewHistoryFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void importObjects() {
         records = new ArrayList<>();
         records = (((MainActivity) this.requireActivity()).getRecords());
         user = (((MainActivity) this.requireActivity()).getUserObject());
         joinDate = (((MainActivity) this.requireActivity()).getJoinDate());
+        recipes = ((MainActivity) this.requireActivity()).getRecipes();
+        foods = ((MainActivity) this.requireActivity()).getFoods();
+        drinks = ((MainActivity) this.requireActivity()).getDrinks();
     }
 
     private void initialiseComponents() {
         historyCard = view.findViewById(R.id.history_card);
-        streakText = view.findViewById(R.id.statistics_streak);
+        TextView streakText = view.findViewById(R.id.statistics_streak);
         recordsTitle = view.findViewById(R.id.statistics_record_card_title);
         recordsList = view.findViewById(R.id.statistics_record_list);
         viewAllRecordsBtn = view.findViewById(R.id.statistics_view_all_records);
         viewPieChartBtn = view.findViewById(R.id.statistics_view_pie_chart);
         viewLineChartBtn = view.findViewById(R.id.statistics_view_line_chart);
-
         streakText.setText(getString(R.string.statistics_streak, user.getName(), getStreak(), getTotalDays()));
+        initialiseListView();
+    }
 
-
+    private void initialiseListView() {
         if (records.isEmpty()) {
             recordsTitle.setText(getString(R.string.statistics_no_records_text));
             historyCard.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, 280));
         } else {
-            Collections.sort(records, new RecordDateComparator());
+            records.sort(new RecordDateComparator());
             ArrayList<Record> lastRecords = new ArrayList<>();
             int nb = Math.min(records.size(), 5);
             if (nb == 1) {
@@ -124,43 +173,6 @@ public class StatisticsFragment extends Fragment {
             }
             recordsList.setAdapter(new RecordAdapter(getContext(), lastRecords));
         }
-
-        viewAllRecordsBtn.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new ViewHistoryFragment(records))
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        viewPieChartBtn.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new PieChartFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        viewLineChartBtn.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new LineChartFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        recordsList.setOnItemClickListener((parent, view, position, id) -> {
-            Record selectedRecord = (Record) parent.getItemAtPosition(position);
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new RecordDetailsFragment(selectedRecord))
-                    .addToBackStack(null)
-                    .commit();
-        });
     }
 
     private int getTotalDays() {
@@ -172,7 +184,7 @@ public class StatisticsFragment extends Fragment {
 
     private int getStreak() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        if(joinDate==""){
+        if (Objects.equals(joinDate, "")) {
             joinDate = DateConverter.fromDate(new Date());
         }
         LocalDate date1 = LocalDate.parse(joinDate, dtf);
@@ -184,14 +196,14 @@ public class StatisticsFragment extends Fragment {
                 LocalDate recordDate = LocalDate.parse(record.getDate().split(" ")[0], dtf);
                 if (recordDate.isEqual(date)) {
                     if (record instanceof FoodDrinkRecord) {
-                        if(((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD){
+                        if (((FoodDrinkRecord) record).getRecordType() == RecordType.FOOD) {
                             Food food = Finder.food(foods, ((FoodDrinkRecord) record).getItemId());
-                            if(food!=null){
+                            if (food != null) {
                                 dateCalories += food.getCalories() * ((FoodDrinkRecord) record).getQuantity();
                             }
-                        }else {
+                        } else {
                             Drink drink = Finder.drink(drinks, ((FoodDrinkRecord) record).getItemId());
-                            if(drink!=null){
+                            if (drink != null) {
                                 dateCalories += drink.getCalories() * ((FoodDrinkRecord) record).getQuantity();
                             }
                         }

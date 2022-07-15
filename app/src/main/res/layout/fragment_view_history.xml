@@ -40,114 +40,42 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:checked="true"
-                    android:text="Toate" />
+                    android:text="@string/records_history_all_category_text" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/history_record_category_food"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Mâncăruri" />
+                    android:text="@string/records_history_foods_category_text" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/history_record_category_drink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Băuturi" />
+                    android:text="@string/records_history_drinks_category_text" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/history_record_category_recipe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Rețete" />
+                    android:text="@string/records_history_recipes_category_text" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/history_record_category_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Activități fizice" />
+                    android:text="@string/records_history_activities_category_text" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/history_record_category_measurement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Măsurători" />
-
-            </com.google.android.material.chip.ChipGroup>
-
-        </HorizontalScrollView>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/history_record_periods"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="8dp"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:checked="true"
-                    android:text="Toate" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_today"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Azi" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_yesterday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ieri" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_last_w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ultima săptămână" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_last_2w"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ultimele 2 săptămani" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_last_m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ulima lună" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_last_6m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ultimele 6 luni" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/history_record_period_last_y"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="Ultimul an" />
+                    android:text="@string/records_history_measurements_category_text" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -155,14 +83,14 @@
 
         <TextView
             android:id="@+id/records_nothing"
-            android:layout_marginVertical="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="100dp"
             android:text="@string/records_nothing_text"
             android:textAlignment="center"
-            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

@@ -3,16 +3,13 @@ package com.udrishh.healthy.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,74 +42,21 @@ public class EditCaloriesPlanFragment extends Fragment {
     private int BMR;
 
     public EditCaloriesPlanFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_calories_plan, container, false);
-        user = ((MainActivity) this.requireActivity()).getUserObject();
+        importObjects();
         initialiseComponents();
+        setPlanPreview();
+        setClickListener();
+        setCheckChangedListener();
+        setItemSelectedListeners();
         return view;
     }
 
-    private void initialiseComponents() {
-        saveBtn = view.findViewById(R.id.edit_calories_plan_finish);
-        activityLevelInput = view.findViewById(R.id.edit_calories_plan_activity_level);
-        activityLevelInput.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.activity_levels, R.layout.support_simple_spinner_dropdown_item));
-        gainLoseInput = view.findViewById(R.id.edit_calories_plan_gain_lose);
-        gainLoseInput.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.gain_lose, R.layout.support_simple_spinner_dropdown_item));
-        planPreview = view.findViewById(R.id.edit_calories_plan_calories_view);
-        setPlanPreview();
-
-        caloriesInputLayout = view.findViewById(R.id.edit_calories_plan_calories_input_layout);
-        caloriesInput = view.findViewById(R.id.edit_calories_plan_calories_input);
-        manuallyCheck = view.findViewById(R.id.edit_calories_plan_manual_check);
-
-        saveBtn.setOnClickListener(v -> {
-            boolean valid = true;
-            if (isManualSelected) {
-                valid = false;
-                if (Objects.requireNonNull(caloriesInput.getText()).toString().trim().length() > 0) {
-                    BMR = Integer.parseInt(caloriesInput.getText().toString().trim());
-                    if (BMR < 5000 && BMR >= 1200) {
-                        caloriesInput.setError(null);
-                        valid = true;
-                    } else {
-                        caloriesInput.setError(getString(R.string.invalid_value_text));
-                    }
-                } else {
-                    caloriesInput.setError(getString(R.string.invalid_value_text));
-                }
-            }
-
-            if (valid) {
-                user.setCaloriesPlan(BMR);
-                caloriesInput.setError(null);
-                ((MainActivity) requireActivity()).editUserCaloriesPlan(user);
-
-                BottomNavigationView bottomNavigationView =
-                        ((MainActivity) requireActivity()).getBottomNavigation();
-                bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
-            }
-        });
-
-        manuallyCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                caloriesInput.setEnabled(true);
-                caloriesInputLayout.setEnabled(true);
-                gainLoseInput.setEnabled(false);
-                activityLevelInput.setEnabled(false);
-                isManualSelected = true;
-            } else {
-                caloriesInput.setEnabled(false);
-                caloriesInputLayout.setEnabled(false);
-                gainLoseInput.setEnabled(true);
-                activityLevelInput.setEnabled(true);
-                isManualSelected = false;
-            }
-        });
-
+    private void setItemSelectedListeners() {
         activityLevelInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -137,6 +81,72 @@ public class EditCaloriesPlanFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private void setCheckChangedListener() {
+        manuallyCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                caloriesInput.setEnabled(true);
+                caloriesInputLayout.setEnabled(true);
+                gainLoseInput.setEnabled(false);
+                activityLevelInput.setEnabled(false);
+                isManualSelected = true;
+            } else {
+                caloriesInput.setEnabled(false);
+                caloriesInputLayout.setEnabled(false);
+                gainLoseInput.setEnabled(true);
+                activityLevelInput.setEnabled(true);
+                isManualSelected = false;
+            }
+        });
+    }
+
+    private void setClickListener() {
+        saveBtn.setOnClickListener(v -> {
+            boolean valid = true;
+            if (isManualSelected) {
+                valid = false;
+                if (Objects.requireNonNull(caloriesInput.getText()).toString().trim().length() > 0) {
+                    BMR = Integer.parseInt(caloriesInput.getText().toString().trim());
+                    if (BMR <= 4000 && BMR >= 1200) {
+                        caloriesInput.setError(null);
+                        valid = true;
+                    } else {
+                        caloriesInput.setError(getString(R.string.invalid_value_text));
+                    }
+                } else {
+                    caloriesInput.setError(getString(R.string.invalid_value_text));
+                }
+            }
+            if (valid) {
+                user.setCaloriesPlan(BMR);
+                caloriesInput.setError(null);
+                ((MainActivity) requireActivity()).editUserCaloriesPlan(user);
+                moveToProfileFragment();
+            }
+        });
+    }
+
+    private void moveToProfileFragment() {
+        BottomNavigationView bottomNavigationView =
+                ((MainActivity) requireActivity()).getBottomNavigation();
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_profile);
+    }
+
+    private void importObjects() {
+        user = ((MainActivity) this.requireActivity()).getUserObject();
+    }
+
+    private void initialiseComponents() {
+        saveBtn = view.findViewById(R.id.edit_calories_plan_finish);
+        activityLevelInput = view.findViewById(R.id.edit_calories_plan_activity_level);
+        activityLevelInput.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.activity_levels, R.layout.support_simple_spinner_dropdown_item));
+        gainLoseInput = view.findViewById(R.id.edit_calories_plan_gain_lose);
+        gainLoseInput.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.gain_lose, R.layout.support_simple_spinner_dropdown_item));
+        planPreview = view.findViewById(R.id.edit_calories_plan_calories_view);
+        caloriesInputLayout = view.findViewById(R.id.edit_calories_plan_calories_input_layout);
+        caloriesInput = view.findViewById(R.id.edit_calories_plan_calories_input);
+        manuallyCheck = view.findViewById(R.id.edit_calories_plan_manual_check);
     }
 
     private void setPlanPreview() {

@@ -1,9 +1,10 @@
 package com.udrishh.healthy.classes;
 
+import androidx.annotation.NonNull;
+
 import com.udrishh.healthy.enums.Sex;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class User implements Serializable {
     private String userId;
@@ -83,9 +84,10 @@ public class User implements Serializable {
         this.caloriesPlan = caloriesPlan;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("User{");
+        final StringBuilder sb = new StringBuilder("User{");
         sb.append("userId='").append(userId).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", birthdate=").append(birthdate);

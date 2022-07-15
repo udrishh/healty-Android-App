@@ -1,7 +1,5 @@
 package com.udrishh.healthy.classes;
 
-import com.udrishh.healthy.utilities.Finder;
-
 public class PhysicalActivityRecord extends Record {
     private String recordId;
     private String userId;

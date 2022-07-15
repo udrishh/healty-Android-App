@@ -1,5 +1,7 @@
 package com.udrishh.healthy.classes;
 
+import androidx.annotation.NonNull;
+
 public class PhysicalActivity {
     private String physicalActivityId;
     private String userId;
@@ -41,6 +43,7 @@ public class PhysicalActivity {
         this.userId = userId;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;

@@ -19,6 +19,7 @@ public class AddMeasurementChooseFragment extends Fragment {
     private View view;
     private MaterialButton weightBtn;
     private MaterialButton heightBtn;
+    private FragmentManager fragmentManager;
 
     public AddMeasurementChooseFragment() {
     }
@@ -26,32 +27,38 @@ public class AddMeasurementChooseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_add_measurement_choose, container, false);
         initialiseComponents();
+        setClickListeners();
         return view;
     }
 
+    private void setClickListeners() {
+        weightBtn.setOnClickListener(view -> moveToAddWeightFragment());
+
+        heightBtn.setOnClickListener(view -> moveToAddHeightFragment());
+    }
+
+    private void moveToAddHeightFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.HEIGHT))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToAddWeightFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.WEIGHT))
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void initialiseComponents() {
-       weightBtn = view.findViewById(R.id.add_weight_btn);
-       heightBtn = view.findViewById(R.id.add_height_btn);
-
-       weightBtn.setOnClickListener(view -> {
-           FragmentManager fragmentManager = getParentFragmentManager();
-           fragmentManager.beginTransaction()
-                   .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                   .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.WEIGHT))
-                   .addToBackStack(null)
-                   .commit();
-       });
-
-        heightBtn.setOnClickListener(view -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new AddMeasurementDetailsFragment(RecordType.HEIGHT))
-                    .addToBackStack(null)
-                    .commit();
-        });
+        weightBtn = view.findViewById(R.id.add_weight_btn);
+        heightBtn = view.findViewById(R.id.add_height_btn);
     }
 }

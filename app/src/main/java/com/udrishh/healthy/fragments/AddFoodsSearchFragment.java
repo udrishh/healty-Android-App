@@ -29,6 +29,7 @@ public class AddFoodsSearchFragment extends Fragment {
     private MaterialAutoCompleteTextView searchTv;
     private ArrayList<Food> foods = new ArrayList<>();
     private Food selectedFood = null;
+    private FragmentManager fragmentManager;
 
     public AddFoodsSearchFragment() {
     }
@@ -36,10 +37,41 @@ public class AddFoodsSearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_add_foods_search, container, false);
         initialiseComponents();
+        setClickListeners();
         return view;
+    }
+
+    private void setClickListeners() {
+        searchTv.setOnItemClickListener((parent, view, position, id) -> {
+            continueBtn.setVisibility(View.VISIBLE);
+            for(Food food : foods){
+                if(food.getName().equals(searchTv.getText().toString())){
+                    selectedFood = food;
+                }
+            }
+        });
+        continueBtn.setOnClickListener(v -> moveToAddFoodDbFragment());
+        addManuallyBtn.setOnClickListener(v -> moveToAddFoodManuallyFragment());
+    }
+
+    private void moveToAddFoodManuallyFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new AddFoodManuallyDetailsFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void moveToAddFoodDbFragment() {
+        fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new AddFoodDbDetailsFragment(selectedFood))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void initialiseComponents() {
@@ -47,46 +79,9 @@ public class AddFoodsSearchFragment extends Fragment {
         continueBtn = view.findViewById(R.id.add_food_continue);
         searchTv = view.findViewById(R.id.add_food_search);
         foods = ((MainActivity) this.requireActivity()).getFoods();
-
         if(selectedFood ==null){
             continueBtn.setVisibility(View.INVISIBLE);
         }
-
         searchTv.setAdapter(new FoodsAdapter(requireContext(), R.layout.food_drink_item, (List<Food>) foods.clone()));
-        searchTv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                continueBtn.setVisibility(View.VISIBLE);
-                for(Food food : foods){
-                    if(food.getName().equals(searchTv.getText().toString())){
-                        selectedFood = food;
-                    }
-                }
-            }
-        });
-
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                        .replace(R.id.main_frame_layout, new AddFoodDbDetailsFragment(selectedFood))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-
-        addManuallyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                        .replace(R.id.main_frame_layout, new AddFoodManuallyDetailsFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
     }
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
         foods = new ArrayList<>(objects);
     }
 
-    private Filter foodsFilter = new Filter() {
+    private final Filter foodsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -46,10 +45,8 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
                     }
                 }
             }
-
             results.values = filteredFoodsList;
             results.count = filteredFoodsList.size();
-
             return results;
         }
 
@@ -87,7 +84,6 @@ public class FoodsAdapter extends ArrayAdapter<Food> {
                 starIcon.setVisibility(View.VISIBLE);
             }
         }
-
         return convertView;
     }
 

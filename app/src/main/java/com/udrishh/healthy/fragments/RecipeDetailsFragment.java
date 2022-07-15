@@ -19,8 +19,6 @@ import com.udrishh.healthy.R;
 import com.udrishh.healthy.classes.Recipe;
 import com.udrishh.healthy.enums.RecipeCategory;
 
-import org.w3c.dom.Text;
-
 
 public class RecipeDetailsFragment extends Fragment {
     private View view;
@@ -45,10 +43,24 @@ public class RecipeDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         initialiseComponents();
+        setClickListeners();
         return view;
+    }
+
+    private void setClickListeners() {
+        viewBtn.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(selectedRecipe.getSource()))));
+        addBtn.setOnClickListener(v -> moveToProfileFragment());
+    }
+
+    private void moveToProfileFragment() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+                .replace(R.id.main_frame_layout, new AddRecipeDetailsFragment(selectedRecipe))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void initialiseComponents() {
@@ -62,7 +74,10 @@ public class RecipeDetailsFragment extends Fragment {
         recipeFlags = view.findViewById(R.id.recipe_flags);
         viewBtn = view.findViewById(R.id.recipe_details_view_btn);
         addBtn = view.findViewById(R.id.recipe_details_add_btn);
+        setRecipeInfo();
+    }
 
+    private void setRecipeInfo() {
         Picasso.get().load(selectedRecipe.getImg()).into(recipeImg);
         recipeName.setText(getString(R.string.recipe_title, selectedRecipe.getName()));
         recipeCalories.setText(getString(R.string.recipe_details_calories,
@@ -76,33 +91,19 @@ public class RecipeDetailsFragment extends Fragment {
         } else {
             recipeFlags.setText(getString(R.string.recipe_flags, "", ""));
         }
-
         StringBuilder ingredients = new StringBuilder();
         for (String ingredient : selectedRecipe.getIngredients()) {
             ingredients.append("‣ ").append(ingredient).append("\n");
         }
         recipeIngredients.setText(getString(R.string.recipe_details_ingredients, ingredients.toString()));
-
         recipeQuantity.setText(getString(R.string.recipe_details_quantity, selectedRecipe.getQuantity()));
         recipeTotalCalories.setText(getString(R.string.recipe_details_total_calories, selectedRecipe.getCalories()));
-
         if (selectedRecipe.getServings() == 1) {
             recipeServings.setText(getString(R.string.recipe_details_serving, 1));
-        } else if(selectedRecipe.getServings() > 1){
+        } else if (selectedRecipe.getServings() > 1) {
             recipeServings.setText(getString(R.string.recipe_details_servings, selectedRecipe.getServings()));
         } else {
             recipeServings.setVisibility(View.GONE);
         }
-        viewBtn.setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(selectedRecipe.getSource())));
-        });
-        addBtn.setOnClickListener(v-> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
-                    .replace(R.id.main_frame_layout, new AddRecipeDetailsFragment(selectedRecipe))
-                    .addToBackStack(null)
-                    .commit();
-        });
     }
 }
