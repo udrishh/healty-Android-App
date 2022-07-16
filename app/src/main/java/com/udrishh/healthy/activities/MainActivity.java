@@ -519,7 +519,10 @@ public class MainActivity extends AppCompatActivity {
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (QueryDocumentSnapshot drinkSnapshot : queryDocumentSnapshots) {
                                     Drink drink = drinkSnapshot.toObject(Drink.class);
-                                    drinks.add(drink);
+                                    if (drink.getUserId().equals("admin") ||
+                                            drink.getUserId().equals(user.getUserId())) {
+                                        drinks.add(drink);
+                                    }
                                 }
                             }
                             tasksReady++;
@@ -541,7 +544,10 @@ public class MainActivity extends AppCompatActivity {
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (QueryDocumentSnapshot foodSnapshot : queryDocumentSnapshots) {
                                     Food food = foodSnapshot.toObject(Food.class);
-                                    foods.add(food);
+                                    if (food.getUserId().equals("admin") ||
+                                            food.getUserId().equals(user.getUserId())) {
+                                        foods.add(food);
+                                    }
                                 }
                             }
                             tasksReady++;
