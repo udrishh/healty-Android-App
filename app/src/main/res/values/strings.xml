@@ -183,7 +183,7 @@
     <string name="record_deleted_message">Înregistrare ștearsă!</string>
     <string name="no_statistics_selected_data_text">Nu există statistici pentru data selectată!</string>
     <string name="statistics_highlighted_details_text">%1$s:\n%2$d kcal.</string>
-    <string name="statistics_pie_chart_title">Garficul caloriilor consumate sau arse pentru data selectată</string>
+    <string name="statistics_pie_chart_title">Graficul caloriilor consumate sau arse pentru data selectată</string>
     <string name="pie_chart_radio_eaten_text">Calorii consumate</string>
     <string name="pie_chart_radio_burned_text">Calorii arse</string>
     <string name="statistics_pie_chart_btn_text">calorii consumate sau arse zilnic</string>
