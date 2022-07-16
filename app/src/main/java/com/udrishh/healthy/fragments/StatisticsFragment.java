@@ -135,7 +135,7 @@ public class StatisticsFragment extends Fragment {
         viewAllRecordsBtn = view.findViewById(R.id.statistics_view_all_records);
         viewPieChartBtn = view.findViewById(R.id.statistics_view_pie_chart);
         viewLineChartBtn = view.findViewById(R.id.statistics_view_line_chart);
-        streakText.setText(getString(R.string.statistics_streak, user.getName(), getStreak(), getTotalDays()));
+        streakText.setText(getString(R.string.statistics_streak, user.getName(), getStreak(), getTotalDays() + 1));
         initialiseListView();
     }
 
